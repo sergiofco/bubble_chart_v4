@@ -61,3 +61,14 @@ While the bubbles are flashy and are fun to watch move around, they may not be t
 Kaiser Fung hates bubble charts. You can see lots of reasons why here: http://junkcharts.typepad.com/junk_charts/bubble_chart/
 
 Just keep in mind when you are working with your data: Bubbles aren't always the answer.
+
+
+grant_title,nome
+id,id
+organization,unidade
+total_amount,tamanho
+group,formato
+Grant start date,datainicial
+start_month,tempo
+start_day,tempoF
+start_year,weekdaytxt 

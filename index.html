@@ -1,48 +1,378 @@
 <!doctype html>
-<html>
+<html lang="pt-br">
 <head>
   <meta charset="utf-8">
-  <title>Bubble Chart v4 - vallandingham.me</title>
+  <title>sesc sp infovis</title>
   <meta name="description" content="Using D3v4 to create a Bubble chart. Based on NYT visualization">
-  <meta name="author" content="Jim Vallandingham">
-
+  <meta name="author" content="Sérgio Seabra, by Jim Vallandingham">
+<!--parte do zoom -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/bubble_chart.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Programação Sesc SP</h1>
-    <div id="toolbar">
-      <a href="#" id="all" class="button active">All Grants</a>
-      <a href="#" id="year" class="button">Grants By Year</a>
-    </div>
-    <div id="vis"></div>
 
-    <div class="footer">
-      <p>Um experimento em construção</p>
-      <strong>This version of the code uses D3v4!</strong>
-      <p><a href="http://vallandingham.me/bubble_charts_with_d3v4.html">Blog Post</a> | <a href="https://github.com/vlandham/bubble_chart_v4">Code</a></p>
-    </div>
+<!--css -->
+<link rel="stylesheet" href="css/bubble_chart.css">
+  
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gf6ce8l6dn");
+  </script>
+ <script src="src/overlay.js"></script>
+
+ <script src="//d3js.org/d3.v4.min.js"></script>
+ </head>
+
+<div class="miolo" id="vis">
+
+	<div class="EmExibicao">
+		<span id="EmExibicao" class="EmExibicao"></span>
+	</div>
+
+</div>
+           <input type="checkbox" id="burger-toggle">
+           <label for="burger-toggle" class="burger-menu">
+			  <div class="line"></div>
+              <div class="line"></div>
+              <div class="line"></div>
+			  <img alt="ajuda" src="img/ajuda.png" width="50">  
+			</label>
+
+<div id="temporal" class="containerTempo">
+	<form>
+		<label>
+			<input type="radio" id="agora" class="temporal" name="radio"/ checked>
+			<span>esta semana<br>e a próxima</span>
+		</label>
+		<label>
+			<input type="radio" id="depois" class="temporal" name="radio"/>
+			<span>e depois...</span>
+		</label>
+	</form>
+</div>
+	<br><br>
+<div id="publico" class="containerPublico">
+	<form>
+		<label>
+			<input type="radio" id="crianças" class="publico" name="radio"/>
+			<span>crianças</span>
+		</label>
+		<label>
+			<input type="radio" id="jovens" class="publico" name="radio"/>
+			<span>jovens</span>
+		</label>
+		<label>
+			<input type="radio" id="idosos" class="publico" name="radio"/>
+			<span>idosos</span>
+		</label>
+		<label>
+			<input type="radio" id="todos" class="publico active" name="radio" checked/>
+			<span>todos os públicos</span>
+		</label>
+	</form>
   </div>
+		   
+<div id="ingressos" class="containerIngressos">
+	<form>
+	<label>
+		<input type="checkbox" class="acessivel" id="acessivel" name="checkbox"/>
+		<span>dispositivo de<br>acessibilidade</span>
+	</label>
+	<label>
+		<input type="checkbox" class="online" id="online" name="checkbox"/>
+		<span>ação online</span><br>
+	</label>
+	<label>
+		<input type="checkbox" class="gratis" id="gratis" name="checkbox"/>
+		<span>grátis</span><br>
+	</label>
+	<label>
+		<input type="checkbox" class="venda" id="venda" name="checkbox"/>
+		<span>ingressos à venda<br>vagas abertas</span>
+	</label>
+	</form>
+</div>
+<div id="regiao" class="containerRadioRegiao">
+	<form>
+		<label>
+			<input type="radio" class="regiao" id="capital" value="Grande São Paulo" name="radio"/ checked>
+			<span onclick="closeNavInterior(),openNavCapital()">Grande São Paulo</span>
+		</label>
+		<label>
+			<input type="radio" class="regiao" id="interior" value="Interior e Litoral" name="radio"/>
+			<span onclick="closeNavCapital(),openNavInterior()">Interior e Litoral</span>
+		</label>
+	</form>
+</div>
+<div id="unidades">
+	<form>
+		<div id="mySideNavCapital" class="containerRadioUOs">
+			<ul>
+		<label>
+			<input type="radio" class="uo" value="24 de Maio" id="uo52" name="radio"/>
+			<span>24 de Maio</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Av. Paulista" id="uo65" name="radio"/>
+			<span>Av. Paulista</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Belenzinho" id="uo68" name="radio"/>
+			<span>Belenzinho</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Bom Retiro" id="uo94" name="radio"/>
+			<span>Bom Retiro</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Campo limpo" id="uo91" name="radio"/>
+			<span>Campo Limpo</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Carmo" id="uo64" name="radio"/>
+			<span>Carmo</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="CPF" id="uo89" name="radio"/>
+			<span>Centro de Pesquisa e Formação</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Cinesesc" id="uo59" name="radio"/>
+			<span>CineSesc</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Consolação" id="uo62" name="radio"/>
+			<span>Consolação</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Florêncio" id="uo61" name="radio"/>
+			<span>Florêncio de Abreu</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Guarulhos" id="uo73" name="radio"/>
+			<span>Guarulhos</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Interlagos" id="uo55" name="radio"/>
+			<span>Interlagos</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Ipiranga" id="uo57" name="radio"/>
+			<span>Ipiranga</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Itaquera" id="uo56" name="radio"/>
+			<span>Itaquera</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Mogi das Cruzes" id="uo72" name="radio"/>
+			<span>Mogi das Cruzes</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Osasco" id="uo95" name="radio"/>
+			<span>Osasco</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Pinheiros" id="uo58" name="radio"/>
+			<span>Pinheiros</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Pompeia" id="uo63" name="radio"/>
+			<span>Pompeia</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Santana" id="uo53" name="radio"/>
+			<span>Santana</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Santo Amaro" id="uo70" name="radio"/>
+			<span>Santo Amaro</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Santo André" id="uo88" name="radio"/>
+			<span>Santo André</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="São Caetano" id="uo67" name="radio"/>
+			<span>São Caetano</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Vila Mariana" id="uo66" name="radio"/>
+			<span>Vila Mariana</span>
+		</label>
+	</ul>
+</form>
+</div>
 
-  <script src="//d3js.org/d3.v4.min.js"></script>
+ <div id="mySideNavInterior" class="containerRadioUOsInterior">
+<form>
+	<ul>
+		<label>
+			<input type="radio" class="uo" value="Araraquara" id="uo86" name="radio"/>
+			<span>Araraquara</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Bauru" id="uo80" name="radio"/>
+			<span>Bauru</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Bertioga" id="uo71" name="radio"/>
+			<span>Bertioga</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Birigui" id="uo85" name="radio"/>
+			<span>Birigui</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Campinas" id="uo75" name="radio"/>
+			<span>Campinas</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Catanduva" id="uo79" name="radio"/>
+			<span>Catanduva</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Jundiaí" id="uo93" name="radio"/>
+			<span>Jundiaí</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Piracicaba" id="uo83" name="radio"/>
+			<span>Piracicaba</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Prudente" id="uo87" name="radio"/>
+			<span>Presidente Prudente</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Registro" id="uo92" name="radio"/>
+			<span>Registro</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Ribeirão" id="uo76" name="radio"/>
+			<span>Ribeirão Preto</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Rio Preto" id="uo84" name="radio"/>
+			<span>Rio Preto</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Santos" id="uo78" name="radio"/>
+			<span>Santos</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="São Carlos" id="uo82" name="radio"/>
+			<span>São Carlos</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="São José" id="uo77" name="radio"/>
+			<span>São José dos Campos</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Sorocaba" id="uo96" name="radio"/>
+			<span>Sorocaba</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Taubaté" id="uo81" name="radio"/>
+			<span>Taubaté</span>
+		</label>
+	</ul>
+   </div>
+  </form>
+</div>
+
+<body class="flex flex-col items-center py-16">
+  <div class="container">
+	<div id="busca" class="g-search"><form>
+		<input class="g-search" id="buscatextual" name="buscatextual" type="text" placeholder=" escreva aqui o que você procura ou escolha abaixo&hellip;">
+	</form>
+	</div>
+	<div id="toolbar">
+	<form>
+	  <input type="button" onclick="openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
+	  <input type="button" onclick="openNavCategorias()" id="fo2" class="button" value="cursos, oficinas e aulas abertas"></input>
+	  <input type="button" onclick="openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
+	  <input type="button" onclick="openNavCategorias()" id="fo4" class="button" value="exposições"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo6" class="button" value="passeios e excursões"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros"></input>
+	</div>
+ </form>
+</div>
+<div id="mySideNavCategoria" class="containerCategorias">
+	<form>
+		<input type="button" id="ca6" class="buttonCat" value="artes visuais">
+		<input type="button" id="ca1" class="buttonCat" value="música">
+		<input type="button" id="ca3" class="buttonCat" value="circo">
+		<input type="button" id="ca4" class="buttonCat" value="dança">
+		<input type="button" id="ca2" class="buttonCat" value="teatro">
+		<input type="button" id="ca7" class="buttonCat" value="literatura">
+		<input type="button" id="ca5" class="buttonCat" value="cinema">
+		<input type="button" id="ca8" class="buttonCat" value="educação">
+		<input type="button" id="ca9" class="buttonCat" value="meio ambiente">
+		<input type="button" id="ca10" class="buttonCat" value="saúde">
+		<input type="button" id="ca11" class="buttonCat" value="esporte e atividade física">
+		<input type="button" id="ca14" class="buttonCat" value="outros">
+		<input type="button" id="ca" class="buttonCat active" value="zera" hidden></input>
+	</form>
+</div>
+
+<!-- CONTADOR -->
+  <div class="total" id="total"><span id="total"></span></div>		
+  <div class="contador" id="contador"></div>
+   </div>
+
+
+<nav class="menu">
+<!-- AJUDA -->
+<div class= "help-oque1"><img src='img/oque.png' width="700"><br>
+	<img src='img/sesc.png' width="150"></img><br><br>
+	Cada ponto é uma atração do Sesc.<br>
+	Utilize os filtros para encontrar a sua!<br><br>
+	<img src='img/help1.png' width="500"></img><br><br>
+	Passando o mouse sobre os pontos, você vê detalhes do programa<br>
+	e com um clique você acessa a página do que escolheu.<br><br>
+</div>
+
+<div class= "help-onde1"><img src='img/onde.png' width="150"></div><br>
+<div class= "help-quando1"><img src='img/quando.png' width="150"></div><br>
+
+<div class= "help-hoje">HOJE</div>
+<div class= "help-hoje2">Quanto mais<br>pra cima,<br>mais próxima<br>está a atração</div>
+<div class= "help-cores">Cor azul para<br>os dias de semana,<br>e laranja para<br>os finais de semana</div>
+
+<div class="arrow2">
+        <span></span>
+        <span></span>
+        <span></span>
+</div>
+<div class="escape"></div>
+			<!-- p>Protótipo desenvolvido por Sérgio Seabra com a biblioteca D3v4.js a partir do trabalho de Jim Vallandingham [vallandingham.me]</p>
+			<strong>GEDES . Gerência de Estudos e Desenvolvimento | GSD . Gerência Sesc Digital</strong -->
+	</div>
+</nav>
+
+<!-- AJUDA INICIAL -->
+<div class="ajudaInicial">
+	<!--
+	<div class= "help-oque"><img src='img/oque.png' width="700"></div><br>
+	<div class= "help-onde"><img src='img/onde.png' width="150"></div>
+	<div class= "help-quando"><img src='img/quando.png' width="150"></div>
+	-->
+</div>
+
+<div class= "help-texto1">Cada ponto é uma atração do Sesc.</div>
+<div class= "help-texto2">Utilize os filtros para encontrar a sua!</div>
+<div class= "help-texto3">Passando o mouse sobre os pontos você vê detalhes da atração.</div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4"></script>
   <script src="src/tooltip.js"></script>
   <script src="src/bubble_chart.js"></script>
-
-  <!-- PLEASE REMOVE AFTER CLONING -->
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-17355070-1', 'auto');
-  ga('send', 'pageview');
-
-  </script>
-  <!-- END REMOVE -->
-
+  <!-- script type="module">
+	import {zoom} from "https://cdn.skypack.dev/d3-zoom@3";
+	const handler = zoom();
+ </script-->
 
 </body>
 </html>
