@@ -1090,10 +1090,10 @@ visibility: visible;
 
 .dia_da_semana {
   display: flex;
-  width: 60px;
-  height: 30px;
+  width: 50px;
+  height: 25px;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 20px;
   text-align: center;
   line-height: 20px;
   padding: 3px;
@@ -1102,6 +1102,22 @@ visibility: visible;
   vertical-align: center;
   z-index: -9999;
 }
+
+.unidade_tit {
+  display: flex;
+  width: 40px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  line-height: 20px;
+  padding: 3px;
+  margin: 1.5px;
+  font-family: Ubuntu Bold;
+  vertical-align: center;
+  z-index: -9999;
+}
+
 
 .Semanas {
   width: 60px;

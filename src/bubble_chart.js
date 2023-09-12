@@ -28,7 +28,7 @@ function bubbleChart() {
 // Grid de 21 pontos em tela
   const corrigeT = 0;
   const corrigeS = 0;
-  const corrigeCab = 20;
+  const corrigeCab = 0.9;
   const corrige = 0;
   const pos1W = corrigeT + width/4;
   const pos2W = corrigeT + width/4 + width/12;
@@ -46,7 +46,7 @@ function bubbleChart() {
   var regiaoId = 'capital';
   var formatoId = '100';
   var publicoId = 'todos';
-  var temporalId = "todos";
+  var temporalId = "agora";
   var uoId = '100';
   var categoriaId = '99';
   var gratisId = null;
@@ -57,7 +57,7 @@ function bubbleChart() {
   var regiaoMem = 'capital';
   var formatoMem = '100';
   var publicoMem = 'todos';
-  var temporalMem = "todos";
+  var temporalMem = "agora";
   var uoMem = '100';
   var categoriaMem = '99';
   var gratisMem = null;
@@ -74,7 +74,7 @@ function bubbleChart() {
   var new_span = document.createElement('span');
   var novo_span = document.createElement('span');
   var escolhido = "ações na capital e grande são paulo nesta semana e na próxima";
-  var atual = " ";
+  var atual = "limpar";
 
 
 // Posição da vista por semana ---------------------------------------------------------------------------
@@ -99,25 +99,32 @@ function bubbleChart() {
   };
 
   var unidadeCenters = {
+  // capital
   52: {x: pos1W, y:pos1H}, // 24 de Maio
-  53: {x: pos2W, y:pos1H}, // Santana
-  55: {x: pos3W, y:pos2H}, // Interlagos
-  56: {x: pos4W, y:pos2H}, // 
-  57: {x: pos5W, y:pos3H}, //
-  58: {x: pos6W, y:pos3H}, //
-  59: {x: pos7W, y:pos1H}, // Cinesesc
-  61: {x: pos1W, y:pos1H}, // Florencio
-  62: {x: pos2W, y:pos2H}, // Consolação
-  63: {x: pos3W, y:pos2H}, //
-  64: {x: pos4W, y:pos3H}, //
-  65: {x: pos5W, y:pos3H}, //
-  66: {x: pos6W, y:pos1H}, //
-  67: {x: pos7W, y:pos1H}, //
-  68: {x: pos1W, y:pos2H}, //
-  70: {x: pos2W, y:pos2H}, //
+  53: {x: pos1W, y:pos2H}, // Santana
+  55: {x: pos1W, y:pos3H}, // Interlagos
+  56: {x: pos2W, y:pos1H}, // 
+  57: {x: pos2W, y:pos2H}, //
+  58: {x: pos2W, y:pos3H}, //
+  59: {x: pos3W, y:pos1H}, // Cinesesc
+  61: {x: pos3W, y:pos2H}, // Florencio
+  62: {x: pos3W, y:pos3H}, // Consolação
+  63: {x: pos4W, y:pos1H}, //
+  64: {x: pos4W, y:pos2H}, //
+  65: {x: pos4W, y:pos3H}, //
+  66: {x: pos5W, y:pos1H}, //
+  67: {x: pos5W, y:pos2H}, //
+  68: {x: pos5W, y:pos3H}, //
+  70: {x: pos6W, y:pos1H}, //
+  72: {x: pos6W, y:pos2H}, //
+  73: {x: pos6W, y:pos3H}, //
+  88: {x: pos7W, y:pos1H}, //
+  89: {x: pos7W, y:pos2H}, //
+  91: {x: pos7W, y:pos3H}, //
+  94: {x: pos3W, y:pos3H+100}, //
+  95: {x: pos5W, y:pos3H+100}, //
+  // interior
   71: {x: pos3W, y:pos3H}, //
-  72: {x: pos4W, y:pos3H}, //
-  73: {x: pos5W, y:pos1H}, //
   74: {x: pos6W, y:pos1H}, //
   75: {x: pos7W, y:pos2H}, //
   76: {x: pos1W, y:pos2H}, //
@@ -132,13 +139,8 @@ function bubbleChart() {
   85: {x: pos3W, y:pos1H}, //
   86: {x: pos4W, y:pos1H}, //
   87: {x: pos5W, y:pos2H}, //
-  88: {x: pos6W, y:pos2H}, //
-  89: {x: pos7W, y:pos3H}, //
-  91: {x: pos1W, y:pos3H}, //
   92: {x: pos2W, y:pos1H}, //
   93: {x: pos3W, y:pos1H}, //
-  94: {x: pos4W, y:pos2H}, //
-  95: {x: pos5W, y:pos2H}, //
   96: {x: pos6W, y:pos3H}, //
 };
 
@@ -193,108 +195,121 @@ function bubbleChart() {
     6: pos1H-corrigeS, 
   };
   
-// Cabeçalhos da visão por semana.
-var unidadesTitleX = {
-  52: pos1W-corrigeCab,
-  53: pos2W-corrigeCab,
-  55: pos3W-corrigeCab,
-  56: pos4W-corrigeCab,  
-  57: pos5W-corrigeCab, 
-  58: pos6W-corrigeCab, 
-  59: pos7W-corrigeCab,
-  61: pos1W-corrigeCab,
-  62: pos2W-corrigeCab,
-  63: pos3W-corrigeCab, 
-  64: pos4W-corrigeCab, 
-  65: pos5W-corrigeCab, 
-  66: pos6W-corrigeCab, 
-  67: pos7W-corrigeCab, 
-  68: pos1W-corrigeCab, 
-  70: pos2W-corrigeCab, 
-  71: pos3W-corrigeCab, 
-  72: pos4W-corrigeCab, 
-  73: pos5W-corrigeCab, 
-  74: pos6W-corrigeCab, 
-  75: pos7W-corrigeCab, 
-  76: pos1W-corrigeCab, 
-  77: pos2W-corrigeCab, 
-  78: pos3W-corrigeCab, 
-  79: pos4W-corrigeCab, 
-  80: pos5W-corrigeCab, 
-  81: pos6W-corrigeCab, 
-  82: pos7W-corrigeCab, 
-  83: pos1W-corrigeCab, 
-  84: pos2W-corrigeCab, 
-  85: pos3W-corrigeCab, 
-  86: pos4W-corrigeCab, 
-  87: pos5W-corrigeCab, 
-  88: pos6W-corrigeCab, 
-  89: pos7W-corrigeCab, 
-  91: pos1W-corrigeCab, 
-  92: pos2W-corrigeCab, 
-  93: pos3W-corrigeCab, 
-  94: pos4W-corrigeCab, 
-  95: pos5W-corrigeCab, 
-  96: pos6W-corrigeCab, 
+// Cabeçalhos da visão por unidades da capital.
+var unidadesTitleXCap = {
+  52: pos1W-125,
+  53: pos1W-125,
+  55: pos1W-125,
+  56: pos2W-75,  
+  57: pos2W-75, 
+  58: pos2W-75, 
+  59: pos3W-25,
+  61: pos3W-25,
+  62: pos3W-25,
+  63: pos4W, 
+  64: pos4W, 
+  65: pos4W, 
+  66: pos5W+25, 
+  67: pos5W+25, 
+  68: pos5W+25, 
+  70: pos6W+75, 
+  72: pos6W+75, 
+  73: pos6W+75, 
+  88: pos7W+125, 
+  89: pos7W+125, 
+  91: pos7W+125, 
+  94: pos3W, 
+  95: pos5W, 
 };
 
-var unidadesTitleY = {
-  52: pos1H-corrigeCab, 
-  53: pos1H-corrigeCab, 
-  55: pos2H-corrigeCab, 
-  56: pos2H-corrigeCab,  
-  57: pos3H-corrigeCab, 
-  58: pos3H-corrigeCab, 
-  59: pos1H-corrigeCab, 
-  61: pos1H-corrigeCab, 
-  62: pos2H-corrigeCab, 
-  63: pos2H-corrigeCab, 
-  64: pos3H-corrigeCab, 
-  65: pos3H-corrigeCab, 
-  66: pos1H-corrigeCab, 
-  67: pos1H-corrigeCab, 
-  68: pos2H-corrigeCab, 
-  70: pos2H-corrigeCab, 
-  71: pos3H-corrigeCab, 
-  72: pos3H-corrigeCab, 
-  73: pos1H-corrigeCab, 
-  74: pos1H-corrigeCab, 
-  75: pos2H-corrigeCab, 
-  76: pos2H-corrigeCab, 
-  77: pos3H-corrigeCab, 
-  78: pos3H-corrigeCab, 
-  79: pos1H-corrigeCab, 
-  80: pos1H-corrigeCab, 
-  81: pos2H-corrigeCab, 
-  82: pos2H-corrigeCab, 
-  83: pos3H-corrigeCab, 
-  84: pos3H-corrigeCab, 
-  85: pos1H-corrigeCab, 
-  86: pos1H-corrigeCab, 
-  87: pos2H-corrigeCab, 
-  88: pos2H-corrigeCab, 
-  89: pos3H-corrigeCab, 
-  91: pos3H-corrigeCab, 
-  92: pos1H-corrigeCab, 
-  93: pos1H-corrigeCab, 
-  94: pos2H-corrigeCab, 
-  95: pos2H-corrigeCab, 
-  96: pos3H-corrigeCab, 
+var unidadesTitleYCap = {
+  52: pos1H*corrigeCab, 
+  53: pos2H*corrigeCab, 
+  55: pos3H*corrigeCab, 
+  56: pos1H*corrigeCab,  
+  57: pos2H*corrigeCab, 
+  58: pos3H*corrigeCab, 
+  59: pos1H*corrigeCab, 
+  61: pos2H*corrigeCab, 
+  62: pos3H*corrigeCab, 
+  63: pos1H*corrigeCab, 
+  64: pos2H*corrigeCab, 
+  65: pos3H*corrigeCab, 
+  66: pos1H*corrigeCab, 
+  67: pos2H*corrigeCab, 
+  68: pos3H*corrigeCab, 
+  70: pos1H*corrigeCab, 
+  72: pos2H*corrigeCab, 
+  73: pos3H*corrigeCab, 
+  88: pos1H*corrigeCab, 
+  89: pos2H*corrigeCab, 
+  91: pos3H*corrigeCab, 
+  94: pos3H+80, 
+  95: pos3H+80, 
+};
+
+ 
+// Cabeçalhos da visão por unidades do interior.
+var unidadesTitleXInt = {
+  71: pos1W-125, 
+  74: pos1W-125, 
+  75: pos1W-125, 
+  76: pos2W-75, 
+  77: pos2W-75, 
+  78: pos2W-75, 
+  79: pos3W-25, 
+  80: pos3W-25, 
+  81: pos3W-25, 
+  82: pos5W-50, 
+  83: pos5W-50, 
+  84: pos5W-50, 
+  85: pos6W+25, 
+  86: pos6W+25, 
+  87: pos6W+25, 
+  92: pos7W+50, 
+  93: pos7W+50, 
+  96: pos7W+50, 
+};
+
+var unidadesTitleYInt = {
+  71: pos1H*corrigeCab, 
+  74: pos2H*corrigeCab, 
+  75: pos3H*corrigeCab, 
+  76: pos1H*corrigeCab, 
+  77: pos2H*corrigeCab, 
+  78: pos3H*corrigeCab, 
+  79: pos1H*corrigeCab, 
+  80: pos2H*corrigeCab, 
+  81: pos3H*corrigeCab, 
+  82: pos1H*corrigeCab, 
+  83: pos2H*corrigeCab, 
+  84: pos3H*corrigeCab, 
+  85: pos1H*corrigeCab, 
+  86: pos2H*corrigeCab, 
+  87: pos3H*corrigeCab, 
+  92: pos1H*corrigeCab, 
+  93: pos2H*corrigeCab, 
+  96: pos3H*corrigeCab, 
 };
 
 
   var fillformatos = d3.scaleOrdinal()
-  .domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
-  .range(["shows", "cursos", "debates", "expos", "filmes", "turismo", "lazer", "outros", "nove"]);
+  .domain([1, 2, 3, 4, 5, 6, 7, 8])
+  .range(["shows", "cursos", "debates", "expos", "filmes", "turismo", "lazer", "piscinas"]);
 
-  var fillunidades = d3.scaleOrdinal()
-  .domain([52,53,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96])
-  .range(["24 de maio","53","55","56","57","58","59",
-          "61","62","63","64","65","66","67",
-          "Belenzinho","70","71","72","73","74","75",
-          "76","São José","78","79","80","81","82",
-          "83","84","85","86","87","88","89",
-          "91","92","93","94","95","96"]);
+   var fillunidadesCap = d3.scaleOrdinal()
+   .domain([52,53,55,56,57,58,59,61,62,63,64,65,66,67,68,70,72,73,88,89,91,94,95])
+   .range(["24 de maio","Santana","Interlagos","Itaquera","Ipiranga","Pinheiros","Cinesesc",
+           "Florêncio","Consolação","Pompeia","Carmo","Av. Paulista","Vila Mariana","São Caetano",
+           "Belenzinho","Santo Amaro","Mogi das Cruzes","Guarulhos","Santo André","CPF",
+           "Campo Limpo","Bom Retiro","Osasco"]);
+ 
+   var fillunidadesInt = d3.scaleOrdinal()
+    .domain([71,74,75,76,77,78,79,80,81,82,83,84,85,86,87,92,93,96])
+    .range(["Bertioga","Campinas","Ribeirão","São José","Santos","Catanduva","Bauru",
+            "Taubaté","São Carlos","Piracicaba","Rio Preto","Birigui","Araraquara","Prudente",
+            "Santo André","Registro","Jundiai","Sorocaba"]);
+                    
 
   //
   //
@@ -304,7 +319,8 @@ var unidadesTitleY = {
 
 
   // @v4 strength to apply to the position forces
-  var forceStrength = 0.06;
+  var forceStrength = 0.035;
+  var forceStrengthRadial = 0.03;
 
   // These will be set in create_nodes and create_vis
   var svg = null;
@@ -323,7 +339,7 @@ var unidadesTitleY = {
 
   var simulation = d3.forceSimulation()
     .velocityDecay(0.15)
-    .force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos))
+    .force('x', d3.forceX().strength(forceStrength).x(center.x))
     .force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos))
     .force('charge', d3.forceManyBody().strength(charge))
     .on('tick', ticked);
@@ -451,8 +467,8 @@ var unidadesTitleY = {
            .attr("xlink:href", function(d) {
       return "img/" + d.destaque + ".png"});
 
-    // Create new circle elements each with class `bubble`. 
-    // There will be one circle.bubble for each object in the nodes array. Initially, their radius (r attribute) will be 0. 
+    // Cria os círculos com a classe 'bubble'. 
+    // Há um circulo para cada registro no array. Raio é zero inicialmente.
     // @v4 Selections are immutable, so lets capture the enter selection to apply our transtition to below.
     var bubblesE = bubbles.enter().append('circle')
       .classed('bubble', true)
@@ -488,8 +504,23 @@ var unidadesTitleY = {
       ) ? (formatoMem == '4') ? 0:3 : (d.destaque !== 'undefined') ? d.radius+20 : d.radius
     });
 
-// Cria aro dourado para ação online ou vermelho para esgotado
 
+// Escolhe cor de acordo com o dia da semana e cinza se não filtrada
+bubbles.attr('fill', function(d) { return (
+  (d.regiao != regiaoMem) || 
+  (d.gratis != 1 && gratisMem == 1) || 
+  (d.ingresso != 0 && vendaMem == 1) || 
+  (d.cod_formato != formatoMem && formatoMem != '100') || 
+  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+  (d.online != 1 && onlineMem == 1) ||
+  (d.cod_uo != uoMem && uoMem != '100') ||
+  (d.publico != publicoMem && publicoMem != 'todos') ||
+  (d.tem != 1 && acessivelMem == 1) ||
+  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+
+
+// Cria aro dourado para ação online ou vermelho para esgotado
 bubbles.attr('stroke', function(d) { return (
   (d.regiao != regiaoMem) || 
   (d.gratis != 1 && gratisMem == 1) || 
@@ -516,22 +547,8 @@ bubbles.attr('stroke-width', function(d) { return (
   (d.publico != publicoMem && publicoMem != 'todos') ||
   (d.tem != 1 && acessivelMem == 1) ||
   (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-) ? (formatoMem == '4') ? 0:1 : 3});
+) ? 1 : 3});
 
-// Escolhe cor de acordo com o dia da semana e cinza se não filtrada
-
-bubbles.attr('fill', function(d) { return (
-  (d.regiao != regiaoMem) || 
-  (d.gratis != 1 && gratisMem == 1) || 
-  (d.ingresso != 0 && vendaMem == 1) || 
-  (d.cod_formato != formatoMem && formatoMem != '100') || 
-  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-  (d.online != 1 && onlineMem == 1) ||
-  (d.cod_uo != uoMem && uoMem != '100') ||
-  (d.publico != publicoMem && publicoMem != 'todos') ||
-  (d.tem != 1 && acessivelMem == 1) ||
-  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
     // Set the simulation's nodes to our newly created nodes array.
     // @v4 Once we set the nodes, the simulation will start running automatically!
@@ -544,7 +561,8 @@ bubbles.attr('fill', function(d) { return (
    display_tot.innerText = total + " atrações";
 
 // Set initial layout to single group.
-    groupBubbles();
+    groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+      acessivelId,onlineId,uoId,categoriaId,atual,escolhido);
 
   };
 
@@ -614,10 +632,10 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
 // Força radial para afastar as ações não filtradas
    var radialForce = 
    d3.forceRadial()
-     .radius(1000)
+     .radius(950)
      .x(width/2)
      .y(height/2)
-     .strength(forceStrength);
+     .strength(forceStrengthRadial);
 
     bubbles.transition()
       .duration(2000);
@@ -646,7 +664,7 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
       (d.publico != publicoMem && publicoMem != 'todos') ||
       (d.tem != 1 && acessivelMem == 1) ||
       (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-      ) ? (formatoMem == '4') ? 3:3 : (d.destaque !== 'undefined') ? d.radius+20 : d.radius
+    ) ? (formatoMem == '4') ? 3:3 : (d.destaque !== 'undefined') ? d.radius+20 : d.radius
     });
     
 
@@ -654,6 +672,7 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
   if (atual == "regiao" || atual == "formato" || atual == "categoria") {
       // por Unidades
       hidesemanaTitles();
+      hideunidadeTitles();
       showunidadeTitles();
       simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
       simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
@@ -669,7 +688,7 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
             simulation.alpha(1).restart();
        
             } else 
-              if (atual == "") {
+              if (atual == "limpar" || atual == '' || atual == null) {
                // @v4 Zera a força 'x' para levar tudo ao centro.
                   simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
                   simulation.force('y', d3.forceY().strength(forceStrength).y(center.y));
@@ -796,14 +815,14 @@ contador(filtrado);
   if (formatoMem == '7') {fe = ' atividades de lazer '};
   if (formatoMem == '100') {fe = ' atividades'};
         // filtrado + ' ' + 
+       
     novo_span.innerText = fe + fo + fg + fc + fonde + fq + fp + fa + fi;
     display_filtro.appendChild(novo_span);
 };
 
   filtroExibido(escolhido);
 
-
-  if (atual == "formato") {
+  if (atual == "formato" || atual == "limpar") {
     var op = document.getElementById('ca');
         op.classList.add('active');
     }
@@ -979,11 +998,31 @@ if (atual != "acessibilidade") {
           document.querySelector('#acessivel').disabled = true; 
           AcessivelMem = null;
         } 
-}
+  }
+
+  if (atual == "limpar") {
+      document.getElementById("agora").checked = true; 
+      document.getElementById("todos").checked = true; 
+      document.getElementById("capital").checked = true; 
+      document.querySelector('#online').checked = false; 
+      document.querySelector('#gratis').checked = false; 
+      document.querySelector('#venda').checked = false; 
+      document.querySelector('#acessivel').checked = false; 
+      closeNavInterior();
+      openNavCapital();
+      arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+                 65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+                 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+                 89, 91, 92, 93, 94, 95, 96];
+
+          for(var i=0; i < arr_uos.length; i++) { 
+              document.getElementById("uo"+arr_uos[i]).checked = false; 
+             }
+    }
 
 }
 
-// Visualização de Busca
+// Visualização de Busca --------------------------------------------------------------------------------
 
   function buscaBubbles(buscaId) {
     hidesemanaTitles();
@@ -996,10 +1035,10 @@ if (atual != "acessibilidade") {
 // Força para expelir não filtradas  
 var radialForceBusca = 
 d3.forceRadial()
-  .radius(1000)
+  .radius(1100)
   .x(width/2)
   .y(height/2)
-  .strength(0.2);
+  .strength(0.1);
 
     buscaId = buscaId.toLowerCase();
     console.log(buscaId);
@@ -1042,12 +1081,16 @@ d3.forceRadial()
 
   }
 
-  /*
-   * Oculta cabeçalhos.
-   */
-  function hidesemanaTitles() {
-    svg.selectAll('.dia_da_semana').remove();
-}
+/*
+* Oculta cabeçalhos.
+*/
+    function hidesemanaTitles() {
+        svg.selectAll('.dia_da_semana').remove();
+    }
+
+    function hideunidadeTitles() {
+        svg.selectAll('.unidade_tit').remove();
+    }
 
   /*
    * Mostra cabeçalhos semanais
@@ -1087,16 +1130,31 @@ d3.forceRadial()
 */
   
 function showunidadeTitles() {
-  var unidadesData = d3.keys(unidadesTitleX);
-  var unidades = svg.selectAll('.dia_da_semana')
-    .data(unidadesData);
 
-  unidades.enter().append('text')
-    .attr('class', 'dia_da_semana')
-    .attr('x', function (d) { return unidadesTitleX[d]; })
-    .attr('y', function (d) { return unidadesTitleY[d]; })
-    .attr('text-anchor', 'middle')
-    .text(function (d) { return fillunidades(d); });
+  if (regiaoMem == 'capital') {
+      console.log(regiaoMem);
+
+      var unidadesData = d3.keys(unidadesTitleXCap);
+      var unidades = svg.selectAll('.dia_da_semana').data(unidadesData);
+      unidades.enter().append('text')
+        .attr('class', 'dia_da_semana')
+        .attr('x', function (d) { return unidadesTitleXCap[d]; })
+        .attr('y', function (d) { return unidadesTitleYCap[d]; })
+        .attr('text-anchor', 'middle')
+        .text(function (d) { return fillunidadesCap(d); });
+
+      } else {
+
+      var unidadesData = d3.keys(unidadesTitleXInt);
+      var unidades = svg.selectAll('.dia_da_semana').data(unidadesData);
+      unidades.enter().append('text')
+        .attr('class', 'dia_da_semana')
+        .attr('x', function (d) { return unidadesTitleXInt[d]; })
+        .attr('y', function (d) { return unidadesTitleYInt[d]; })
+        .attr('text-anchor', 'middle')
+        .text(function (d) { return fillunidadesInt(d); });
+      }
+
 }
 
 // Busca textual
@@ -1219,8 +1277,9 @@ foco();
   };
 
 	if (formatoId == '99') {
-    window.location.reload(true);
-  }  
+      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
+                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido);
+}  
 
      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido);
@@ -1308,7 +1367,21 @@ function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisI
 
       // Get the id of the button
       var formatoId = buttonTudo.attr('id').substring(2);
-      var atual = "formato";
+      var atual = "limpar";
+
+// reestabelece variáveis para limpar filtros para o padrão      
+      var regiaoId = 'capital';
+      var formatoId = '100';
+      var publicoId = 'todos';
+      var temporalId = "agora";
+      var formatoId = '100';
+      var temporalId = "agora";
+      var uoId = '100';
+      var categoriaId = '99';
+      var gratisId = 0;
+      var vendaId = 0;
+      var acessivelId = 0;
+      var onlineId = 0;      
       
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
