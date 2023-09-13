@@ -8,7 +8,7 @@
  */
 
 // Load the data.
-d3.csv('data/orasbolasB.csv', display);
+d3.csv('data/orasbolasC.csv', display);
 
 function bubbleChart() {
 
@@ -86,14 +86,14 @@ function bubbleChart() {
 
 // Posição da vista por semana ---------------------------------------------------------------------------
   var semanaCenters = {
-    seg: { x: pos1W, y: height / 2 },
-    ter: { x: pos2W, y: height / 2 },
-    qua: { x: pos3W, y: height / 2 },
-    qui: { x: pos4W, y: height / 2 },
-    sex: { x: pos5W, y: height / 2 },
-    sáb: { x: pos6W, y: height / 2 },
-    dom: { x: pos7W, y: height / 2 },
-    sempre: { x: pos4W, y: height / 2 }
+    seg: { x: posCW-4*posW, y: height / 2 },
+    ter: { x: posCW-3*posW, y: height / 2 },
+    qua: { x: posCW-posW-posW/2, y: height / 2 },
+    qui: { x: posCW, y: height / 2 },
+    sex: { x: posCW+posW+posW/2, y: height / 2 },
+    sáb: { x: posCW+3*posW, y: height / 2 },
+    dom: { x: posCW+4*posW, y: height / 2 },
+    sempre: { x: posCW, y: pos3H-3*posH }
   };
 
   var formatoCenters = {
@@ -163,35 +163,34 @@ function bubbleChart() {
 };
 
   var periodoCenters = {
-    today: { y: height / 2 - 35 },
-    thisW: { y: height / 2 - 30},
-    nextW: { y: height / 2 -15},
-    thisM: { y: height / 2 + 15},
-    nextM: { y: height / 2 + 30},
-    sempre: { y: height / 2}
+    thisW: { y: posCH-posH},
+    nextW: { y: posCH-posH/2},
+    thisM: { y: posCH},
+    nextM: { y: posCH+posH/2},
+    sempre: { y: pos3H}
   };
 
   // Cabeçalhos da visão por semana.
   var semanasTitleX = {
-    seg: pos1W-corrigeS, 
-    ter: pos2W-corrigeS, 
-    qua: pos3W-corrigeS, 
-    qui: pos4W-corrigeS, 
-    sex: pos5W-corrigeS, 
-    sáb: pos6W-corrigeS, 
-    dom: pos7W-corrigeS,
-    sempre: pos4W-corrigeS 
+    seg: posCW-4*posW-corrigeS, 
+    ter: posCW-3*posW-corrigeS, 
+    qua: posCW-posW-posW/2-corrigeS, 
+    qui: posCW-corrigeS, 
+    sex: posCW+posW+posW/2-corrigeS, 
+    sáb: posCW+3*posW-corrigeS, 
+    dom: posCW+4*posW-corrigeS,
+    sempre: posCW-corrigeS 
   };
 
   var semanasTitleY = {
-    seg: pos3H-20, 
-    ter: pos3H-20,
-    qua: pos3H-20,
-    qui: pos3H-20,
-    sex: pos3H-20,
-    sáb: pos3H-20,
-    dom: pos3H-20,
-    sempre: pos3H+120
+    seg: pos3H-posH, 
+    ter: pos3H-posH,
+    qua: pos3H-posH,
+    qui: pos3H-posH,
+    sex: pos3H-posH,
+    sáb: pos3H-posH,
+    dom: pos3H-posH,
+    sempre: pos3H+posH
   };
 
 // Cabeçalhos da visão por formato.
@@ -346,8 +345,8 @@ var unidadesTitleYInt = {
 
 
   // @v4 strength to apply to the position forces
-  var forceStrength = 0.035;
-  var forceStrengthRadial = 0.03;
+  var forceStrength = 0.03;
+  var forceStrengthRadial = 0.05;
 
   // These will be set in create_nodes and create_vis
   var svg = null;
@@ -358,7 +357,7 @@ var unidadesTitleYInt = {
   // colisão de círculos de tamanho diferentes.
   // Valor negativo para que os nós se afastem
   function charge(d) {
-    return -Math.pow(d.radius, 2.2) * forceStrength;
+    return -Math.pow(d.radius, 2.15) * forceStrength;
   }
 
   // Here we create a force layout and
@@ -380,8 +379,8 @@ var unidadesTitleYInt = {
         .range([corAzul, corAzul, corAzul, corAzul, corAzul, corLaranja, corLaranja, corAll]);
   
   var opacidadeColor = d3.scaleOrdinal()
-		    .domain(['today', 'thisW', 'nextW', 'thisM', 'nextM','sempre'])
-        .range(['1','.8','.6','.4','.2','.9']);
+		    .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
+        .range(['1','.75','.5','.25','.9']);
 
 
   /*
@@ -501,7 +500,20 @@ var unidadesTitleYInt = {
     var bubblesE = bubbles.enter().append('circle')
       .classed('bubble', true)
       .attr('r', 0)
-      .attr('fill', function (d) { return fillColor(d.dia_da_semana); })
+//      .attr('fill', function (d) { return fillColor(d.dia_da_semana); })
+      .attr('fill', function(d) { return (
+        (d.regiao != regiaoMem) || 
+        (d.gratis != 1 && gratisMem == 1) || 
+        (d.ingresso != 0 && vendaMem == 1) || 
+        (d.cod_formato != formatoMem && formatoMem != '100') || 
+        (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+        (d.online != 1 && onlineMem == 1) ||
+        (d.cod_uo != uoMem && uoMem != '100') ||
+        (d.publico != publicoMem && publicoMem != 'todos') ||
+        (d.tem != 1 && acessivelMem == 1) ||
+        (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+      ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)})
+
       .attr('opacity', function(d) { return opacidadeColor(d.filtra_data); })
       .attr('stroke', function (d) { return (d.online == 1)
                                              ? "gold" : (d.ingresso == 1) 
@@ -665,7 +677,7 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
 // Força radial para afastar as ações não filtradas
    var radialForce = 
    d3.forceRadial()
-     .radius(1100)
+     .radius(1000)
      .x(width/2)
      .y(height/2)
      .strength(forceStrengthRadial);
@@ -830,9 +842,9 @@ contador(filtrado);
     var fonde = ' na Grande São Paulo' } else { fonde = ' no Interior e Litoral'};
 
   if (temporalMem == 'todos') {
-      var fq = ' nos próximos dias ' } else if (temporalMem == 'semana') {
+      var fq = ' nos próximos dias ' } else if (temporalMem == 'agora') {
         var fq = ' nesta semana' } else if (temporalMem == 'depois') { 
-                fq = ' em 15 dias ou mais '} else { fq = ' na próxima semana'};
+                fq = ' ainda neste mês ou no próximo '} else { fq = ' na próxima semana'};
 
   if (publicoMem == 'todos') {
       var fp = ' para ' + 'todos os publicos' } else { fp = ' para ' + publicoMem};
@@ -949,7 +961,7 @@ if (atual != "publico") {
 // tira as opções zeradas NAS DATAS
 
 if (atual != "temporal") {
-  var arr = ['agora','depois'];
+  var arr = ['agora','proxima','depois'];
   for(var i=0; i < arr.length; i++) { 
 
     document.getElementById(arr[i]).disabled = false; 
@@ -1069,7 +1081,7 @@ if (atual != "acessibilidade") {
 // Força para expelir não filtradas  
 var radialForceBusca = 
 d3.forceRadial()
-  .radius(1100)
+  .radius(1000)
   .x(width/2)
   .y(height/2)
   .strength(0.1);
