@@ -27,19 +27,26 @@ function bubbleChart() {
 
 // Grid de 21 pontos em tela
   const corrigeT = 0;
+  const corrigeW = 40;
+  const corrigeH = 0;
   const corrigeS = 0;
   const corrigeCab = 0.9;
   const corrige = 0;
-  const pos1W = corrigeT + width/4;
-  const pos2W = corrigeT + width/4 + width/12;
-  const pos3W = corrigeT + width/4 + width/12 + width/12;
-  const pos4W = corrigeT + width/2;
-  const pos5W = corrigeT + width/2 + width/12;
-  const pos6W = corrigeT + width/2 + width/12 + width/12;
-  const pos7W = corrigeT + width/2 + width/12 + width/12 + width/12;
-  const pos1H = height/2;
-  const pos2H = height/2 - height/4;
-  const pos3H = height/2 + height/4;
+  const posW = width/12;
+  const posCW = width/2;
+  const pos1W = corrigeW + width/4-posW;
+  const pos2W = corrigeW + width/4 + width/12;
+  const pos3W = corrigeW + width/4 + width/12 + width/12;
+  const pos4W = corrigeW + width/2;
+  const pos5W = corrigeW + width/2 + width/12;
+  const pos6W = corrigeW + width/2 + width/12 + width/12;
+  const pos7W = corrigeW + width/2 + width/12 + width/12 + width/12;
+  const posH = height/8;
+  const posCH = height/2;
+  const pos1H = (posCH - 2*posH);
+  const pos2H = posCH;
+  const pos3H = (posCH + 2*posH);
+  var datavis = "geral";
 
 // Variáveis de Filtro
   var buscaId = '';
@@ -49,21 +56,21 @@ function bubbleChart() {
   var temporalId = "agora";
   var uoId = '100';
   var categoriaId = '99';
-  var gratisId = null;
-  var vendaId = null;
-  var acessivelId = null;
-  var onlineId = null;
-  
+  var gratisId = 0;
+  var vendaId = 0;
+  var acessivelId = 0;
+  var onlineId = 0;
+
   var regiaoMem = 'capital';
   var formatoMem = '100';
   var publicoMem = 'todos';
   var temporalMem = "agora";
   var uoMem = '100';
   var categoriaMem = '99';
-  var gratisMem = null;
-  var vendaMem = null;
-  var acessivelMem = null;
-  var onlineMem = null;
+  var gratisMem = 0;
+  var vendaMem = 0;
+  var acessivelMem = 0;
+  var onlineMem = 0;
 
 // Variáveis de Contador
   var fc = '';
@@ -90,58 +97,69 @@ function bubbleChart() {
   };
 
   var formatoCenters = {
-    1: { x: pos4W, y: pos2H+50 }, // shows
-    2: { x: pos2W, y: pos2H+50 }, // cursos
-    3: { x: pos5W, y: pos3H-200 }, // debates
-    4: { x: pos3W, y: pos3H-200 }, // expos
-    5: { x: pos1W+50, y: pos1H-50 }, // filmes
-    6: { x: pos7W-100, y: pos1H-50 }, // turismo
+    1: { x: posCW/2-2*posW, y: pos2H-2*posH }, // shows
+    2: { x: posCW-2*posW, y: pos2H-2*posH }, // cursos
+    3: { x: posCW+posCW/2-2*posW, y: pos2H-2*posH }, // debates
+    4: { x: posCW-4*posW, y: pos3H-2*posH }, // expos
+    5: { x: posCW-2*posW, y: pos3H-2*posH }, // filmes
+    6: { x: posCW, y: pos3H-2*posH }, // turismo
   };
 
   var unidadeCenters = {
   // capital
-  52: {x: pos1W, y:pos1H}, // 24 de Maio
-  53: {x: pos1W, y:pos2H}, // Santana
-  55: {x: pos1W, y:pos3H}, // Interlagos
-  56: {x: pos2W, y:pos1H}, // 
-  57: {x: pos2W, y:pos2H}, //
-  58: {x: pos2W, y:pos3H}, //
-  59: {x: pos3W, y:pos1H}, // Cinesesc
-  61: {x: pos3W, y:pos2H}, // Florencio
-  62: {x: pos3W, y:pos3H}, // Consolação
-  63: {x: pos4W, y:pos1H}, //
-  64: {x: pos4W, y:pos2H}, //
-  65: {x: pos4W, y:pos3H}, //
-  66: {x: pos5W, y:pos1H}, //
-  67: {x: pos5W, y:pos2H}, //
-  68: {x: pos5W, y:pos3H}, //
-  70: {x: pos6W, y:pos1H}, //
-  72: {x: pos6W, y:pos2H}, //
-  73: {x: pos6W, y:pos3H}, //
-  88: {x: pos7W, y:pos1H}, //
-  89: {x: pos7W, y:pos2H}, //
-  91: {x: pos7W, y:pos3H}, //
-  94: {x: pos3W, y:pos3H+100}, //
-  95: {x: pos5W, y:pos3H+100}, //
+  52: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos1H}, // 24 de Maio
+  65: {x: posCW-posCW/2-corrigeW, y:pos1H}, // Av. Paulista
+  68: {x: posCW-posCW/4-corrigeW, y:pos1H}, // Belenzinho
+  62: {x: pos4W-corrigeW, y:pos1H}, // Consolação
+  58: {x: posCW+posCW/4-corrigeW, y:pos1H}, // Pinheiros
+  63: {x: posCW+posCW/2-corrigeW, y:pos1H}, // Pompeia
+  66: {x: posCW+posCW/2+posCW/4-corrigeW, y:pos1H}, // Vila Mariana
+  
+  91: {x: posCW-5*posW-corrigeW, y:pos2H-posH/4}, // Campo LImpo
+  57: {x: posCW-3*posW-posW/2-corrigeW, y:pos2H-posH/4}, // Ipiranga
+  70: {x: posCW-2*posW-posW/4-corrigeW, y:pos2H-posH/4}, // Santo Amaro
+  
+  94: {x: posCW+3*posW+posW/2-corrigeW, y:pos2H-posH/4}, // Bom Retiro
+  64: {x: posCW+2*posW+posW/4-corrigeW, y:pos2H-posH/4}, // Carmo
+  53: {x: posCW+5*posW-corrigeW, y:pos2H-posH/4}, // Santana
+  
+  59: {x: posCW-posW-corrigeW, y:pos2H+posH/4}, // Cinesesc
+  89: {x: posCW-corrigeW, y:pos2H+posH/4}, // CPF
+  61: {x: posCW+posW-corrigeW, y:pos2H+posH/4}, // Florencio
+  
+  55: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos3H-posH}, // Interlagos
+  73: {x: posCW-posCW/2-corrigeW, y:pos3H}, // Guarulhos
+  72: {x: posCW-posCW/4-corrigeW, y:pos3H}, // Mogi das Cruzes
+  95: {x: posCW-corrigeW, y:pos3H}, // Osasco
+  67: {x: posCW+posCW/4-corrigeW, y:pos3H}, // São Caetano
+  88: {x: posCW+posCW/2-corrigeW, y:pos3H}, // Santo André
+  56: {x: posCW+posCW/2+posCW/4-corrigeW, y:pos3H-posH}, // Itaquera
+  // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
+  
   // interior
-  71: {x: pos3W, y:pos3H}, //
-  74: {x: pos6W, y:pos1H}, //
-  75: {x: pos7W, y:pos2H}, //
-  76: {x: pos1W, y:pos2H}, //
-  77: {x: pos2W, y:pos3H}, //
-  78: {x: pos3W, y:pos3H}, //
-  79: {x: pos4W, y:pos1H}, //
-  80: {x: pos5W, y:pos1H}, //
-  81: {x: pos6W, y:pos2H}, //
-  82: {x: pos7W, y:pos2H}, //
-  83: {x: pos1W, y:pos3H}, //
-  84: {x: pos2W, y:pos3H}, //
-  85: {x: pos3W, y:pos1H}, //
-  86: {x: pos4W, y:pos1H}, //
-  87: {x: pos5W, y:pos2H}, //
-  92: {x: pos2W, y:pos1H}, //
-  93: {x: pos3W, y:pos1H}, //
-  96: {x: pos6W, y:pos3H}, //
+  85: {x: posCW-4*+posW-corrigeW, y:pos1H+posH/2}, // Birigui
+  
+  84: {x: posCW-2*+posW-posW/2-corrigeW, y:pos1H+posH/2}, // Rio Preto
+  79: {x: posCW-posW-corrigeW, y:pos1H+posH/2}, // Catanduva
+  76: {x: posCW+posW-corrigeW, y:pos1H+posH/2}, // Ribeirão
+
+  86: {x: posCW+3*posW-posW/2-corrigeW, y:pos1H+posH/2}, // Araraquara
+  82: {x: posCW+4*posW-corrigeW, y:pos1H+posH/2}, // São Carlos
+
+  80: {x: posCW-corrigeW, y:pos2H}, // Bauru
+  83: {x: posCW-3*posW-corrigeW, y:pos2H}, // Piracicaba
+  96: {x: posCW-posW-posW/2-corrigeW, y:pos2H}, // Sorocaba
+  75: {x: posCW+posW, y:pos2H}, // Campinas
+  93: {x: posCW+3*posW-posW/2-corrigeW, y:pos2H}, // Jundiaí
+
+  87: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos2H}, // Prudente
+  
+  92: {x: posCW-posCW/2+posCW/4-corrigeW, y:pos3H-posH/2}, // Registro
+  78: {x: posCW-corrigeW, y:pos3H-posH}, // Santos
+  71: {x: posCW+posCW/4-corrigeW, y:pos3H-posH}, // Bertioga
+
+  77: {x: posCW+3*posW-corrigeW, y:pos3H-posH/2}, // São José
+  81: {x: posCW+posCW/2+posCW/4-2*corrigeW, y:pos2H}, // Taubaté 
 };
 
   var periodoCenters = {
@@ -176,121 +194,130 @@ function bubbleChart() {
     sempre: pos3H+120
   };
 
-// Cabeçalhos da visão por semana.
+// Cabeçalhos da visão por formato.
    var formatosTitleX = {
-      1: pos5W-corrigeS, // shows
-      2: pos1W-corrigeS, // cursos
-      3: pos6W-corrigeS, // debates
-      4: pos3W+50-corrigeS, // expos
-      5: pos1W-50-corrigeS, // filmes
-      6: pos7W+50-corrigeS, // turismo
+      1: posCW/2, // shows
+      2: posCW, // cursos
+      3: posCW+posCW/2, // debates
+      4: posCW-2*posW, // expos
+      5: posCW, // filmes
+      6: posCW+2*posW, // turismo
     };
 
    var formatosTitleY = {
-    1: pos2H-corrigeS, 
-    2: pos2H-corrigeS, 
-    3: pos3H-corrigeS, 
-    4: pos3H-corrigeS, 
-    5: pos1H-corrigeS, 
-    6: pos1H-corrigeS, 
+    1: pos2H+corrigeH, 
+    2: pos2H+corrigeH, 
+    3: pos2H+corrigeH, 
+    4: pos3H+corrigeH, 
+    5: pos3H+corrigeH+60, 
+    6: pos3H+corrigeH, 
   };
   
 // Cabeçalhos da visão por unidades da capital.
 var unidadesTitleXCap = {
-  52: pos1W-125,
-  53: pos1W-125,
-  55: pos1W-125,
-  56: pos2W-75,  
-  57: pos2W-75, 
-  58: pos2W-75, 
-  59: pos3W-25,
-  61: pos3W-25,
-  62: pos3W-25,
-  63: pos4W, 
-  64: pos4W, 
-  65: pos4W, 
-  66: pos5W+25, 
-  67: pos5W+25, 
-  68: pos5W+25, 
-  70: pos6W+75, 
-  72: pos6W+75, 
-  73: pos6W+75, 
-  88: pos7W+125, 
-  89: pos7W+125, 
-  91: pos7W+125, 
-  94: pos3W, 
-  95: pos5W, 
+  52: posCW-posCW/2-posCW/4, // 24 de Maio
+  65: posCW-posCW/2, // Av. Paulista
+  68: posCW-posCW/4, // Belenzinho
+  62: posCW, // Consolação
+  58: posCW+posCW/4, // Pinheiros
+  63: posCW+posCW/2, // Pompeia
+  66: posCW+posCW/2+posCW/4, // Vila Mariana
+
+  91: posCW-5*posW, // Campo LImpo
+  57: posCW-3*posW-posW/2, // Ipiranga
+  70: posCW-2*posW-posW/4, // Santo Amaro
+  
+  94: posCW+3*posW+posW/2, // Bom Retiro
+  64: posCW+2*posW+posW/4, // Carmo
+  53: posCW+5*posW, // Santana
+  
+  59: posCW-posW, // Cinesesc
+  89: posCW, // CPF
+  61: posCW+posW, // Florencio
+  
+  55: posCW-posCW/2-posCW/4, // Interlagos
+  73: posCW-posCW/2, // Guarulhos
+  72: posCW-posCW/4, // Mogi das Cruzes
+  95: posCW, // Osasco
+  67: posCW+posCW/4, // São Caetano
+  88: posCW+posCW/2, // Santo André
+  56: posCW+posCW/2+posCW/4, // Itaquera
+  // 74: pos6W, // Dom Pedro
+    
 };
 
 var unidadesTitleYCap = {
-  52: pos1H*corrigeCab, 
-  53: pos2H*corrigeCab, 
-  55: pos3H*corrigeCab, 
-  56: pos1H*corrigeCab,  
-  57: pos2H*corrigeCab, 
-  58: pos3H*corrigeCab, 
-  59: pos1H*corrigeCab, 
-  61: pos2H*corrigeCab, 
-  62: pos3H*corrigeCab, 
-  63: pos1H*corrigeCab, 
-  64: pos2H*corrigeCab, 
-  65: pos3H*corrigeCab, 
-  66: pos1H*corrigeCab, 
-  67: pos2H*corrigeCab, 
-  68: pos3H*corrigeCab, 
-  70: pos1H*corrigeCab, 
-  72: pos2H*corrigeCab, 
-  73: pos3H*corrigeCab, 
-  88: pos1H*corrigeCab, 
-  89: pos2H*corrigeCab, 
-  91: pos3H*corrigeCab, 
-  94: pos3H+80, 
-  95: pos3H+80, 
+//  74: pos1H+posH, // Dom Pedro
+  52: pos1H+posH, // 24 de Maio
+  65: pos1H+posH, // Av. Paulista
+  68: pos1H+posH, // Belenzinho
+  62: pos1H+posH, // Consolação
+  58: pos1H+posH, // Pinheiros
+  63: pos1H+posH, // Pompeia
+  66: pos1H+posH, // Vila Mariana
+
+  91: pos2H+posH/2, // Campo LImpo
+  94: pos2H+posH/2, // Bom Retiro
+  57: pos2H+posH/2, // Ipiranga
+  53: pos2H+posH/2, // Santana
+  70: pos2H+posH/2, // Santo Amaro
+  64: pos2H+posH/2, // Carmo
+
+  59: pos2H+posH, // Cinesesc
+  89: pos2H+posH, // CPF
+  61: pos2H+posH, // Florencio
+
+  55: pos3H, // Interlagos
+  73: pos3H+posH, // Guarulhos
+  72: pos3H+posH, // Mogi das Cruzes
+  95: pos3H+posH, // Osasco
+  88: pos3H+posH, // Santo André
+  67: pos3H+posH, // São Caetano
+  56: pos3H, // Itaquera
+  
 };
 
- 
 // Cabeçalhos da visão por unidades do interior.
 var unidadesTitleXInt = {
-  71: pos1W-125, 
-  74: pos1W-125, 
-  75: pos1W-125, 
-  76: pos2W-75, 
-  77: pos2W-75, 
-  78: pos2W-75, 
-  79: pos3W-25, 
-  80: pos3W-25, 
-  81: pos3W-25, 
-  82: pos5W-50, 
-  83: pos5W-50, 
-  84: pos5W-50, 
-  85: pos6W+25, 
-  86: pos6W+25, 
-  87: pos6W+25, 
-  92: pos7W+50, 
-  93: pos7W+50, 
-  96: pos7W+50, 
+  85: posCW-4*+posW, 
+  84: posCW-2*+posW-posW/2, 
+  79: posCW-posW, 
+  76: posCW+posW, 
+  86: posCW+3*posW-posW/2, 
+  82: posCW+4*posW, 
+  80: posCW, 
+  83: posCW-3*posW, 
+  96: posCW-posW-posW/2, 
+  75: posCW+posW+posW/2, 
+  93: posCW+3*posW, 
+  87: posCW-posCW/2-posCW/4, 
+  92: posCW-posCW/2+posCW/4, 
+  78: posCW, 
+  71: posCW+posCW/4, 
+  77: posCW+3*posW, 
+  81: posCW+posCW/2+posCW/4, 
 };
 
 var unidadesTitleYInt = {
-  71: pos1H*corrigeCab, 
-  74: pos2H*corrigeCab, 
-  75: pos3H*corrigeCab, 
-  76: pos1H*corrigeCab, 
-  77: pos2H*corrigeCab, 
-  78: pos3H*corrigeCab, 
-  79: pos1H*corrigeCab, 
-  80: pos2H*corrigeCab, 
-  81: pos3H*corrigeCab, 
-  82: pos1H*corrigeCab, 
-  83: pos2H*corrigeCab, 
-  84: pos3H*corrigeCab, 
-  85: pos1H*corrigeCab, 
-  86: pos2H*corrigeCab, 
-  87: pos3H*corrigeCab, 
-  92: pos1H*corrigeCab, 
-  93: pos2H*corrigeCab, 
-  96: pos3H*corrigeCab, 
+  85: pos1H+posH, 
+  84: pos1H+posH, 
+  79: pos1H+posH, 
+  76: pos1H+posH, 
+  86: pos1H+posH, 
+  82: pos1H+posH, 
+  80: pos2H+posH, 
+  83: pos2H+posH, 
+  96: pos2H+posH, 
+  75: pos2H+posH, 
+  93: pos2H+posH, 
+  87: pos2H+posH, 
+  92: pos3H+posH/2, 
+  78: pos3H+posH, 
+  71: pos3H+posH, 
+  77: pos3H+posH/2, 
+  81: pos2H+posH, 
 };
+  
 
 
   var fillformatos = d3.scaleOrdinal()
@@ -305,10 +332,10 @@ var unidadesTitleYInt = {
            "Campo Limpo","Bom Retiro","Osasco"]);
  
    var fillunidadesInt = d3.scaleOrdinal()
-    .domain([71,74,75,76,77,78,79,80,81,82,83,84,85,86,87,92,93,96])
+    .domain([71,75,76,77,78,79,80,81,82,83,84,85,86,87,92,93,96])
     .range(["Bertioga","Campinas","Ribeirão","São José","Santos","Catanduva","Bauru",
             "Taubaté","São Carlos","Piracicaba","Rio Preto","Birigui","Araraquara","Prudente",
-            "Santo André","Registro","Jundiai","Sorocaba"]);
+            "Registro","Jundiai","Sorocaba"]);
                     
 
   //
@@ -331,7 +358,7 @@ var unidadesTitleYInt = {
   // colisão de círculos de tamanho diferentes.
   // Valor negativo para que os nós se afastem
   function charge(d) {
-    return -Math.pow(d.radius, 2.1) * forceStrength;
+    return -Math.pow(d.radius, 2.2) * forceStrength;
   }
 
   // Here we create a force layout and
@@ -369,15 +396,16 @@ var unidadesTitleYInt = {
 
     // Tamanho dos pontos baseado na área.
     var radiusScale = d3.scalePow()
-      .exponent(0.5)
-      .range([5, 30])
-      .domain([10, maxAmount]);
+      .exponent(0.8)
+      .range([6,42])
+      .domain([20, maxAmount]);
 
     // map() converte rawData em "node data".
     var myNodes = rawData.map(function (d) {
+      
       return {
         id: d.id,
-        radius: radiusScale(+d.lugares),
+        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+1500) : radiusScale(+d.lugares)),
         value: +d.lugares,
         name: d.nome,
         name2: d.complemento,
@@ -487,7 +515,7 @@ var unidadesTitleYInt = {
 
 // Transições 
     bubbles.transition()
-      .duration(2000);
+      .duration(4000);
 //      .attr('r', function (d) { return d.radius; }); // Original
 
     bubbles.attr('r', function(d) { return (
@@ -501,7 +529,7 @@ var unidadesTitleYInt = {
       (d.publico != publicoMem && publicoMem != 'todos') ||
       (d.tem != 1 && acessivelMem == 1) ||
       (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-      ) ? (formatoMem == '4') ? 0:3 : (d.destaque !== 'undefined') ? d.radius+20 : d.radius
+      ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
     });
 
 
@@ -560,9 +588,12 @@ bubbles.attr('stroke-width', function(d) { return (
    const total = bubbles.size();
    display_tot.innerText = total + " atrações";
 
+   console.log(datavis + " antes de iniciar")
+
+
 // Set initial layout to single group.
     groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-      acessivelId,onlineId,uoId,categoriaId,atual,escolhido);
+      acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
 
   };
 
@@ -605,7 +636,7 @@ bubbles.attr('stroke-width', function(d) { return (
   }
 
   function nodeunidadeYPos(d) {
-    return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/2);
+    return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/50);
   }
 
 // Função que separa o que não foi filtrado e joga pra fora
@@ -626,19 +657,21 @@ function contador(current_count){
 };
 
 function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido) {
+  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis) {
   hidesemanaTitles();
+
+  console.log(datavis + " no começo do groupBubbles")
 
 // Força radial para afastar as ações não filtradas
    var radialForce = 
    d3.forceRadial()
-     .radius(950)
+     .radius(1100)
      .x(width/2)
      .y(height/2)
      .strength(forceStrengthRadial);
 
     bubbles.transition()
-      .duration(2000);
+      .duration(4000);
       
     bubbles.attr('fill', function(d) { return (
       (d.regiao != regiaoMem) || 
@@ -664,12 +697,25 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
       (d.publico != publicoMem && publicoMem != 'todos') ||
       (d.tem != 1 && acessivelMem == 1) ||
       (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-    ) ? (formatoMem == '4') ? 3:3 : (d.destaque !== 'undefined') ? d.radius+20 : d.radius
+    ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
     });
     
+// 	envia para as bordas as ações que não estão filtradas
+simulation.force("r", isolate(radialForce, function(d) { return (
+  (d.regiao != regiaoMem) || 
+  (d.gratis != 1 && gratisMem == 1) || 
+  (d.ingresso != 0 && vendaMem == 1) || 
+  (d.cod_formato != formatoMem && formatoMem != '100') || 
+  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+  (d.filtra_dataF != temporalMem && temporalMem != 'todos') ||
+  (d.online != 1 && onlineMem == 1) ||
+  (d.cod_uo != uoMem && uoMem != '100') ||
+  (d.tem != 1 && acessivelMem == 1) ||
+  (d.publico != publicoMem && publicoMem != 'todos')
+);}))
 
 // Define formato da visualização    
-  if (atual == "regiao" || atual == "formato" || atual == "categoria") {
+  if (atual == "regiao" || atual == "formato" || atual == "categoria" || datavis == "unidades") {
       // por Unidades
       hidesemanaTitles();
       hideunidadeTitles();
@@ -677,47 +723,38 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
       simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
       simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
       simulation.alpha(1).restart();
+      var datavis = "unidades";
   
-      } else 
-        if (atual == "unidade") {
+      } else if (atual == "unidade" || datavis == "formatos") {
             // por Formatos
             hidesemanaTitles();
             showformatoTitles();
             simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
             simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
             simulation.alpha(1).restart();
+            var datavis = "formatos";
        
-            } else 
-              if (atual == "limpar" || atual == '' || atual == null) {
-               // @v4 Zera a força 'x' para levar tudo ao centro.
-                  simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
-                  simulation.force('y', d3.forceY().strength(forceStrength).y(center.y));
-                  simulation.alpha(1).restart();
+            } else if (atual == "temporal" || datavis == "agenda") {
+               // por Agenda
+               hidesemanaTitles();
+               showsemanaTitles();
+               simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
+               simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+               simulation.alpha(1).restart();
+               var datavis = "agenda";
 
                } else {
-               // por Agenda
-                  hidesemanaTitles();
-                  showsemanaTitles();
-                  simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
-                  simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
-                  simulation.alpha(1).restart();
-
+ //               if (atual == "limpar" || atual == '' || atual == null || datavis == "geral") {
+                 // @v4 Zera a força 'x' para levar tudo ao centro.
+                hidesemanaTitles();
+                simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
+                simulation.force('y', d3.forceY().strength(forceStrength).y(center.y));
+                simulation.alpha(1).restart();
+                var datavis = "geral";
 }
 
-// 	isola as ações que não estão filtradas
-   simulation.force("r", isolate(radialForce, function(d) { return (
-    (d.regiao != regiaoMem) || 
-    (d.gratis != 1 && gratisMem == 1) || 
-    (d.ingresso != 0 && vendaMem == 1) || 
-    (d.cod_formato != formatoMem && formatoMem != '100') || 
-    (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-    (d.filtra_dataF != temporalMem && temporalMem != 'todos') ||
-    (d.online != 1 && onlineMem == 1) ||
-    (d.cod_uo != uoMem && uoMem != '100') ||
-    (d.tem != 1 && acessivelMem == 1) ||
-    (d.publico != publicoMem && publicoMem != 'todos')
-  );}))
-  
+console.log(datavis + " ao final das opções de visualização")
+
 
 // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
 
@@ -826,7 +863,6 @@ contador(filtrado);
     var op = document.getElementById('ca');
         op.classList.add('active');
     }
-
 
 if (atual != "categoria") {
   var arr = ['1','2','3','4','5','6','7','8','9','10','11','14'];
@@ -979,7 +1015,6 @@ if (atual != "venda") {
         d.ingresso == 0
         );}).size();
         if (tem == 0) {  
-          console.log('tem venda: ' + tem);
           document.querySelector('#venda').checked = false; 
           document.querySelector('#venda').disabled = true; 
           VendaMem = null;
@@ -993,7 +1028,6 @@ if (atual != "acessibilidade") {
         d.tem == 1
         );}).size();
         if (tem == 0) {  
-          console.log('tem acess: ' + tem);
           document.querySelector('#acessivel').checked = false; 
           document.querySelector('#acessivel').disabled = true; 
           AcessivelMem = null;
@@ -1025,8 +1059,8 @@ if (atual != "acessibilidade") {
 // Visualização de Busca --------------------------------------------------------------------------------
 
   function buscaBubbles(buscaId) {
-    hidesemanaTitles();
-    showunidadeTitles();
+    hideunidadeTitles();
+    showsemanaTitles();
 
 // Apaga texto amigável e mostra Busca
   novo_span.innerText = "atrações com o termo '" + buscaId +"'";
@@ -1041,12 +1075,11 @@ d3.forceRadial()
   .strength(0.1);
 
     buscaId = buscaId.toLowerCase();
-    console.log(buscaId);
 
     bubbles.transition()
     .duration(2000)
     .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
-                    ? d.radius+10 : !(d.busca.toLowerCase().includes(buscaId)) ? 1 : d.radius})
+                    ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
 
 // Cria aro dourado para ação online ou vermelho para esgotado
     .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
@@ -1054,6 +1087,8 @@ d3.forceRadial()
       ? "gold" : (d.ingresso == 1) 
       ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
     .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+
+// preenche a cor da bolha
     .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
             ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
@@ -1062,8 +1097,10 @@ d3.forceRadial()
         return !(d.busca.toLowerCase().includes(buscaId)); 
         }));
 
-    simulation.force('x', d3.forceX().strength(0.1).x(nodeunidadeXPos));
-    simulation.force('y', d3.forceY().strength(0.1).y(nodeunidadeYPos));
+        console.log(datavis + " na busca")
+
+    simulation.force('x', d3.forceX().strength(0.1).x(nodesemanaPos));
+    simulation.force('y', d3.forceY().strength(0.1).y(nodeperiodoPos));
 //  simulation.alpha(1).restart();
 
 // contador da busca textual
@@ -1071,12 +1108,12 @@ d3.forceRadial()
     filtrado = bubbles.filter(function(d) { return (d.busca.toLowerCase().includes(buscaId))}).size()
     contador(filtrado);
 
-// @v4 Reinicia a visuaização
+// @v4 Reinicia a visualização
     if (filtrado == tot) {
         atual = '';
         escolhido = '';
         groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido);
+                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis);
         }
 
   }
@@ -1132,7 +1169,6 @@ d3.forceRadial()
 function showunidadeTitles() {
 
   if (regiaoMem == 'capital') {
-      console.log(regiaoMem);
 
       var unidadesData = d3.keys(unidadesTitleXCap);
       var unidades = svg.selectAll('.dia_da_semana').data(unidadesData);
@@ -1232,7 +1268,7 @@ foco();
    */
 //  chart.toggleDisplay = function (displayName) {
   chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                                  acessivelId,onlineId,uoId,categoriaId,atual,escolhido) 
+                                  acessivelId,onlineId,uoId,categoriaId,atual,escolhido, datavis) 
                                   {
 
   //	GUARDA AS ÚLTIMAS ESCOLHAS
@@ -1278,11 +1314,11 @@ foco();
 
 	if (formatoId == '99') {
       groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido);
+                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis);
 }  
 
      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                 acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido);
+                 acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis);
   };
 
 
@@ -1320,7 +1356,7 @@ function display(error, data) {
 }
 
 // Configura os botões utilizados pelo usuário para escolher a visualização
-function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#toolbar')
     .selectAll('.button')
     .on('click', function () {
@@ -1341,6 +1377,7 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
             tiraCat.querySelector("form").reset();
             categoriaMem = '99';
             categoriaId = '99';
+            datavis = "unidades";
 
             arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
              for(var i=0; i < arr.length; i++) { 
@@ -1349,7 +1386,7 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
             } 
 
       foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
 }
 
@@ -1374,21 +1411,20 @@ function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisI
       var formatoId = '100';
       var publicoId = 'todos';
       var temporalId = "agora";
-      var formatoId = '100';
-      var temporalId = "agora";
       var uoId = '100';
       var categoriaId = '99';
       var gratisId = 0;
       var vendaId = 0;
       var acessivelId = 0;
-      var onlineId = 0;      
+      var onlineId = 0;
+      var datavis = "geral"   
       
       foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
 
-function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#mySideNavCategoria')
     .selectAll('.buttonCat')
     .on('click', function () {
@@ -1405,12 +1441,12 @@ function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,ve
       var escolhido = button.attr('value');
           var atual = "categoria";
           foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
 }
 
 
-function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#temporal')
     .selectAll('.temporal')
     .on('click', function () {
@@ -1428,11 +1464,11 @@ function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vend
 
       var atual = "temporal";
       foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
 }
 
-function setupButtonsFiltroRegiao(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroRegiao(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
 
   d3.select('#regiao')
     .selectAll('.regiao')
@@ -1456,11 +1492,11 @@ function setupButtonsFiltroRegiao(formatoId,regiaoId,temporalId,publicoId,vendaI
 
        var atual = "regiao";
        foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
 
-function setupButtonsFiltroPublico(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroPublico(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#publico')
     .selectAll('.publico')
     .on('click', function () {
@@ -1477,11 +1513,11 @@ function setupButtonsFiltroPublico(formatoId,regiaoId,temporalId,publicoId,venda
 
       var atual = "publico";
       foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
 
-function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
  
       var venda = document.querySelector('#venda');
           venda.addEventListener('change', function(element) {
@@ -1493,13 +1529,13 @@ function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId
 
     var atual = "venda";
     foco()
-    myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+    myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 
 }
 
 
-function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
  
     var gratis = document.querySelector('#gratis');
         gratis.addEventListener('change', function(element) {
@@ -1508,15 +1544,15 @@ function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaI
       } else {
       var gratisId = 0;
     }
-
+console.log(datavis + " ao ler o botão gratis")
     var atual = "gratis";
     foco()
-    myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+    myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
 
 
-function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
 
     var acessivel = document.querySelector('#acessivel');
           acessivel.addEventListener('change', function(element) {
@@ -1528,12 +1564,12 @@ function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,ven
 
     var atual = "acessibilidade";
     foco()
-    myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+    myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
 
 
-function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   	var online = document.querySelector('#online');
         online.addEventListener('change', function(element) {
 	      if (online.checked == true) { 
@@ -1546,12 +1582,12 @@ function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaI
 
       var atual = "online";
       foco()
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
 
 
-function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#unidades')
     .selectAll('.uo')
     .on('click', function () {
@@ -1567,11 +1603,25 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
       var uoId = uo.attr('id').substring(2);
       var escolhido = uo.attr('value');
       var atual = "unidade";
+
+      var formatoId = '100';
+      var categoriaId = '99';
+
       document.getElementById('capital').checked = false; 
       document.getElementById('interior').checked = false; 
 
+      var tiraCat = document.querySelector("#mySideNavCategoria");
+      tiraCat.querySelector("form").reset();
+
+      arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
+       for(var i=0; i < arr.length; i++) { 
+           var op = document.getElementById('ca'+arr[i]);
+               op.classList.remove('active');
+               op.checked = false;
+      } 
+
       foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
 }
 
