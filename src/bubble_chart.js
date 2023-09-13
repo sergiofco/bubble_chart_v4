@@ -46,8 +46,10 @@ function bubbleChart() {
   const pos1H = (posCH - 2*posH);
   const pos2H = posCH;
   const pos3H = (posCH + 2*posH);
-  var datavis = "geral";
 
+  var datavis = "geral";
+  var datavisMem = "geral";
+  
 // Variáveis de Filtro
   var buscaId = '';
   var regiaoId = 'capital';
@@ -605,7 +607,7 @@ bubbles.attr('stroke-width', function(d) { return (
 
 // Set initial layout to single group.
     groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-      acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+      acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
 
   };
 
@@ -669,10 +671,10 @@ function contador(current_count){
 };
 
 function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis) {
+  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
   hidesemanaTitles();
 
-  console.log(datavis + " no começo do groupBubbles")
+  console.log(datavisMem + " no começo do groupBubbles")
 
 // Força radial para afastar as ações não filtradas
    var radialForce = 
@@ -727,7 +729,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
 );}))
 
 // Define formato da visualização    
-  if (atual == "regiao" || atual == "formato" || atual == "categoria" || datavis == "unidades") {
+  if (atual == "regiao" || atual == "formato" || atual == "categoria" || datavisMem == "unidades") {
       // por Unidades
       hidesemanaTitles();
       hideunidadeTitles();
@@ -737,7 +739,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
       simulation.alpha(1).restart();
       var datavis = "unidades";
   
-      } else if (atual == "unidade" || datavis == "formatos") {
+      } else if (atual == "unidade" || datavisMem == "formatos") {
             // por Formatos
             hidesemanaTitles();
             showformatoTitles();
@@ -746,7 +748,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
             simulation.alpha(1).restart();
             var datavis = "formatos";
        
-            } else if (atual == "temporal" || datavis == "agenda") {
+            } else if (atual == "temporal" || datavisMem == "agenda") {
                // por Agenda
                hidesemanaTitles();
                showsemanaTitles();
@@ -765,7 +767,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
                 var datavis = "geral";
 }
 
-console.log(datavis + " ao final das opções de visualização")
+console.log(datavisMem + " ao final das opções de visualização")
 
 
 // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
@@ -1324,13 +1326,18 @@ foco();
     onlineMem = onlineId; 
   };
 
+  if (datavis != null) {
+    datavisMem = datavis; 
+  };
+
+
 	if (formatoId == '99') {
       groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis);
+                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
 }  
 
      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                 acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis);
+                 acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
   };
 
 
@@ -1389,7 +1396,8 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
             tiraCat.querySelector("form").reset();
             categoriaMem = '99';
             categoriaId = '99';
-            datavis = "unidades";
+
+        var datavis = "unidades";
 
             arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
              for(var i=0; i < arr.length; i++) { 
@@ -1402,7 +1410,7 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
     });
 }
 
-function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId) {
+function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#toolbar')
     .selectAll('.buttonTudo')
     .on('click', function () {
@@ -1417,6 +1425,7 @@ function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisI
       // Get the id of the button
       var formatoId = buttonTudo.attr('id').substring(2);
       var atual = "limpar";
+      var datavis = "geral";
 
 // reestabelece variáveis para limpar filtros para o padrão      
       var regiaoId = 'capital';
@@ -1429,7 +1438,6 @@ function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisI
       var vendaId = 0;
       var acessivelId = 0;
       var onlineId = 0;
-      var datavis = "geral"   
       
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
@@ -1452,6 +1460,8 @@ function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,ve
       var categoriaId = button.attr('id').substring(2);
       var escolhido = button.attr('value');
           var atual = "categoria";
+          var datavis = "unidades";
+
           foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
@@ -1475,6 +1485,8 @@ function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vend
       var escolhido = temporal.attr('value');
 
       var atual = "temporal";
+      var datavis = "agenda";
+
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
@@ -1503,7 +1515,9 @@ function setupButtonsFiltroRegiao(formatoId,regiaoId,temporalId,publicoId,vendaI
        tiraUO.querySelector("form").reset();
 
        var atual = "regiao";
-       foco();
+       var datavis = "unidades";
+
+      foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
@@ -1524,6 +1538,7 @@ function setupButtonsFiltroPublico(formatoId,regiaoId,temporalId,publicoId,venda
       var publicoId = publico.attr('id');
 
       var atual = "publico";
+
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
@@ -1540,6 +1555,7 @@ function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId
       }
 
     var atual = "venda";
+
     foco()
     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
@@ -1556,7 +1572,8 @@ function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaI
       } else {
       var gratisId = 0;
     }
-console.log(datavis + " ao ler o botão gratis")
+
+    console.log(datavis + " ao ler o botão gratis")
     var atual = "gratis";
     foco()
     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
@@ -1575,6 +1592,7 @@ function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,ven
        }
 
     var atual = "acessibilidade";
+
     foco()
     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
@@ -1593,6 +1611,7 @@ function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaI
       }
 
       var atual = "online";
+
       foco()
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
@@ -1615,6 +1634,7 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
       var uoId = uo.attr('id').substring(2);
       var escolhido = uo.attr('value');
       var atual = "unidade";
+      var datavis = "formatos";
 
       var formatoId = '100';
       var categoriaId = '99';
