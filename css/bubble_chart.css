@@ -195,6 +195,7 @@ a, a:visited, a:active {
 }
 
 .toolbar {
+  color:#497aa1;
   width: 100%;
   top: 10%;
 }

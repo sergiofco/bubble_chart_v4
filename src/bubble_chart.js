@@ -29,7 +29,7 @@ function bubbleChart() {
   const corrigeT = 0;
   const corrigeW = 40;
   const corrigeH = 0;
-  const corrigeS = 0;
+  const corrigeS = 50;
   const corrigeCab = 0.9;
   const corrige = 0;
   const posW = width/12;
@@ -169,17 +169,17 @@ function bubbleChart() {
     nextW: { y: posCH-posH/2},
     thisM: { y: posCH},
     nextM: { y: posCH+posH/2},
-    sempre: { y: pos3H}
+    sempre: { y: pos3H-posH/2}
   };
 
   // Cabeçalhos da visão por semana.
   var semanasTitleX = {
     seg: posCW-4*posW-corrigeS, 
-    ter: posCW-3*posW-corrigeS, 
+    ter: posCW-3*posW+posW/4-corrigeS, 
     qua: posCW-posW-posW/2-corrigeS, 
     qui: posCW-corrigeS, 
     sex: posCW+posW+posW/2-corrigeS, 
-    sáb: posCW+3*posW-corrigeS, 
+    sáb: posCW+3*posW-posW/4-corrigeS, 
     dom: posCW+4*posW-corrigeS,
     sempre: posCW-corrigeS 
   };
@@ -382,7 +382,7 @@ var unidadesTitleYInt = {
   
   var opacidadeColor = d3.scaleOrdinal()
 		    .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
-        .range(['1','.75','.5','.25','.9']);
+        .range(['1','.7','.5','.25','.8']);
 
 
   /*
@@ -436,14 +436,7 @@ var unidadesTitleYInt = {
         hora: d.hora,
         x: Math.random() * 900,
         y: Math.random() * 800
-//		    lat: +d.lat,
-//		    long: +d.long,
-//        weekdaytxt: d.weekdaytxt,
 //        sinopse: d.sinopse,
-//        cx: projection([+d.long, +d.lat])[0]+Math.random()*10, 
-//        cy: projection([+d.long, +d.lat])[1]+Math.random()*10,
-//        cxe: projectionE([+d.long, +d.lat])[0]+Math.random()*10, 
-//        cye: projectionE([+d.long, +d.lat])[1]+Math.random()*10 
 
       };
     });
@@ -501,8 +494,7 @@ var unidadesTitleYInt = {
     // @v4 Selections are immutable, so lets capture the enter selection to apply our transtition to below.
     var bubblesE = bubbles.enter().append('circle')
       .classed('bubble', true)
-      .attr('r', 0)
-//      .attr('fill', function (d) { return fillColor(d.dia_da_semana); })
+      .attr('r', 1)
       .attr('fill', function(d) { return (
         (d.regiao != regiaoMem) || 
         (d.gratis != 1 && gratisMem == 1) || 
@@ -522,6 +514,7 @@ var unidadesTitleYInt = {
                                              ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
       .attr('stroke-width', 2)
       .on('mouseover', showDetail)
+      .on('click', linkSite)
       .on('mouseout', hideDetail);
 
     // @v4 Merge the original empty selection and the enter selection
@@ -602,14 +595,11 @@ bubbles.attr('stroke-width', function(d) { return (
    const total = bubbles.size();
    display_tot.innerText = total + " atrações";
 
-   console.log(datavis + " antes de iniciar")
-
-
 // Set initial layout to single group.
     groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
       acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
 
-  };
+ };
 
   /*
    * Callback function that is called after every tick of the
@@ -624,10 +614,8 @@ bubbles.attr('stroke-width', function(d) { return (
       .attr('cy', function (d) { return d.y; });
   }
   
-
   /*
-   * Provides a x value for each node to be used with the split by semana
-   * x force.
+   * Providencia valores para X e Y nos diferentes cenários.
    */
   function nodesemanaPos(d) {
     return semanaCenters[d.dia_da_semana].x;
@@ -675,6 +663,9 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
   hidesemanaTitles();
 
   console.log(datavisMem + " no começo do groupBubbles")
+  console.log(formatoMem + ' é o formato no coemeço')           
+  console.log(escolhido + ' é escolhido no começo')           
+ 
 
 // Força radial para afastar as ações não filtradas
    var radialForce = 
@@ -698,9 +689,9 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
       (d.publico != publicoMem && publicoMem != 'todos') ||
       (d.tem != 1 && acessivelMem == 1) ||
       (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-    ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+    ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)})
 
-    bubbles.attr('r', function(d) { return (
+    .attr('r', function(d) { return (
       (d.regiao != regiaoMem) || 
       (d.gratis != 1 && gratisMem == 1) || 
       (d.ingresso != 0 && vendaMem == 1) || 
@@ -757,15 +748,14 @@ simulation.force("r", isolate(radialForce, function(d) { return (
                simulation.alpha(1).restart();
                var datavis = "agenda";
 
-               } else {
- //               if (atual == "limpar" || atual == '' || atual == null || datavis == "geral") {
+               } else if (atual == "limpar" || atual == '' || atual == null || datavisMem == "geral") {
                  // @v4 Zera a força 'x' para levar tudo ao centro.
                 hidesemanaTitles();
                 simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
                 simulation.force('y', d3.forceY().strength(forceStrength).y(center.y));
                 simulation.alpha(1).restart();
                 var datavis = "geral";
-}
+      } else { simulation.stop() };
 
 console.log(datavisMem + " ao final das opções de visualização")
 
@@ -1277,12 +1267,21 @@ foco();
     tooltip.hideTooltip();
   }
 
+// link para a busca do site do Sesc
+var url = 'http://sescsp.org.br';
+var link = document.querySelector("#escape");
+
+function linkSite(d) {
+    var win = window.open('https://www.sescsp.org.br/?s='+d.nome, 'portal');
+    win.focus();
+}
+
   /*
    * Opções de interação do usuário
    */
 //  chart.toggleDisplay = function (displayName) {
   chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                                  acessivelId,onlineId,uoId,categoriaId,atual,escolhido, datavis) 
+                                  acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                   {
 
   //	GUARDA AS ÚLTIMAS ESCOLHAS
@@ -1296,6 +1295,10 @@ foco();
 
   if (formatoId != null) {
     formatoMem = formatoId; 
+  };
+
+  if (formatoId == "100") {
+    datavisMem = "geral"; 
   };
 
   if (categoriaId != null) {
@@ -1331,10 +1334,10 @@ foco();
   };
 
 
-	if (formatoId == '99') {
-      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
-}  
+//	if (formatoId == '100') {
+//      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
+//                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
+//  }  
 
      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
@@ -1405,6 +1408,9 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
                      op.classList.remove('active');
             } 
 
+ console.log(formatoId + ' é o formato')           
+ console.log(escolhido + ' é escolhido')           
+
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
@@ -1438,7 +1444,8 @@ function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisI
       var vendaId = 0;
       var acessivelId = 0;
       var onlineId = 0;
-      
+      var win = window.open('vazio.html', 'portal');
+
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
