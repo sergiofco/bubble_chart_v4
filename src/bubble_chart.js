@@ -99,7 +99,7 @@ function bubbleChart() {
   };
 
   var formatoCenters = {
-    1: { x: posCW/2-2*posW, y: pos2H-2*posH }, // shows
+    1: { x: posCW-4*posW, y: pos2H-2*posH }, // shows
     2: { x: posCW-2*posW, y: pos2H-2*posH }, // cursos
     3: { x: posCW+posCW/2-2*posW, y: pos2H-2*posH }, // debates
     4: { x: posCW-4*posW, y: pos3H-2*posH }, // expos
@@ -348,8 +348,7 @@ var unidadesTitleYInt = {
 
   // @v4 strength to apply to the position forces
   var forceStrength = 0.03;
-  var forceStrengthRadial = 0.05;
-
+  
   // These will be set in create_nodes and create_vis
   var svg = null;
   var bubbles = null;
@@ -359,14 +358,14 @@ var unidadesTitleYInt = {
   // colisão de círculos de tamanho diferentes.
   // Valor negativo para que os nós se afastem
   function charge(d) {
-    return -Math.pow(d.radius, 2.15) * forceStrength;
+    return -Math.pow(d.radius, 2.2) * forceStrength;
   }
 
   // Here we create a force layout and
   // @v4 We create a force simulation now and add forces to it.
 
   var simulation = d3.forceSimulation()
-    .velocityDecay(0.15)
+    .velocityDecay(0.21)
     .force('x', d3.forceX().strength(forceStrength).x(center.x))
     .force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos))
     .force('charge', d3.forceManyBody().strength(charge))
@@ -494,7 +493,7 @@ var unidadesTitleYInt = {
     // @v4 Selections are immutable, so lets capture the enter selection to apply our transtition to below.
     var bubblesE = bubbles.enter().append('circle')
       .classed('bubble', true)
-      .attr('r', 1)
+      .attr('r', 0)
       .attr('fill', function(d) { return (
         (d.regiao != regiaoMem) || 
         (d.gratis != 1 && gratisMem == 1) || 
@@ -596,6 +595,8 @@ bubbles.attr('stroke-width', function(d) { return (
    display_tot.innerText = total + " atrações";
 
 // Set initial layout to single group.
+    var datavisMem = "geral";
+    var atual = "limpar";
     groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
       acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
 
@@ -659,24 +660,40 @@ function contador(current_count){
 };
 
 function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
-  hidesemanaTitles();
+                      acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
+
+    hidesemanaTitles();
 
   console.log(datavisMem + " no começo do groupBubbles")
   console.log(formatoMem + ' é o formato no coemeço')           
   console.log(escolhido + ' é escolhido no começo')           
- 
+  
+ if (datavisMem == "busca") {
+      var forceStrengthRadial = 0.05;
+    } else {
+      var forceStrengthRadial = 0.15; 
+    }
+
+ if (datavisMem == "unidades" || datavisMem == "agenda" || atual == "regiao" || datavisMem == "formatos" ) {
+      var circulo = height*1.05; 
+      var forceStrength = 0.05;
+      var forceStrengthRadial = 0.2; 
+    } else {
+      var circulo = height*0.8;
+      var forceStrength = 0.03;
+      var forceStrengthRadial = 0.15; 
+    }
 
 // Força radial para afastar as ações não filtradas
    var radialForce = 
    d3.forceRadial()
-     .radius(1000)
+     .radius(circulo)
      .x(width/2)
      .y(height/2)
      .strength(forceStrengthRadial);
 
     bubbles.transition()
-      .duration(4000);
+      .duration(5000);
       
     bubbles.attr('fill', function(d) { return (
       (d.regiao != regiaoMem) || 
@@ -689,9 +706,9 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
       (d.publico != publicoMem && publicoMem != 'todos') ||
       (d.tem != 1 && acessivelMem == 1) ||
       (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-    ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)})
+    ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
-    .attr('r', function(d) { return (
+    bubbles.attr('r', function(d) { return (
       (d.regiao != regiaoMem) || 
       (d.gratis != 1 && gratisMem == 1) || 
       (d.ingresso != 0 && vendaMem == 1) || 
@@ -719,8 +736,9 @@ simulation.force("r", isolate(radialForce, function(d) { return (
   (d.publico != publicoMem && publicoMem != 'todos')
 );}))
 
-// Define formato da visualização    
-  if (atual == "regiao" || atual == "formato" || atual == "categoria" || datavisMem == "unidades") {
+
+    // Define formato da visualização    
+  if (datavisMem == "unidades" || atual == "regiao") {
       // por Unidades
       hidesemanaTitles();
       hideunidadeTitles();
@@ -729,17 +747,18 @@ simulation.force("r", isolate(radialForce, function(d) { return (
       simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
       simulation.alpha(1).restart();
       var datavis = "unidades";
+      var datavisMem = "unidades";
   
-      } else if (atual == "unidade" || datavisMem == "formatos") {
+      } else if (datavisMem == "formatos" || datavisMem == "busca" || atual == "unidade") {
             // por Formatos
             hidesemanaTitles();
             showformatoTitles();
             simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
             simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
             simulation.alpha(1).restart();
-            var datavis = "formatos";
-       
-            } else if (atual == "temporal" || datavisMem == "agenda") {
+            if (datavisMem == "busca") { var datavis = "busca";} else {var datavis = datavisMem;}
+                   
+            } else if (datavisMem == "agenda") {
                // por Agenda
                hidesemanaTitles();
                showsemanaTitles();
@@ -748,7 +767,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
                simulation.alpha(1).restart();
                var datavis = "agenda";
 
-               } else if (atual == "limpar" || atual == '' || atual == null || datavisMem == "geral") {
+               } else if (datavisMem == "geral") {
                  // @v4 Zera a força 'x' para levar tudo ao centro.
                 hidesemanaTitles();
                 simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
@@ -756,6 +775,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
                 simulation.alpha(1).restart();
                 var datavis = "geral";
       } else { simulation.stop() };
+
 
 console.log(datavisMem + " ao final das opções de visualização")
 
@@ -1064,7 +1084,8 @@ if (atual != "acessibilidade") {
 
   function buscaBubbles(buscaId) {
     hideunidadeTitles();
-    showsemanaTitles();
+    hidesemanaTitles();
+    showformatoTitles();
 
 // Apaga texto amigável e mostra Busca
   novo_span.innerText = "atrações com o termo '" + buscaId +"'";
@@ -1073,15 +1094,15 @@ if (atual != "acessibilidade") {
 // Força para expelir não filtradas  
 var radialForceBusca = 
 d3.forceRadial()
-  .radius(1000)
+  .radius(width*0.75)
   .x(width/2)
   .y(height/2)
-  .strength(0.1);
+  .strength(0.15);
 
     buscaId = buscaId.toLowerCase();
 
     bubbles.transition()
-    .duration(2000)
+    .duration(5000)
     .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
                     ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
 
@@ -1094,7 +1115,7 @@ d3.forceRadial()
 
 // preenche a cor da bolha
     .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
-            ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+            ? "url(#" + d.destaque + ")" : !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : fillColor(d.dia_da_semana)});
 
 // 	joga para o canto as ações que não estão filtradas
     simulation.force("r", isolate(radialForceBusca, function(d) { 
@@ -1113,11 +1134,12 @@ d3.forceRadial()
     contador(filtrado);
 
 // @v4 Reinicia a visualização
+        var datavisMem = "formatos"
     if (filtrado == tot) {
-        atual = '';
+        atual = 'busca';
         escolhido = '';
         groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavis);
+                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
         }
 
   }
@@ -1666,7 +1688,7 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
 
 function foco() {
     document.getElementById('buscatextual').focus();
-    document.getElementById('buscatextual').select();
+    // document.getElementById('buscatextual').select();
     }
 
 //	Inicia os botões
