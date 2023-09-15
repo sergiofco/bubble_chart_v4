@@ -100,11 +100,11 @@ function bubbleChart() {
 
   var formatoCenters = {
     1: { x: posCW-4*posW, y: pos2H-2*posH }, // shows
-    2: { x: posCW-2*posW, y: pos2H-2*posH }, // cursos
+    2: { x: posCW-3*posW/2, y: pos2H-3*posH/2 }, // cursos
     3: { x: posCW+posCW/2-2*posW, y: pos2H-2*posH }, // debates
-    4: { x: posCW-4*posW, y: pos3H-2*posH }, // expos
-    5: { x: posCW-2*posW, y: pos3H-2*posH }, // filmes
-    6: { x: posCW, y: pos3H-2*posH }, // turismo
+    4: { x: posCW-6*posW/2, y: pos3H-3*posH/2 }, // expos
+    5: { x: posCW-2*posW/2, y: pos3H-posH }, // filmes
+    6: { x: posCW+posW/4, y: pos3H-3*posH/2 }, // turismo
   };
 
   var unidadeCenters = {
@@ -112,7 +112,7 @@ function bubbleChart() {
   52: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos1H}, // 24 de Maio
   65: {x: posCW-posCW/2-corrigeW, y:pos1H}, // Av. Paulista
   68: {x: posCW-posCW/4-corrigeW, y:pos1H}, // Belenzinho
-  62: {x: pos4W-corrigeW, y:pos1H}, // Consolação
+  62: {x: pos4W-2*corrigeW, y:pos1H}, // Consolação
   58: {x: posCW+posCW/4-corrigeW, y:pos1H}, // Pinheiros
   63: {x: posCW+posCW/2-corrigeW, y:pos1H}, // Pompeia
   66: {x: posCW+posCW/2+posCW/4-corrigeW, y:pos1H}, // Vila Mariana
@@ -337,14 +337,9 @@ var unidadesTitleYInt = {
     .range(["Bertioga","Campinas","Ribeirão","São José","Santos","Catanduva","Bauru",
             "Taubaté","São Carlos","Piracicaba","Rio Preto","Birigui","Araraquara","Prudente",
             "Registro","Jundiai","Sorocaba"]);
-                    
-
   //
   //
-  //  Fim das variáveis
-  //
-  //
-
+  //  Fim das variáveis ----------------------------------------------------------------------------
 
   // @v4 strength to apply to the position forces
   var forceStrength = 0.03;
@@ -358,14 +353,14 @@ var unidadesTitleYInt = {
   // colisão de círculos de tamanho diferentes.
   // Valor negativo para que os nós se afastem
   function charge(d) {
-    return -Math.pow(d.radius, 2.2) * forceStrength;
+    return -Math.pow(d.radius, 2) * forceStrength;
   }
 
   // Here we create a force layout and
   // @v4 We create a force simulation now and add forces to it.
 
   var simulation = d3.forceSimulation()
-    .velocityDecay(0.21)
+    .velocityDecay(0.25)
     .force('x', d3.forceX().strength(forceStrength).x(center.x))
     .force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos))
     .force('charge', d3.forceManyBody().strength(charge))
@@ -382,7 +377,6 @@ var unidadesTitleYInt = {
   var opacidadeColor = d3.scaleOrdinal()
 		    .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
         .range(['1','.7','.5','.25','.8']);
-
 
   /*
    * createNodes transforma os dados do CSV em uma matriz de objetos-nós (node objects)
@@ -405,7 +399,7 @@ var unidadesTitleYInt = {
       
       return {
         id: d.id,
-        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+1500) : radiusScale(+d.lugares)),
+        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+4000) : radiusScale(+d.lugares)),
         value: +d.lugares,
         name: d.nome,
         name2: d.complemento,
@@ -462,9 +456,9 @@ var unidadesTitleYInt = {
     // Create a SVG element inside the provided selector
     // with desired size.
     svg = d3.select(selector)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height);
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
 
     // associa os dados dos nós aos elementos DOM que os representará na visualização.
     bubbles = svg.selectAll('.bubble')
@@ -519,75 +513,9 @@ var unidadesTitleYInt = {
     // @v4 Merge the original empty selection and the enter selection
     bubbles = bubbles.merge(bubblesE);
 
-// Transições 
-    bubbles.transition()
-      .duration(4000);
-//      .attr('r', function (d) { return d.radius; }); // Original
-
-    bubbles.attr('r', function(d) { return (
-      (d.regiao != regiaoMem) || 
-      (d.gratis != 1 && gratisMem == 1) || 
-      (d.ingresso != 0 && vendaMem == 1) || 
-      (d.cod_formato != formatoMem && formatoMem != '100') || 
-      (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-      (d.online != 1 && onlineMem == 1) ||
-      (d.cod_uo != uoMem && uoMem != '100') ||
-      (d.publico != publicoMem && publicoMem != 'todos') ||
-      (d.tem != 1 && acessivelMem == 1) ||
-      (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-      ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
-    });
-
-
-// Escolhe cor de acordo com o dia da semana e cinza se não filtrada
-bubbles.attr('fill', function(d) { return (
-  (d.regiao != regiaoMem) || 
-  (d.gratis != 1 && gratisMem == 1) || 
-  (d.ingresso != 0 && vendaMem == 1) || 
-  (d.cod_formato != formatoMem && formatoMem != '100') || 
-  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-  (d.online != 1 && onlineMem == 1) ||
-  (d.cod_uo != uoMem && uoMem != '100') ||
-  (d.publico != publicoMem && publicoMem != 'todos') ||
-  (d.tem != 1 && acessivelMem == 1) ||
-  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
-
-
-// Cria aro dourado para ação online ou vermelho para esgotado
-bubbles.attr('stroke', function(d) { return (
-  (d.regiao != regiaoMem) || 
-  (d.gratis != 1 && gratisMem == 1) || 
-  (d.ingresso != 0 && vendaMem == 1) || 
-  (d.cod_formato != formatoMem && formatoMem != '100') || 
-  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-  (d.online != 1 && onlineMem == 1) ||
-  (d.cod_uo != uoMem && uoMem != '100') ||
-  (d.publico != publicoMem && publicoMem != 'todos') ||
-  (d.tem != 1 && acessivelMem == 1) ||
-  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-) ? '#555555' : (d.online == 1)
-  ? "gold" : (d.ingresso == 1) 
-  ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()});
-
-bubbles.attr('stroke-width', function(d) { return (
-  (d.regiao != regiaoMem) || 
-  (d.gratis != 1 && gratisMem == 1) || 
-  (d.ingresso != 0 && vendaMem == 1) || 
-  (d.cod_formato != formatoMem && formatoMem != '100') || 
-  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-  (d.online != 1 && onlineMem == 1) ||
-  (d.cod_uo != uoMem && uoMem != '100') ||
-  (d.publico != publicoMem && publicoMem != 'todos') ||
-  (d.tem != 1 && acessivelMem == 1) ||
-  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-) ? 1 : 3});
-
-
     // Set the simulation's nodes to our newly created nodes array.
     // @v4 Once we set the nodes, the simulation will start running automatically!
     simulation.nodes(nodes);
-
 
 // exibe o total de atrações
    var display_tot = document.getElementById("total");
@@ -599,7 +527,6 @@ bubbles.attr('stroke-width', function(d) { return (
     var atual = "limpar";
     groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
       acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
-
  };
 
   /*
@@ -659,23 +586,75 @@ function contador(current_count){
     display_div.appendChild(new_span);
 };
 
+
+// Função que atualiza as exibições -- exceto Busca
 function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                       acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
 
-    hidesemanaTitles();
+         hidesemanaTitles();
 
-  console.log(datavisMem + " no começo do groupBubbles")
-  console.log(formatoMem + ' é o formato no coemeço')           
-  console.log(escolhido + ' é escolhido no começo')           
-  
- if (datavisMem == "busca") {
-      var forceStrengthRadial = 0.05;
-    } else {
-      var forceStrengthRadial = 0.15; 
-    }
+// Transições 
+         bubbles.transition().duration(4000);
+
+// Escolhe cor de acordo com o dia da semana e cinza se não filtrada
+   bubbles.attr('fill', function(d) { return (
+    (d.regiao != regiaoMem) || 
+    (d.gratis != 1 && gratisMem == 1) || 
+    (d.ingresso != 0 && vendaMem == 1) || 
+    (d.cod_formato != formatoMem && formatoMem != '100') || 
+    (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+    (d.online != 1 && onlineMem == 1) ||
+    (d.cod_uo != uoMem && uoMem != '100') ||
+    (d.publico != publicoMem && publicoMem != 'todos') ||
+    (d.tem != 1 && acessivelMem == 1) ||
+    (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+   ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+
+  bubbles.attr('r', function(d) { return (
+    (d.regiao != regiaoMem) || 
+    (d.gratis != 1 && gratisMem == 1) || 
+    (d.ingresso != 0 && vendaMem == 1) || 
+    (d.cod_formato != formatoMem && formatoMem != '100') || 
+    (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+    (d.online != 1 && onlineMem == 1) ||
+    (d.cod_uo != uoMem && uoMem != '100') ||
+    (d.publico != publicoMem && publicoMem != 'todos') ||
+    (d.tem != 1 && acessivelMem == 1) ||
+    (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+    ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
+  });
+
+// Cria aro dourado para ação online ou vermelho para esgotado
+  bubbles.attr('stroke', function(d) { return (
+    (d.regiao != regiaoMem) || 
+    (d.gratis != 1 && gratisMem == 1) || 
+    (d.ingresso != 0 && vendaMem == 1) || 
+    (d.cod_formato != formatoMem && formatoMem != '100') || 
+    (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+    (d.online != 1 && onlineMem == 1) ||
+    (d.cod_uo != uoMem && uoMem != '100') ||
+    (d.publico != publicoMem && publicoMem != 'todos') ||
+    (d.tem != 1 && acessivelMem == 1) ||
+    (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+  ) ? '#555555' : (d.online == 1)
+  ? "gold" : (d.ingresso == 1) 
+  ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()});
+
+  bubbles.attr('stroke-width', function(d) { return (
+    (d.regiao != regiaoMem) || 
+    (d.gratis != 1 && gratisMem == 1) || 
+    (d.ingresso != 0 && vendaMem == 1) || 
+    (d.cod_formato != formatoMem && formatoMem != '100') || 
+    (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+    (d.online != 1 && onlineMem == 1) ||
+    (d.cod_uo != uoMem && uoMem != '100') ||
+    (d.publico != publicoMem && publicoMem != 'todos') ||
+    (d.tem != 1 && acessivelMem == 1) ||
+    (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+  ) ? 1 : 3});
 
  if (datavisMem == "unidades" || datavisMem == "agenda" || atual == "regiao" || datavisMem == "formatos" ) {
-      var circulo = height*1.05; 
+      var circulo = height*0.95; 
       var forceStrength = 0.05;
       var forceStrengthRadial = 0.2; 
     } else {
@@ -685,42 +664,11 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
     }
 
 // Força radial para afastar as ações não filtradas
-   var radialForce = 
-   d3.forceRadial()
-     .radius(circulo)
-     .x(width/2)
-     .y(height/2)
-     .strength(forceStrengthRadial);
-
-    bubbles.transition()
-      .duration(5000);
-      
-    bubbles.attr('fill', function(d) { return (
-      (d.regiao != regiaoMem) || 
-      (d.gratis != 1 && gratisMem == 1) || 
-      (d.ingresso != 0 && vendaMem == 1) || 
-      (d.cod_formato != formatoMem && formatoMem != '100') || 
-      (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-      (d.online != 1 && onlineMem == 1) ||
-      (d.cod_uo != uoMem && uoMem != '100') ||
-      (d.publico != publicoMem && publicoMem != 'todos') ||
-      (d.tem != 1 && acessivelMem == 1) ||
-      (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-    ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
-
-    bubbles.attr('r', function(d) { return (
-      (d.regiao != regiaoMem) || 
-      (d.gratis != 1 && gratisMem == 1) || 
-      (d.ingresso != 0 && vendaMem == 1) || 
-      (d.cod_formato != formatoMem && formatoMem != '100') || 
-      (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
-      (d.online != 1 && onlineMem == 1) ||
-      (d.cod_uo != uoMem && uoMem != '100') ||
-      (d.publico != publicoMem && publicoMem != 'todos') ||
-      (d.tem != 1 && acessivelMem == 1) ||
-      (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-    ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
-    });
+   var radialForce = d3.forceRadial()
+                       .radius(circulo)
+                       .x(width/2)
+                       .y(height/2)
+                       .strength(forceStrengthRadial);
     
 // 	envia para as bordas as ações que não estão filtradas
 simulation.force("r", isolate(radialForce, function(d) { return (
@@ -749,15 +697,14 @@ simulation.force("r", isolate(radialForce, function(d) { return (
       var datavis = "unidades";
       var datavisMem = "unidades";
   
-      } else if (datavisMem == "formatos" || datavisMem == "busca" || atual == "unidade") {
+      } else if (datavisMem == "formatos" || atual == "unidade") {
             // por Formatos
             hidesemanaTitles();
             showformatoTitles();
             simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
             simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
             simulation.alpha(1).restart();
-            if (datavisMem == "busca") { var datavis = "busca";} else {var datavis = datavisMem;}
-                   
+
             } else if (datavisMem == "agenda") {
                // por Agenda
                hidesemanaTitles();
@@ -773,11 +720,8 @@ simulation.force("r", isolate(radialForce, function(d) { return (
                 simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
                 simulation.force('y', d3.forceY().strength(forceStrength).y(center.y));
                 simulation.alpha(1).restart();
-                var datavis = "geral";
+                                   
       } else { simulation.stop() };
-
-
-console.log(datavisMem + " ao final das opções de visualização")
 
 
 // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
@@ -1083,13 +1027,27 @@ if (atual != "acessibilidade") {
 // Visualização de Busca --------------------------------------------------------------------------------
 
   function buscaBubbles(buscaId) {
-    hideunidadeTitles();
-    hidesemanaTitles();
-    showformatoTitles();
 
+           hideunidadeTitles();
+           hidesemanaTitles();
+           hideformatoTitles();
+
+           if (buscaId == '' ) { 
+               novo_span.innerText = "";
+               display_filtro.appendChild(novo_span);
+               new_span.innerText = "";
+               display_filtro.appendChild(new_span);
+               stop.simulation() 
+           
+             } else {
+       
 // Apaga texto amigável e mostra Busca
-  novo_span.innerText = "atrações com o termo '" + buscaId +"'";
-  display_filtro.appendChild(novo_span);
+               novo_span.innerText = "atrações com o termo '" + buscaId +"'";
+               display_filtro.appendChild(novo_span);
+              }
+
+              buscaId = buscaId.toLowerCase();
+
 
 // Força para expelir não filtradas  
 var radialForceBusca = 
@@ -1098,12 +1056,10 @@ d3.forceRadial()
   .x(width/2)
   .y(height/2)
   .strength(0.15);
-
-    buscaId = buscaId.toLowerCase();
-
+   
     bubbles.transition()
-    .duration(5000)
-    .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
+           .duration(3000)
+           .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
                     ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
 
 // Cria aro dourado para ação online ou vermelho para esgotado
@@ -1122,25 +1078,15 @@ d3.forceRadial()
         return !(d.busca.toLowerCase().includes(buscaId)); 
         }));
 
-        console.log(datavis + " na busca")
-
-    simulation.force('x', d3.forceX().strength(0.1).x(nodesemanaPos));
-    simulation.force('y', d3.forceY().strength(0.1).y(nodeperiodoPos));
-//  simulation.alpha(1).restart();
+    simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
+    simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+/// inseri por minha conta para reiniciar
+    simulation.alpha(1).restart();
 
 // contador da busca textual
     tot = bubbles.size();
     filtrado = bubbles.filter(function(d) { return (d.busca.toLowerCase().includes(buscaId))}).size()
     contador(filtrado);
-
-// @v4 Reinicia a visualização
-        var datavisMem = "formatos"
-    if (filtrado == tot) {
-        atual = 'busca';
-        escolhido = '';
-        groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
-        }
 
   }
 
@@ -1152,8 +1098,12 @@ d3.forceRadial()
     }
 
     function hideunidadeTitles() {
-        svg.selectAll('.unidade_tit').remove();
+        svg.selectAll('.dia_da_semana').remove();
     }
+
+    function hideformatoTitles() {
+      svg.selectAll('.dia_da_semana').remove();
+  }
 
   /*
    * Mostra cabeçalhos semanais
@@ -1356,11 +1306,6 @@ function linkSite(d) {
   };
 
 
-//	if (formatoId == '100') {
-//      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-//                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
-//  }  
-
      groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
   };
@@ -1417,7 +1362,7 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
       var atual = "formato";
       var escolhido = button.attr('value');
 
-        var tiraCat = document.querySelector("#mySideNavCategoria");
+      var tiraCat = document.querySelector("#mySideNavCategoria");
             tiraCat.querySelector("form").reset();
             categoriaMem = '99';
             categoriaId = '99';
@@ -1429,9 +1374,6 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
                  var op = document.getElementById('ca'+arr[i]);
                      op.classList.remove('active');
             } 
-
- console.log(formatoId + ' é o formato')           
- console.log(escolhido + ' é escolhido')           
 
       foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
@@ -1601,8 +1543,6 @@ function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaI
       } else {
       var gratisId = 0;
     }
-
-    console.log(datavis + " ao ler o botão gratis")
     var atual = "gratis";
     foco()
     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
@@ -1692,7 +1632,6 @@ function foco() {
     }
 
 //	Inicia os botões
-// setupButtonsOld();
  setupButtons();
  setupButtonTudo();
  setupButtonsFiltroCategorias();
