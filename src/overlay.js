@@ -19,6 +19,12 @@ function openNavCategorias() {
   document.getElementById("mySideNavCategoria").style.display = "flex";
 }
 
+function openNavBuscaUO() {
+  document.getElementById("mySideNavBuscaUO").style.width = "100%";
+  document.getElementById("mySideNavBuscaUO").style.display = "flex";
+}
+
+
 /* Set the width of the side navigation to 0 */
 function closeNavCapital() {
   document.getElementById("mySideNavCapital").style.width = "0";
@@ -36,6 +42,12 @@ function closeNavCategorias() {
   document.getElementById("mySideNavCategoria").style.width = "0";
   document.getElementById("mySideNavCategoria").style.display = "none";
 }
+
+function closeNavBuscaUO() {
+  document.getElementById("mySideNavBuscaUO").style.width = "0";
+  document.getElementById("mySideNavBuscaUO").style.display = "none";
+}
+
 
 function on() {
   document.getElementById("overlay").style.display = "block";

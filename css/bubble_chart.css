@@ -28,15 +28,6 @@ body {
   Background-position: center center; */
 }
 
-.weekdaytxt {
-font-size: 1.1em;
-height: 1.15em;
-font-weight: bold;
-background: red;
-z-index: -2;
-opacity: 0.3;
-}
-
 .acesso {
   display: flex;
   color: #000000;
@@ -54,15 +45,15 @@ opacity: 0.3;
 
 
 a, a:visited, a:active {
-  color: #222;
+  color: #000000;
 }
 
 .miolo {
   align-items: center;
   position: fixed;
-  width: 60%;
-  top: 12%;
-  left: 14%;
+  width: 100%;
+  top: 0%;
+  left: 0%;
   bottom: 0%;
   z-index: 10;
 }
@@ -75,7 +66,6 @@ a, a:visited, a:active {
   margin: auto;
   text-align: center;
   width: 160px;
-  color: steelblue;
  }
  
 .container {
@@ -88,11 +78,12 @@ a, a:visited, a:active {
  margin: auto;
  text-align: center;
  z-index: 10;
+ color: #FFFFFF;
 }
 
 .button {
   min-width: 65px;
-  background: #f6f5f1;
+  background: lightgray;
   padding: 5px 20px;
   cursor: pointer;
   text-align: center;
@@ -101,21 +92,8 @@ a, a:visited, a:active {
   text-decoration: none;
   border-radius: 3%;
   font-weight: bold;
+  color:#000000;
 
-}
-
-.buttonTudo {
-  min-width: 100px;
-  background: rgb(164, 44, 44);
-  color: #FFFFFF;
-  padding: 5px 20px;
-  cursor: pointer;
-  text-align: center;
-  font-size: 12px;
-  border: 2px solid #797874;
-  text-decoration: none;
-  border-radius: 3%;
-  font-weight: bold;
 }
 
 .button:hover {
@@ -125,7 +103,7 @@ a, a:visited, a:active {
 }
 
 .button.active {
-  background: steelblue;
+  background: rgb(164, 44, 44); /* steelblue; */
   color: #f6f5f1;
   font-weight: bold;
 }
@@ -134,6 +112,7 @@ a, a:visited, a:active {
 .button:disabled {
   opacity: .7;
   cursor:default;
+
 }
 
 
@@ -144,18 +123,6 @@ a, a:visited, a:active {
   cursor:default;
 }
 
-
-.buttonTudo:hover {
-  background: #f6f5f1;
-  color: rgb(164, 44, 44);
-  font-weight: bold;
-}
-
-.buttonTudo.active {
-  background: rgb(164, 44, 44);
-  color: #f6f5f1;
-  font-weight: bold;
-}
 
 .buttonCat {
   min-width: 70px;
@@ -179,12 +146,10 @@ a, a:visited, a:active {
 }
 
 .buttonCat.active {
-  background: steelblue;
+  background: rgb(164, 44, 44);
    color: #f6f5f1;
   font-weight: bold;
 }
-
-
 
 #vis {
   width: 100%;
@@ -195,7 +160,7 @@ a, a:visited, a:active {
 }
 
 .toolbar {
-  color:#497aa1;
+  color:#000000;
   width: 100%;
   top: 10%;
 }
@@ -918,7 +883,7 @@ visibility: visible;
   justify-content: center;
   align-items: stretch;
   text-align: center;  
-  color: #497aa1;
+  color: #FFFFFF;
 }
 
 .g-search input {
@@ -927,20 +892,22 @@ visibility: visible;
   font: 14px sans-serif;
   font-weight: bold;
   padding: 0 8px;
-  border: solid 1px #ccc;
+  border: solid 2px #820000;
   border-radius: 4px;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);
-  color:#497aa1;
+  color: #820000;
   outline: none;
+  background-color: #FFFFFF;
+
 }
 
 .g-search .g-search-clear {
   position: absolute;
   top: 5px;
-  background: #bbb;
+  background: #FFFFFF;
   border: none;
   border-radius: 9px;
-  color: #497aa1;
+  color: #820000;
   font: 12px sans-serif;
   padding: 0;
   width: 18px;
@@ -948,8 +915,8 @@ visibility: visible;
 }
 
 .g-search .g-search-clear:hover {
-  background: #497aa1;
-  color:#497aa1;
+  background: #FFFFFF;
+  color: #820000;
 }
 
 .g-searching .circle .g-match {
@@ -1024,6 +991,7 @@ visibility: visible;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  z-index: 10;
 }
 
 .containerRadioUOs {
@@ -1038,6 +1006,7 @@ visibility: visible;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  z-index: 10;
 }
 
 .containerRadioUOsInterior {
@@ -1052,6 +1021,7 @@ visibility: visible;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  z-index: 10;
 }
 
 
@@ -1066,6 +1036,7 @@ visibility: visible;
   justify-content: center;
   align-items: center;
   padding: 5px;
+  z-index: 10;
 }
 
 .containerBar {
@@ -1073,6 +1044,7 @@ visibility: visible;
   justify-content: center;
   align-items: stretch;
   text-align: center;
+  z-index: 10;
 }
 
 .DiasDaSemanaCx {
@@ -1147,7 +1119,7 @@ visibility: visible;
   left: 26%;
   width: 180px;
   height: 36px;
-  color: steelblue;
+  color: black;
   font-weight: bold;
   font-size: 20px;
   text-align: center;
@@ -1164,7 +1136,7 @@ visibility: visible;
   left: 46%;
   width: 150px;
   height: 30px;
-  color:steelblue;
+  color:rgb(164, 44, 44);
   font-weight: bold;
   font-size: 45px;
   text-align: center;
@@ -1189,10 +1161,13 @@ visibility: visible;
   margin: auto;
   text-align: center;
   align-items: center;
-  color: steelblue;
+  color: black;
   opacity: 1;
  }
- 
+
+ .EmExibicao .Destaque {
+  background-color: gold;
+ }
 
 .escape {
   position: absolute;
@@ -1210,9 +1185,7 @@ label {
   overflow: hidden;
   margin-bottom: 0.375em;
   
-  /* Accessible outline */
-  /* Remove comment to use */
-  /*
+    /*
   	&:focus-within {
   			outline: .125em solid $primary-color;
   	}
@@ -1234,7 +1207,7 @@ input:disabled+label {
 
 
 label input:checked + span {
-  background-color: steelblue;
+  background-color: rgb(164, 44, 44);
   color: #f6f5f1;
 }
 
@@ -1262,6 +1235,7 @@ label span {
   padding: 0.375em 0.75em 0.375em 0.375em;
   border-radius: 99em;
   transition: 0.25s ease;
+  background-color: lightgray;
   color: #000000;
 
 }
@@ -1281,4 +1255,92 @@ label span:before {
   margin-right: 0.375em;
   transition: 0.25s ease;
   box-shadow: inset 0 0 0 0.125em #797874;
+}
+
+
+.zera {
+  color:#FFFFFF;
+  width: 90%;
+  position: fixed;
+  top: 0.4%;
+  right: 27%;
+  width: 120px;
+  height: 36px;
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  line-height: 20px;
+  padding: 1px;
+  margin: 1.5px;
+  font-family: Montserrat;
+  vertical-align: center;
+  z-index: 10;
+}
+
+.buttonTudo {
+  min-width: 100px;
+  max-width: 120px;
+  background: black;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 12px;
+  border: 2px solid #f6f5f1;
+  text-decoration: none;
+  border-radius: 3%;
+  font-weight: bold;
+}
+
+.buttonTudo:active {
+  background: black;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.buttonTudo:hover {
+  background: #820000;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.containerBuscaUO {
+  position: fixed;
+  color: f6f5f1;
+  font-size: 11px;
+  display: none; /* Hidden by default */
+  top: 26%;
+  height: 25px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  z-index: 10;
+}
+
+.buttonBuscaUO {
+  min-width: 120px;
+  background: #f6f5f1;
+  padding: 5px 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 11px;
+  border: 2px solid #797874;
+  text-decoration: none;
+  border-radius: 5%;
+  font-weight: bold;
+
+}
+
+.buttonBuscaUO:hover {
+  background: #AA6C39;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.buttonBuscaUO.active {
+  background: rgb(164, 44, 44);
+   color: #f6f5f1;
+  font-weight: bold;
 }

@@ -287,21 +287,25 @@
 <body class="flex flex-col items-center py-16">
 
   <div class="container">
-	<div id="busca" class="g-search"><form>
-		<input class="g-search" id="buscatextual" name="buscatextual" type="text" placeholder=" escreva aqui o que você procura ou escolha abaixo&hellip;">
-	</form>
+	<div id="busca" class="g-search">
+	 <form>
+		<input class="g-search" id="buscatextual" name="buscatextual" type="text"  placeholder=" escreva aqui o que você procura ou escolha abaixo&hellip;">
+	 </form>  
 	</div>
 	<div id="toolbar">
 	<form>
 	  <input type="button" onclick="openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
-	  <input type="button" onclick="openNavCategorias()" id="fo2" class="button" value="cursos, oficinas e aulas abertas"></input>
+	  <input type="button" onclick="openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
 	  <input type="button" onclick="openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
 	  <input type="button" onclick="openNavCategorias()" id="fo4" class="button" value="exposições"></input>
 	  <input type="button" onclick="closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
-	  <input type="button" onclick="closeNavCategorias()" id="fo6" class="button" value="passeios e excursões"></input>
-	  <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo7" class="button" value="bibliotecas"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo8" class="button" value="turismo"></input>
+	  <input type="button" onclick="closeNavCategorias()" id="fo9" class="button" value="+ lazer"></input>
 	</div>
  </form>
+
 </div>
 <div id="mySideNavCategoria" class="containerCategorias">
 	<form>
@@ -315,8 +319,9 @@
 		<input type="button" id="ca8" class="buttonCat" value="educação">
 		<input type="button" id="ca9" class="buttonCat" value="meio ambiente">
 		<input type="button" id="ca10" class="buttonCat" value="saúde">
-		<input type="button" id="ca11" class="buttonCat" value="esporte e atividade física">
-		<input type="button" id="ca14" class="buttonCat" value="outros">
+		<input type="button" id="ca11" class="buttonCat" value="atividade física">
+		<input type="button" id="ca12" class="buttonCat" value="turismo">
+		<input type="button" id="ca14" class="buttonCat" value="   +   ">
 		<input type="button" id="ca" class="buttonCat active" value="zera" hidden></input>
 	</form>
 </div>
@@ -324,8 +329,24 @@
 <!-- CONTADOR -->
   <div class="total" id="total"><span id="total"></span></div>		
   <div class="contador" id="contador"></div>
-   </div>
 
+<!-- BUSCA EXIBINDO UOs -->
+<div id="mySideNavBuscaUO" class="containerBuscaUO">
+	<form>
+	<input type="button" id="buscac" class="buttonBuscaUO" value="na gde. são paulo">
+	<input type="button" id="buscai" class="buttonBuscaUO" value="no interior / litoral">
+	<input type="button" id="buscab" class="buttonBuscaUO active" value="sem-escolha" hidden></input>
+</form>
+</div>		
+
+<!-- LIMPA TUDO -->
+  <div class="zera" id="zera">
+	<span id="zera">
+	 <form>
+		<input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros" width="100px"></input>
+	 </form>
+   </span>
+  </div>		
 
 <nav class="menu">
 <!-- AJUDA -->
@@ -381,7 +402,7 @@
 
  <table width="100%" height="800">
 	<tr height="800"><td><br></td></tr>
-	<tr><td><iframe src="vazio.html" name="portal" width="100%" height="2000" frameBorder="1"></iframe></td></tr>
+	<tr><td><iframe src="vazio.html" name="portal" width="100%" height="1200" frameBorder="0"></iframe></td></tr>
 </table>
 </body>
 </html>

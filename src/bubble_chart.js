@@ -8,14 +8,17 @@
  */
 
 // Load the data.
-d3.csv('data/orasbolasC.csv', display);
+ // d3.csv('data/orasbolasC.csv', display);
+d3.csv('data/atual-180923-29dias.csv', display);
 
 function bubbleChart() {
 
 // Janela e centro
-  var width = window.innerWidth * 0.75;
-  var height = window.innerHeight * 0.90;
-  var center = { x: width / 2, y: height / 2 };
+  var widthTotal = window.innerWidth * 1;
+  var heightTotal = window.innerHeight * 1;
+
+  var width = widthTotal*0.75+widthTotal*0.14;
+  var height = heightTotal*0.90+heightTotal*0.08;
 
 // tooltip for mouseover functionality
   var tooltip = floatingTooltip('gates_tooltip', 360);
@@ -26,26 +29,15 @@ function bubbleChart() {
   const corAll = '#CC7722'
 
 // Grid de 21 pontos em tela
-  const corrigeT = 0;
-  const corrigeW = 40;
-  const corrigeH = 0;
-  const corrigeS = 50;
-  const corrigeCab = 0.9;
-  const corrige = 0;
-  const posW = width/12;
-  const posCW = width/2;
-  const pos1W = corrigeW + width/4-posW;
-  const pos2W = corrigeW + width/4 + width/12;
-  const pos3W = corrigeW + width/4 + width/12 + width/12;
-  const pos4W = corrigeW + width/2;
-  const pos5W = corrigeW + width/2 + width/12;
-  const pos6W = corrigeW + width/2 + width/12 + width/12;
-  const pos7W = corrigeW + width/2 + width/12 + width/12 + width/12;
-  const posH = height/8;
-  const posCH = height/2;
-  const pos1H = (posCH - 2*posH);
+  const corrigeW = width/20;
+  const corrigeH = height/20;
+  const posW = width/20;
+  const posCW = corrigeW + width/2;
+  const posH = height/14;
+  const posCH = corrigeH + height/2;
+  const pos1H = (posCH - 3*posH);
   const pos2H = posCH;
-  const pos3H = (posCH + 2*posH);
+  const pos3H = (posCH + 3*posH);
 
   var datavis = "geral";
   var datavisMem = "geral";
@@ -86,163 +78,118 @@ function bubbleChart() {
   var atual = "limpar";
 
 
-// Posição da vista por semana ---------------------------------------------------------------------------
-  var semanaCenters = {
-    seg: { x: posCW-4*posW, y: height / 2 },
-    ter: { x: posCW-3*posW, y: height / 2 },
-    qua: { x: posCW-posW-posW/2, y: height / 2 },
-    qui: { x: posCW, y: height / 2 },
-    sex: { x: posCW+posW+posW/2, y: height / 2 },
-    sáb: { x: posCW+3*posW, y: height / 2 },
-    dom: { x: posCW+4*posW, y: height / 2 },
-    sempre: { x: posCW, y: pos3H-3*posH }
-  };
-
-  var formatoCenters = {
-    1: { x: posCW-4*posW, y: pos2H-2*posH }, // shows
-    2: { x: posCW-3*posW/2, y: pos2H-3*posH/2 }, // cursos
-    3: { x: posCW+posCW/2-2*posW, y: pos2H-2*posH }, // debates
-    4: { x: posCW-6*posW/2, y: pos3H-3*posH/2 }, // expos
-    5: { x: posCW-2*posW/2, y: pos3H-posH }, // filmes
-    6: { x: posCW+posW/4, y: pos3H-3*posH/2 }, // turismo
-  };
-
-  var unidadeCenters = {
-  // capital
-  52: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos1H}, // 24 de Maio
-  65: {x: posCW-posCW/2-corrigeW, y:pos1H}, // Av. Paulista
-  68: {x: posCW-posCW/4-corrigeW, y:pos1H}, // Belenzinho
-  62: {x: pos4W-2*corrigeW, y:pos1H}, // Consolação
-  58: {x: posCW+posCW/4-corrigeW, y:pos1H}, // Pinheiros
-  63: {x: posCW+posCW/2-corrigeW, y:pos1H}, // Pompeia
-  66: {x: posCW+posCW/2+posCW/4-corrigeW, y:pos1H}, // Vila Mariana
-  
-  91: {x: posCW-5*posW-corrigeW, y:pos2H-posH/4}, // Campo LImpo
-  57: {x: posCW-3*posW-posW/2-corrigeW, y:pos2H-posH/4}, // Ipiranga
-  70: {x: posCW-2*posW-posW/4-corrigeW, y:pos2H-posH/4}, // Santo Amaro
-  
-  94: {x: posCW+3*posW+posW/2-corrigeW, y:pos2H-posH/4}, // Bom Retiro
-  64: {x: posCW+2*posW+posW/4-corrigeW, y:pos2H-posH/4}, // Carmo
-  53: {x: posCW+5*posW-corrigeW, y:pos2H-posH/4}, // Santana
-  
-  59: {x: posCW-posW-corrigeW, y:pos2H+posH/4}, // Cinesesc
-  89: {x: posCW-corrigeW, y:pos2H+posH/4}, // CPF
-  61: {x: posCW+posW-corrigeW, y:pos2H+posH/4}, // Florencio
-  
-  55: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos3H-posH}, // Interlagos
-  73: {x: posCW-posCW/2-corrigeW, y:pos3H}, // Guarulhos
-  72: {x: posCW-posCW/4-corrigeW, y:pos3H}, // Mogi das Cruzes
-  95: {x: posCW-corrigeW, y:pos3H}, // Osasco
-  67: {x: posCW+posCW/4-corrigeW, y:pos3H}, // São Caetano
-  88: {x: posCW+posCW/2-corrigeW, y:pos3H}, // Santo André
-  56: {x: posCW+posCW/2+posCW/4-corrigeW, y:pos3H-posH}, // Itaquera
-  // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
-  
-  // interior
-  85: {x: posCW-4*+posW-corrigeW, y:pos1H+posH/2}, // Birigui
-  
-  84: {x: posCW-2*+posW-posW/2-corrigeW, y:pos1H+posH/2}, // Rio Preto
-  79: {x: posCW-posW-corrigeW, y:pos1H+posH/2}, // Catanduva
-  76: {x: posCW+posW-corrigeW, y:pos1H+posH/2}, // Ribeirão
-
-  86: {x: posCW+3*posW-posW/2-corrigeW, y:pos1H+posH/2}, // Araraquara
-  82: {x: posCW+4*posW-corrigeW, y:pos1H+posH/2}, // São Carlos
-
-  80: {x: posCW-corrigeW, y:pos2H}, // Bauru
-  83: {x: posCW-3*posW-corrigeW, y:pos2H}, // Piracicaba
-  96: {x: posCW-posW-posW/2-corrigeW, y:pos2H}, // Sorocaba
-  75: {x: posCW+posW, y:pos2H}, // Campinas
-  93: {x: posCW+3*posW-posW/2-corrigeW, y:pos2H}, // Jundiaí
-
-  87: {x: posCW-posCW/2-posCW/4-corrigeW, y:pos2H}, // Prudente
-  
-  92: {x: posCW-posCW/2+posCW/4-corrigeW, y:pos3H-posH/2}, // Registro
-  78: {x: posCW-corrigeW, y:pos3H-posH}, // Santos
-  71: {x: posCW+posCW/4-corrigeW, y:pos3H-posH}, // Bertioga
-
-  77: {x: posCW+3*posW-corrigeW, y:pos3H-posH/2}, // São José
-  81: {x: posCW+posCW/2+posCW/4-2*corrigeW, y:pos2H}, // Taubaté 
-};
-
+  // Posição central pelo proximidade da ação
   var periodoCenters = {
-    thisW: { y: posCH-posH},
-    nextW: { y: posCH-posH/2},
-    thisM: { y: posCH},
-    nextM: { y: posCH+posH/2},
-    sempre: { y: pos3H-posH/2}
+    thisW: { y: posCH-posH-corrigeH},
+    nextW: { y: posCH-posH/2-corrigeH},
+    thisM: { y: posCH-corrigeH},
+    nextM: { y: posCH+posH/2-corrigeH},
+    sempre: { y: pos3H+3*posH/2-corrigeH}
   };
 
-  // Cabeçalhos da visão por semana.
+  // posição central dos cabeçalhos da visão por semana.
   var semanasTitleX = {
-    seg: posCW-4*posW-corrigeS, 
-    ter: posCW-3*posW+posW/4-corrigeS, 
-    qua: posCW-posW-posW/2-corrigeS, 
-    qui: posCW-corrigeS, 
-    sex: posCW+posW+posW/2-corrigeS, 
-    sáb: posCW+3*posW-posW/4-corrigeS, 
-    dom: posCW+4*posW-corrigeS,
-    sempre: posCW-corrigeS 
+    seg: posCW-6*posW, 
+    ter: posCW-4*posW, 
+    qua: posCW-2*posW, 
+    qui: posCW, 
+    sex: posCW+2*posW, 
+    sáb: posCW+4*posW, 
+    dom: posCW+6*posW,
+    sempre: posCW 
   };
 
   var semanasTitleY = {
-    seg: pos3H-posH, 
-    ter: pos3H-posH,
-    qua: pos3H-posH,
-    qui: pos3H-posH,
-    sex: pos3H-posH,
-    sáb: pos3H-posH,
-    dom: pos3H-posH,
-    sempre: pos3H+posH
+    seg: pos3H-2*posH+posH/2, 
+    ter: pos3H-2*posH+posH/2,
+    qua: pos3H-2*posH+posH/2,
+    qui: pos3H-2*posH+posH/2,
+    sex: pos3H-2*posH+posH/2,
+    sáb: pos3H-2*posH+posH/2,
+    dom: pos3H-2*posH+posH/2,
+    sempre: pos3H+5*posH/2
   };
 
-// Cabeçalhos da visão por formato.
-   var formatosTitleX = {
-      1: posCW/2, // shows
-      2: posCW, // cursos
-      3: posCW+posCW/2, // debates
-      4: posCW-2*posW, // expos
-      5: posCW, // filmes
-      6: posCW+2*posW, // turismo
-    };
-
-   var formatosTitleY = {
-    1: pos2H+corrigeH, 
-    2: pos2H+corrigeH, 
-    3: pos2H+corrigeH, 
-    4: pos3H+corrigeH, 
-    5: pos3H+corrigeH+60, 
-    6: pos3H+corrigeH, 
+// Centro das posições da vista por semana ---------------------------------------------------------------------------
+  var semanaCenters = {
+    seg: { x: posCW-6*posW, y: height / 2 },
+    ter: { x: posCW-4*posW, y: height / 2 },
+    qua: { x: posCW-2*posW, y: height / 2 },
+    qui: { x: posCW, y: height / 2 },
+    sex: { x: posCW+2*posW, y: height / 2 },
+    sáb: { x: posCW+4*posW, y: height / 2 },
+    dom: { x: posCW+6*posW, y: height / 2 },
+    sempre: { x: posCW, y: pos3H+3*posH/2-corrigeH }
   };
-  
+
+// Centro dos cabeçalhos da visão por formato
+var formatosTitleX = {
+  1: posCW, // shows
+  2: posCW-4*posW, // cursos
+  3: posCW+4*posW, // debates
+  4: posCW, // expos
+  5: posCW, // filmes
+  6: posCW-2*posW, // atividade física
+  7: posCW-5*posW, // bibliotecas
+  8: posCW+2*posW, // turismo
+  9: posCW+4*posW, // +lazer
+};
+
+var formatosTitleY = {
+1: pos1H+posH+corrigeH, 
+2: pos2H+corrigeH, 
+3: pos2H+corrigeH, 
+4: pos2H+posH+corrigeH, 
+5: pos3H+2*posH, 
+6: pos3H, 
+7: pos1H, 
+8: pos3H, 
+9: pos3H, 
+
+};
+
+// Centro das ações
+  var formatoCenters = {
+    1: { x: posCW-corrigeW, y: pos2H-3*posH }, // shows
+    2: { x: posCW-4*posW-corrigeW, y: pos2H-posH/2 }, // cursos
+    3: { x: posCW+4*posW-corrigeW, y: pos2H-posH/2 }, // debates
+    4: { x: posCW-corrigeW-corrigeW/3, y: pos3H-3*posH }, // expos
+    5: { x: posCW-corrigeW, y: pos3H+3*posH/5 }, // filmes
+    6: { x: posCW-2*posW-corrigeW, y: pos3H-3*posH/2 }, // esporte
+    7: { x: posCW-5*posW-corrigeW, y: pos1H-posH }, // biblio
+    8: { x: posCW+2*posW-corrigeW, y: pos3H-3*posH/2 }, // turismo
+    9: { x: posCW+4*posW-corrigeW, y: pos3H-3*posH/2 }, // lazer
+  };
+
 // Cabeçalhos da visão por unidades da capital.
 var unidadesTitleXCap = {
-  52: posCW-posCW/2-posCW/4, // 24 de Maio
-  65: posCW-posCW/2, // Av. Paulista
-  68: posCW-posCW/4, // Belenzinho
+  52: posCW-6*posW, // 24 de Maio
+  65: posCW-4*posW, // Av. Paulista
+  68: posCW-2*posW, // Belenzinho
   62: posCW, // Consolação
-  58: posCW+posCW/4, // Pinheiros
-  63: posCW+posCW/2, // Pompeia
-  66: posCW+posCW/2+posCW/4, // Vila Mariana
+  58: posCW+2*posW, // Pinheiros
+  63: posCW+4*posW, // Pompeia
+  66: posCW+6*posW, // Vila Mariana
 
-  91: posCW-5*posW, // Campo LImpo
-  57: posCW-3*posW-posW/2, // Ipiranga
+  91: posCW-6*posW-posW/4, // Campo LImpo
+  57: posCW-4*posW-posW/4, // Ipiranga
   70: posCW-2*posW-posW/4, // Santo Amaro
   
-  94: posCW+3*posW+posW/2, // Bom Retiro
-  64: posCW+2*posW+posW/4, // Carmo
-  53: posCW+5*posW, // Santana
+  94: posCW+2*posW+posW/4, // Bom Retiro
+  64: posCW+4*posW+posW/4, // Carmo
+  53: posCW+6*posW+posW/4, // Santana
   
-  59: posCW-posW, // Cinesesc
+  59: posCW-2*posW, // Cinesesc
   89: posCW, // CPF
-  61: posCW+posW, // Florencio
+  61: posCW+2*posW, // Florencio
   
-  55: posCW-posCW/2-posCW/4, // Interlagos
+  55: posCW-5*posW, // Interlagos
   73: posCW-posCW/2, // Guarulhos
   72: posCW-posCW/4, // Mogi das Cruzes
   95: posCW, // Osasco
   67: posCW+posCW/4, // São Caetano
   88: posCW+posCW/2, // Santo André
-  56: posCW+posCW/2+posCW/4, // Itaquera
+  56: posCW+5*posW, // Itaquera
   // 74: pos6W, // Dom Pedro
     
 };
@@ -264,39 +211,95 @@ var unidadesTitleYCap = {
   70: pos2H+posH/2, // Santo Amaro
   64: pos2H+posH/2, // Carmo
 
-  59: pos2H+posH, // Cinesesc
-  89: pos2H+posH, // CPF
-  61: pos2H+posH, // Florencio
+  59: pos2H+2*posH+posH/2, // Cinesesc
+  89: pos2H+2*posH+posH/2, // CPF
+  61: pos2H+2*posH+posH/2, // Florencio
 
   55: pos3H, // Interlagos
-  73: pos3H+posH, // Guarulhos
-  72: pos3H+posH, // Mogi das Cruzes
-  95: pos3H+posH, // Osasco
-  88: pos3H+posH, // Santo André
-  67: pos3H+posH, // São Caetano
+  73: pos3H+posH+posH, // Guarulhos
+  72: pos3H+posH+posH, // Mogi das Cruzes
+  95: pos3H+posH+posH, // Osasco
+  88: pos3H+posH+posH, // Santo André
+  67: pos3H+posH+posH, // São Caetano
   56: pos3H, // Itaquera
-  
 };
+
+  var unidadeCenters = {
+  // capital
+  52: {x: posCW-6*posW-corrigeW, y:pos1H}, // 24 de Maio
+  65: {x: posCW-4*posW-corrigeW, y:pos1H}, // Av. Paulista
+  68: {x: posCW-2*posW-corrigeW, y:pos1H}, // Belenzinho
+  62: {x: posCW-corrigeW, y:pos1H}, // Consolação
+  58: {x: posCW+2*posW-corrigeW, y:pos1H}, // Pinheiros
+  63: {x: posCW+4*posW-corrigeW, y:pos1H}, // Pompeia
+  66: {x: posCW+6*posW-corrigeW, y:pos1H}, // Vila Mariana
+  
+  91: {x: posCW-6*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Campo LImpo
+  57: {x: posCW-4*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Ipiranga
+  70: {x: posCW-2*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Santo Amaro
+  
+  94: {x: posCW+2*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Bom Retiro
+  64: {x: posCW+4*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Carmo
+  53: {x: posCW+6*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Santana
+  
+  59: {x: posCW-2*posW-corrigeW, y:pos2H+posH+posH/2}, // Cinesesc
+  89: {x: posCW-corrigeW, y:pos2H+posH+posH/2}, // CPF
+  61: {x: posCW+2*posW-corrigeW, y:pos2H+posH+posH/2}, // Florencio
+  
+  55: {x: posCW-5*posW-corrigeW, y:pos3H-posH}, // Interlagos
+  73: {x: posCW-posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Guarulhos
+  72: {x: posCW-posCW/4-corrigeW, y:pos3H+posH-posH/4}, // Mogi das Cruzes
+  95: {x: posCW-corrigeW, y:pos3H+posH-posH/4}, // Osasco
+  67: {x: posCW+posCW/4-corrigeW, y:pos3H+posH-posH/4}, // São Caetano
+  88: {x: posCW+posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Santo André
+  56: {x: posCW+5*posW-corrigeW, y:pos3H-posH}, // Itaquera
+  // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
+  
+  // interior
+  85: {x: posCW-5*posW-corrigeW, y:pos1H}, // Birigui
+  84: {x: posCW-3*posW-corrigeW, y:pos1H}, // Rio Preto
+  79: {x: posCW-2*posW+posW/2-corrigeW, y:pos1H}, // Catanduva
+  76: {x: posCW+posW-corrigeW, y:pos1H}, // Ribeirão
+  86: {x: posCW+3*posW+posW/2-corrigeW, y:pos1H}, // Araraquara
+  82: {x: posCW+5*posW+posW/2-corrigeW, y:pos1H}, // São Carlos
+
+  87: {x: posCW-6*posW-corrigeW, y:pos2H}, // Prudente
+  80: {x: posCW-4*posW-corrigeW, y:pos2H}, // Bauru
+  83: {x: posCW-2*posW-corrigeW, y:pos2H}, // Piracicaba
+  96: {x: posCW-corrigeW, y:pos2H}, // Sorocaba
+  75: {x: posCW+2*posW-corrigeW, y:pos2H}, // Campinas
+  93: {x: posCW+4*posW-corrigeW, y:pos2H}, // Jundiaí
+  81: {x: posCW+6*posW-corrigeW, y:pos2H}, // Taubaté 
+  
+  92: {x: posCW-3*posW-corrigeW, y:pos3H-posH}, // Registro
+  78: {x: posCW-corrigeW, y:pos3H+posH}, // Santos
+  71: {x: posCW+2*posW-corrigeW, y:pos3H+posH}, // Bertioga
+
+  77: {x: posCW+5*posW-corrigeW, y:pos3H-posH}, // São José
+};
+
 
 // Cabeçalhos da visão por unidades do interior.
 var unidadesTitleXInt = {
-  85: posCW-4*+posW, 
-  84: posCW-2*+posW-posW/2, 
-  79: posCW-posW, 
+  85: posCW-5*posW, 
+  84: posCW-3*posW, 
+  79: posCW-2*posW+posW/2, 
   76: posCW+posW, 
-  86: posCW+3*posW-posW/2, 
-  82: posCW+4*posW, 
-  80: posCW, 
-  83: posCW-3*posW, 
-  96: posCW-posW-posW/2, 
-  75: posCW+posW+posW/2, 
-  93: posCW+3*posW, 
-  87: posCW-posCW/2-posCW/4, 
-  92: posCW-posCW/2+posCW/4, 
+  86: posCW+3*posW+posW/2, 
+  82: posCW+5*posW+posW/2, 
+
+  87: posCW-6*posW, 
+  80: posCW-4*posW, 
+  83: posCW-2*posW, 
+  96: posCW, 
+  75: posCW+2*posW, 
+  93: posCW+4*posW, 
+  81: posCW+6*posW, 
+  
+  92: posCW-3*posW, 
   78: posCW, 
-  71: posCW+posCW/4, 
-  77: posCW+3*posW, 
-  81: posCW+posCW/2+posCW/4, 
+  71: posCW+2*posW, 
+  77: posCW+5*posW, 
 };
 
 var unidadesTitleYInt = {
@@ -306,24 +309,27 @@ var unidadesTitleYInt = {
   76: pos1H+posH, 
   86: pos1H+posH, 
   82: pos1H+posH, 
-  80: pos2H+posH, 
-  83: pos2H+posH, 
-  96: pos2H+posH, 
-  75: pos2H+posH, 
-  93: pos2H+posH, 
-  87: pos2H+posH, 
-  92: pos3H+posH/2, 
-  78: pos3H+posH, 
-  71: pos3H+posH, 
-  77: pos3H+posH/2, 
-  81: pos2H+posH, 
+
+  87: pos2H+posH+posH/4, 
+  80: pos2H+posH+posH/4, 
+  83: pos2H+posH+posH/4, 
+  96: pos2H+posH+posH/4, 
+  75: pos2H+posH+posH/4, 
+  93: pos2H+posH+posH/4, 
+  81: pos2H+posH+posH/4, 
+
+  92: pos3H+posH/4, 
+  78: pos3H+2*posH+posH/4, 
+  71: pos3H+2*posH+posH/4, 
+  77: pos3H+posH/4, 
 };
   
 
 
+
   var fillformatos = d3.scaleOrdinal()
-  .domain([1, 2, 3, 4, 5, 6, 7, 8])
-  .range(["shows", "cursos", "debates", "expos", "filmes", "turismo", "lazer", "piscinas"]);
+  .domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
+  .range(["shows e espetáculos", "cursos e oficinas", "debates e palestras", "exposições", "filmes", "atividade física", "bibliotecas","turismo", "+lazer"]);
 
    var fillunidadesCap = d3.scaleOrdinal()
    .domain([52,53,55,56,57,58,59,61,62,63,64,65,66,67,68,70,72,73,88,89,91,94,95])
@@ -360,16 +366,17 @@ var unidadesTitleYInt = {
   // @v4 We create a force simulation now and add forces to it.
 
   var simulation = d3.forceSimulation()
-    .velocityDecay(0.25)
-    .force('x', d3.forceX().strength(forceStrength).x(center.x))
+    .velocityDecay(0.3)
+    .force('x', d3.forceX().strength(forceStrength).x(posCW))
     .force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos))
     .force('charge', d3.forceManyBody().strength(charge))
     .on('tick', ticked);
 
-  // @v4 Force starts up automatically, which we don't want as there aren't any nodes yet.
-  simulation.stop();
+// @v4 Force starts up automatically, which we don't want as there aren't any nodes yet.
+     simulation.stop();
+  
 
-  // Define as cores
+// Define as cores
   var fillColor = d3.scaleOrdinal()
         .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
         .range([corAzul, corAzul, corAzul, corAzul, corAzul, corLaranja, corLaranja, corAll]);
@@ -426,10 +433,11 @@ var unidadesTitleYInt = {
 		    dispositivo: d.dispositivo,
         datainicial: d.datainicial,
         datafinal: d.datafinal,
+        data: d.data_sessao,
         hora: d.hora,
+//        sinopse: d.sinopse,
         x: Math.random() * 900,
         y: Math.random() * 800
-//        sinopse: d.sinopse,
 
       };
     });
@@ -457,8 +465,8 @@ var unidadesTitleYInt = {
     // with desired size.
     svg = d3.select(selector)
             .append('svg')
-            .attr('width', width)
-            .attr('height', height);
+            .attr('width', widthTotal)
+            .attr('height', heightTotal);
 
     // associa os dados dos nós aos elementos DOM que os representará na visualização.
     bubbles = svg.selectAll('.bubble')
@@ -525,6 +533,8 @@ var unidadesTitleYInt = {
 // Set initial layout to single group.
     var datavisMem = "geral";
     var atual = "limpar";
+    var temporalId = "agora";
+    var regiaoId = "capital";
     groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
       acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
  };
@@ -566,7 +576,7 @@ var unidadesTitleYInt = {
   }
 
   function nodeunidadeYPos(d) {
-    return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/50);
+    return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/20);
   }
 
 // Função que separa o que não foi filtrado e joga pra fora
@@ -591,6 +601,7 @@ function contador(current_count){
 function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                       acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
 
+         closeNavBuscaUO();
          hidesemanaTitles();
 
 // Transições 
@@ -653,21 +664,21 @@ function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,grati
     (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
   ) ? 1 : 3});
 
- if (datavisMem == "unidades" || datavisMem == "agenda" || atual == "regiao" || datavisMem == "formatos" ) {
-      var circulo = height*0.95; 
-      var forceStrength = 0.05;
-      var forceStrengthRadial = 0.2; 
+ if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
+      var circulo = heightTotal*0.98; 
+      var forceStrength = 0.08;
+      var forceStrengthRadial = 0.3; 
     } else {
-      var circulo = height*0.8;
-      var forceStrength = 0.03;
-      var forceStrengthRadial = 0.15; 
+      var circulo = heightTotal*0.75;
+      var forceStrength = 0.06;
+      var forceStrengthRadial = 0.2; 
     }
 
 // Força radial para afastar as ações não filtradas
    var radialForce = d3.forceRadial()
                        .radius(circulo)
-                       .x(width/2)
-                       .y(height/2)
+                       .x(widthTotal/2)
+                       .y(heightTotal/2)
                        .strength(forceStrengthRadial);
     
 // 	envia para as bordas as ações que não estão filtradas
@@ -693,7 +704,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
       showunidadeTitles();
       simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
       simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
-      simulation.alpha(1).restart();
+//      simulation.alpha(1).restart();
       var datavis = "unidades";
       var datavisMem = "unidades";
   
@@ -703,7 +714,7 @@ simulation.force("r", isolate(radialForce, function(d) { return (
             showformatoTitles();
             simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
             simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
-            simulation.alpha(1).restart();
+  //          simulation.alpha(1).restart();
 
             } else if (datavisMem == "agenda") {
                // por Agenda
@@ -711,17 +722,23 @@ simulation.force("r", isolate(radialForce, function(d) { return (
                showsemanaTitles();
                simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
                simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
-               simulation.alpha(1).restart();
+//               simulation.alpha(1).restart();
                var datavis = "agenda";
 
                } else if (datavisMem == "geral") {
                  // @v4 Zera a força 'x' para levar tudo ao centro.
                 hidesemanaTitles();
-                simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
-                simulation.force('y', d3.forceY().strength(forceStrength).y(center.y));
-                simulation.alpha(1).restart();
+                simulation.force('x', d3.forceX().strength(forceStrength).x(posCW));
+                simulation.force('y', d3.forceY().strength(forceStrength).y(posCH));
                                    
-      } else { simulation.stop() };
+      } else { 
+        simulation.stop() };
+
+// separar as bolhas
+      simulation.force('collision', 
+              d3.forceCollide()
+                .radius(function(d) { return d.radius+1.5 }))
+      simulation.alpha(1).restart();
 
 
 // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
@@ -833,7 +850,7 @@ contador(filtrado);
     }
 
 if (atual != "categoria") {
-  var arr = ['1','2','3','4','5','6','7','8','9','10','11','14'];
+  var arr = ['1','2','3','4','5','6','7','8','9','10','11','12','14'];
   for(var i=0; i < arr.length; i++) { 
 
     document.getElementById(`ca${arr[i]}`).disabled = false; 
@@ -851,6 +868,48 @@ if (atual != "categoria") {
           } 
     }
 }
+
+
+if (atual == "limpar") {
+  document.getElementById("agora").checked = true; 
+  document.getElementById("proxima").checked = false; 
+  document.getElementById("depois").checked = false; 
+  document.getElementById("todos").checked = true; 
+  document.getElementById("capital").checked = true; 
+  document.querySelector('#online').checked = false; 
+  document.querySelector('#gratis').checked = false; 
+  document.querySelector('#venda').checked = false; 
+  document.querySelector('#acessivel').checked = false; 
+  closeNavInterior();
+  openNavCapital();
+  arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+             65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+             78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+             89, 91, 92, 93, 94, 95, 96];
+  
+  arr_formatos = [1, 2, 3, 4, 5,6, 7, 8, 9];
+ 
+// Zera unidades             
+      for(var i=0; i < arr_uos.length; i++) { 
+          document.getElementById("uo"+arr_uos[i]).checked = false; 
+         }
+
+// Zera formatos
+var tiraFormato = document.querySelector("#toolbar");
+    tiraFormato.querySelector("form").reset();
+    formatoMem = '100';
+    formatoId = '100';
+    arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    for(var i=0; i < arr.length; i++) { 
+        var op = document.getElementById('fo'+arr[i]);
+            op.classList.remove('active');
+      } 
+
+
+}
+
+
 
 // tira as opções zeradas em unidades
  if (atual != "unidade") {
@@ -1001,32 +1060,28 @@ if (atual != "acessibilidade") {
           AcessivelMem = null;
         } 
   }
-
-  if (atual == "limpar") {
-      document.getElementById("agora").checked = true; 
-      document.getElementById("todos").checked = true; 
-      document.getElementById("capital").checked = true; 
-      document.querySelector('#online').checked = false; 
-      document.querySelector('#gratis').checked = false; 
-      document.querySelector('#venda').checked = false; 
-      document.querySelector('#acessivel').checked = false; 
-      closeNavInterior();
-      openNavCapital();
-      arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
-                 65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
-                 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
-                 89, 91, 92, 93, 94, 95, 96];
-
-          for(var i=0; i < arr_uos.length; i++) { 
-              document.getElementById("uo"+arr_uos[i]).checked = false; 
-             }
-    }
-
+  
 }
 
 // Visualização de Busca --------------------------------------------------------------------------------
 
-  function buscaBubbles(buscaId) {
+  function buscaBubbles(buscaId,datavisMem,regiaoBuscaId) {
+
+    console.log('buscaId: ' + buscaId);
+    console.log('datavisMem: ' + datavisMem);
+    console.log('regiaoBuscaId: ' + regiaoBuscaId);
+    
+    
+
+    if (datavisMem == "geral" || atual == "limpar") {
+        var regiaoMem = "capital";
+        groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
+                     acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
+        simulation.stop();
+    }
+
+       var datavisMem = "busca";
+       var atual = "busca";
 
            hideunidadeTitles();
            hidesemanaTitles();
@@ -1037,7 +1092,8 @@ if (atual != "acessibilidade") {
                display_filtro.appendChild(novo_span);
                new_span.innerText = "";
                display_filtro.appendChild(new_span);
-               stop.simulation() 
+               simulation.stop();  
+
            
              } else {
        
@@ -1052,13 +1108,13 @@ if (atual != "acessibilidade") {
 // Força para expelir não filtradas  
 var radialForceBusca = 
 d3.forceRadial()
-  .radius(width*0.75)
-  .x(width/2)
-  .y(height/2)
-  .strength(0.15);
+  .radius(width*0.60)
+  .x(widthTotal/2)
+  .y(heightTotal/2)
+  .strength(0.02);
    
     bubbles.transition()
-           .duration(3000)
+           .duration(1500)
            .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
                     ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
 
@@ -1074,21 +1130,66 @@ d3.forceRadial()
             ? "url(#" + d.destaque + ")" : !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : fillColor(d.dia_da_semana)});
 
 // 	joga para o canto as ações que não estão filtradas
-    simulation.force("r", isolate(radialForceBusca, function(d) { 
-        return !(d.busca.toLowerCase().includes(buscaId)); 
-        }));
+simulation.force("r", isolate(radialForceBusca, function(d) { 
+  return !(d.busca.toLowerCase().includes(buscaId)); 
+  }));
 
-    simulation.force('x', d3.forceX().strength(forceStrength).x(center.x));
-    simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
-/// inseri por minha conta para reiniciar
-    simulation.alpha(1).restart();
+  console.log(regiaoBuscaId);
+
+    if (regiaoBuscaId == "buscac") {
+        showunidadeTitles();
+        simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
+        simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
+    } else if (regiaoBuscaId == "buscai") {
+        simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
+        simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
+    } else {
+        simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
+        simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+    }
+
+
+// inseri por minha conta para reiniciar
+   simulation.alpha(1).restart();
 
 // contador da busca textual
     tot = bubbles.size();
     filtrado = bubbles.filter(function(d) { return (d.busca.toLowerCase().includes(buscaId))}).size()
     contador(filtrado);
 
-  }
+   openNavBuscaUO();
+   document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
+
+
+// problema a resolver:
+// não perder o valor de BUscaID para retornar 
+function setupButtonsBuscaUO() {
+  d3.select('#mySideNavBuscaUO')
+    .selectAll('.buttonBuscaUO')
+    .on('click', function () {
+      // Remove active class from all buttons
+      d3.selectAll('.buttonBuscaUO').classed('active', false);
+      // Find the button just clicked
+      var button = d3.select(this);
+
+      // Set it as the active button
+      button.classed('active', true);
+
+      // Get the id of the button
+      var regiaoBuscaId = button.attr('id');
+      var datavis = "unidades";
+      console.log(buscaId + ' no botão');
+     // foco();
+
+      myBubbleChart.toggleDisplay(buscaId,datavis,regiaoBuscaId);
+    });
+}
+setupButtonsBuscaUO();
+
+
+}
+
+
 
 /*
 * Oculta cabeçalhos.
@@ -1183,12 +1284,11 @@ foco();
 // tratamento de variáveis para exibição
    const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
    const formataData = d3.timeFormat("%d.%m.%Y");
-   const formataHora = d3.timeFormat("%Hh%M");
     
     if (d.exibirdatas == "de-ate") {
       var exibedata = 'De ' + formataData(StrToData(d.datainicial)) + ' até ' + formataData(StrToData(d.datafinal));
     } else {
-      var exibedata = '' + d.dia_da_semana + ', ' + formataData(StrToData(d.datainicial))  + ' ' + formataHora(StrToData(d.hora)) ;
+      var exibedata = '' + d.dia_da_semana + ', ' + formataData(StrToData(d.data))  + ' ' + d.hora ;
     }
     
     if (d.online == 1) {
@@ -1251,13 +1351,20 @@ function linkSite(d) {
   /*
    * Opções de interação do usuário
    */
-//  chart.toggleDisplay = function (displayName) {
   chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                   acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                   {
+console.log('buscaId: ' + formatoId);
+console.log('regiaoId: ' + regiaoId);
+console.log('regiaobuscaId: ' + temporalId);
 
   //	GUARDA AS ÚLTIMAS ESCOLHAS
-  if (regiaoId != null) {
+  if (temporalId == "buscac" || temporalId == "buscai") {
+
+      buscaBubbles(formatoId,regiaoId,temporalId);
+
+
+  } else if (regiaoId != null) {
     regiaoMem = regiaoId; 
   };
 
@@ -1326,8 +1433,11 @@ function linkSite(d) {
     this.value = ""
     this.blur()
   }
-  buscaId = this.value; 
-  buscaBubbles(buscaId);
+    regiaoBuscaId = "sem-escolha";
+    buscaId = this.value; 
+    var buscaMem = buscaId;
+    buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
+  
 };
 
 
@@ -1345,6 +1455,7 @@ function display(error, data) {
 }
 
 // Configura os botões utilizados pelo usuário para escolher a visualização
+
 function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#toolbar')
     .selectAll('.button')
@@ -1369,7 +1480,7 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
 
         var datavis = "unidades";
 
-            arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
+            arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '14'];
              for(var i=0; i < arr.length; i++) { 
                  var op = document.getElementById('ca'+arr[i]);
                      op.classList.remove('active');
@@ -1381,7 +1492,7 @@ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,a
 }
 
 function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
-  d3.select('#toolbar')
+  d3.select('#zera')
     .selectAll('.buttonTudo')
     .on('click', function () {
       // Remove active class from all buttons
@@ -1437,7 +1548,6 @@ function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,ve
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
 }
-
 
 function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#temporal')
@@ -1533,7 +1643,6 @@ function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId
 
 }
 
-
 function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
  
     var gratis = document.querySelector('#gratis');
@@ -1548,7 +1657,6 @@ function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaI
     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
-
 
 function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
 
@@ -1567,7 +1675,6 @@ function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,ven
     });
 }
 
-
 function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   	var online = document.querySelector('#online');
         online.addEventListener('change', function(element) {
@@ -1585,7 +1692,6 @@ function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaI
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
     });
 }
-
 
 function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
   d3.select('#unidades')
@@ -1625,6 +1731,7 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
     });
 }
+
 
 function foco() {
     document.getElementById('buscatextual').focus();
