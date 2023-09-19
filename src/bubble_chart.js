@@ -9,7 +9,7 @@
 
 // Load the data.
  // d3.csv('data/orasbolasC.csv', display);
-d3.csv('data/atual-180923-29dias.csv', display);
+d3.csv('data/atual-200923-29dias.csv', display);
 
 function bubbleChart() {
 
@@ -792,6 +792,17 @@ filtroAplicadoSemTempo = bubbles.filter(function(d) { return !(
   (d.publico != publicoMem && publicoMem != 'todos')
 );})
 
+filtroAplicadoSemRegiao = bubbles.filter(function(d) { return !(
+  (d.gratis != 1 && gratisMem == 1) || 
+  (d.ingresso != 0 && vendaMem == 1) || 
+  (d.cod_formato != formatoMem && formatoMem != '100') || 
+  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+  (d.filtra_dataF != temporalMem && temporalMem != 'todos') ||
+  (d.online != 1 && onlineMem == 1) ||
+  (d.tem != 1 && acessivelMem == 1) ||
+  (d.publico != publicoMem && publicoMem != 'todos')
+);})
+
 filtrado = filtroAplicado.size();
 contador(filtrado);
 
@@ -973,6 +984,43 @@ if (atual != "publico") {
   }
 }
 
+
+// tira as opções zeradas em Região
+
+if (atual != "regiao") {
+  var arr = ['capital','interior'];
+  for(var i=0; i < arr.length; i++) { 
+
+    document.getElementById(arr[i]).disabled = false; 
+
+ if (formatoMem != '100' && formatoMem != '') {
+
+    tem = filtroAplicadoSemRegiao.filter(function(d) { return (
+          d.regiao == arr[i] 
+          && d.cod_formato == formatoMem
+          );}).size();
+          if (tem == 0) {  
+            document.getElementById(arr[i]).checked = false; 
+            document.getElementById(arr[i]).disabled = true; 
+            regiaoMem = 'todos';
+          } 
+    } else {
+      tem = filtroAplicadoSemRegiao.filter(function(d) { return (
+        d.regiao == arr[i]
+        );}).size();
+        if (tem == 0) {  
+          document.getElementById(arr[i]).checked = false; 
+          document.getElementById(arr[i]).disabled = true; 
+          regiaoMem = 'todos';
+        } 
+    }
+  }
+}
+
+
+
+
+
 // tira as opções zeradas NAS DATAS
 
 if (atual != "temporal") {
@@ -1065,11 +1113,10 @@ if (atual != "acessibilidade") {
 
 // Visualização de Busca --------------------------------------------------------------------------------
 
-  function buscaBubbles(buscaId,datavisMem,regiaoBuscaId) {
+  function buscaBubbles(buscaId,regiaoId,datavisMem) {
 
-    console.log('buscaId: ' + buscaId);
-    console.log('datavisMem: ' + datavisMem);
-    console.log('regiaoBuscaId: ' + regiaoBuscaId);
+    console.log('buscaId no começo da busca: ' + buscaId);
+    console.log('regiaoId no começo da busca: ' + regiaoId);
     
     
 
@@ -1104,7 +1151,6 @@ if (atual != "acessibilidade") {
 
               buscaId = buscaId.toLowerCase();
 
-
 // Força para expelir não filtradas  
 var radialForceBusca = 
 d3.forceRadial()
@@ -1134,19 +1180,30 @@ simulation.force("r", isolate(radialForceBusca, function(d) {
   return !(d.busca.toLowerCase().includes(buscaId)); 
   }));
 
-  console.log(regiaoBuscaId);
+  console.log('buscaId antes da bifurcação: ' + buscaId);
+  console.log('regiaoId antes da bifurcação: ' + regiaoId);
 
-    if (regiaoBuscaId == "buscac") {
-        showunidadeTitles();
+    if (regiaoId == "capital") {
+        var regiaoMem = 'capital'
+        console.log(' 1 ');
+        showunidadeTitles(regiaoMem);
         simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
         simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
-    } else if (regiaoBuscaId == "buscai") {
+
+    } else if (regiaoId == "interior") {
+      console.log(' 2 ');
+      var regiaoMem = 'interior'
+        showunidadeTitles(regiaoMem);
         simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
         simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
+
     } else {
+      console.log(' 3 ');
         simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
         simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+
     }
+    console.log(' 4 ');
 
 
 // inseri por minha conta para reiniciar
@@ -1177,11 +1234,11 @@ function setupButtonsBuscaUO() {
 
       // Get the id of the button
       var regiaoBuscaId = button.attr('id');
-      var datavis = "unidades";
+      var datavis = "busca";
       console.log(buscaId + ' no botão');
      // foco();
 
-      myBubbleChart.toggleDisplay(buscaId,datavis,regiaoBuscaId);
+      myBubbleChart.toggleDisplay(buscaId,regiaoBuscaId,datavis);
     });
 }
 setupButtonsBuscaUO();
@@ -1243,9 +1300,9 @@ setupButtonsBuscaUO();
 * Mostra cabeçalhos de unidades
 */
   
-function showunidadeTitles() {
+function showunidadeTitles(regiaoMem) {
 
-  if (regiaoMem == 'capital') {
+  if (regiaoMem == 'capital' || regiaoId == 'capital') {
 
       var unidadesData = d3.keys(unidadesTitleXCap);
       var unidades = svg.selectAll('.dia_da_semana').data(unidadesData);
@@ -1354,14 +1411,21 @@ function linkSite(d) {
   chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                   acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                   {
-console.log('buscaId: ' + formatoId);
+console.log('buscaId no toggle display: ' + formatoId);
 console.log('regiaoId: ' + regiaoId);
-console.log('regiaobuscaId: ' + temporalId);
+console.log('datavisMem: ' + temporalId);
 
   //	GUARDA AS ÚLTIMAS ESCOLHAS
-  if (temporalId == "buscac" || temporalId == "buscai") {
+  if (regiaoId == "capital" && temporalId == "busca" || regiaoId == "interior" && temporalId == "busca") {
+  
+      var buscaId = formatoId;
+      var datavisMem = "busca";
 
-      buscaBubbles(formatoId,regiaoId,temporalId);
+      console.log('buscaId no IF do toggle display: ' + buscaId);
+      console.log('regiaoId: ' + regiaoId);
+      console.log('datavisMem: ' + datavisMem);
+    
+      buscaBubbles(buscaId,regiaoId,datavisMem);
 
 
   } else if (regiaoId != null) {
@@ -1436,7 +1500,8 @@ console.log('regiaobuscaId: ' + temporalId);
     regiaoBuscaId = "sem-escolha";
     buscaId = this.value; 
     var buscaMem = buscaId;
-    buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
+    var datavisMem = "busca";
+    buscaBubbles(buscaId,regiaoBuscaId,datavisMem);
   
 };
 
