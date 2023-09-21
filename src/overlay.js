@@ -19,6 +19,12 @@ function openNavCategorias() {
   document.getElementById("mySideNavCategoria").style.display = "flex";
 }
 
+function openNavServicos() {
+  document.getElementById("mySideNavServicos").style.width = "100%";
+  document.getElementById("mySideNavServicos").style.display = "flex";
+}
+
+
 function openNavBuscaUO() {
   document.getElementById("mySideNavBuscaUO").style.width = "100%";
   document.getElementById("mySideNavBuscaUO").style.display = "flex";
@@ -42,6 +48,12 @@ function closeNavCategorias() {
   document.getElementById("mySideNavCategoria").style.width = "0";
   document.getElementById("mySideNavCategoria").style.display = "none";
 }
+
+function closeNavServicos() {
+  document.getElementById("mySideNavServicos").style.width = "0";
+  document.getElementById("mySideNavServicos").style.display = "none";
+}
+
 
 function closeNavBuscaUO() {
   document.getElementById("mySideNavBuscaUO").style.width = "0";

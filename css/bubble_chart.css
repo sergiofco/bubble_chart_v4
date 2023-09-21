@@ -1037,6 +1037,22 @@ visibility: visible;
   z-index: 10;
 }
 
+
+.containerServicos {
+  position: fixed;
+  color: f6f5f1;
+  font-size: 11px;
+  display: none; /* Hidden by default */
+  top: 75px;
+  height: 25px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  z-index: 10;
+}
+
+
 .containerBar {
   display: flex;
   justify-content: center;
