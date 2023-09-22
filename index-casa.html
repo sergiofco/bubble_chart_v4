@@ -111,12 +111,12 @@
 <div id="unidades">
 	<form>
 		<div id="mySideNavCapital" class="containerRadioUOs">
-		<ul>
+			<ul>
 		<label>
 			<input type="radio" class="uo" value="14 Bis" id="uo49" name="radio"/>
 			<span>14 Bis</span>
 		</label>
-			<label>
+		<label>
 			<input type="radio" class="uo" value="24 de Maio" id="uo52" name="radio"/>
 			<span>24 de Maio</span>
 		</label>
@@ -302,15 +302,15 @@
 	</div>
 	<div id="toolbar">
 	<form>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo4" class="button" value="exposições"></input>
-	 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
-	 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo8" class="button" value="turismo"></input>
-	 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
-	 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="+ lazer"></input>
-	 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
+	  <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
+	  <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
+	  <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
+	  <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo4" class="button" value="exposições"></input>
+	  <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
+	  <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
+	  <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
+	  <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo8" class="button" value="turismo"></input>
+	  <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="+ lazer"></input>
 	</div>
  </form>
 
@@ -328,19 +328,18 @@
 		<input type="button" id="ca9" class="buttonCat" value="meio ambiente">
 		<input type="button" id="ca10" class="buttonCat" value="saúde">
 		<input type="button" id="ca11" class="buttonCat" value="atividade física">
-		<input type="button" id="ca14" class="buttonCat" value="+ lazer">
+		<input type="button" id="ca12" class="buttonCat" value="turismo">
+		<input type="button" id="ca14" class="buttonCat" value="   +   ">
 		<input type="button" id="ca" class="buttonCat active" value="zera" hidden></input>
 	</form>
 </div>
 <div id="mySideNavServicos" class="containerServicos">
 	<form>
-		<input type="button" id="ca12" class="buttonSer" value="excursão">
-		<input type="button" id="ca13" class="buttonSer" value="passeio">
-		<input type="button" id="ca15" class="buttonSer" value="piscina">
-		<input type="button" id="ca16" class="buttonSer" value="biblioteca">
-		<input type="button" id="ca17" class="buttonSer" value="odontologia">
-		<input type="button" id="ca18" class="buttonSer" value="comedoria - restaurantes">
-		<input type="button" id="se" class="buttonSer active" value="zera" hidden></input>
+		<input type="button" id="se1" class="buttonCat" value="piscina">
+		<input type="button" id="se2" class="buttonCat" value="biblioteca">
+		<input type="button" id="se3" class="buttonCat" value="odontologia">
+		<input type="button" id="se4" class="buttonCat" value="comedoria - restaurantes">
+		<input type="button" id="se" class="buttonCat active" value="zera" hidden></input>
 	</form>
 </div>
 
@@ -352,8 +351,8 @@
 <!-- BUSCA EXIBINDO UOs -->
 <div id="mySideNavBuscaUO" class="containerBuscaUO">
 	<form>
-	<input type="button" id="capital" class="buttonBuscaUO" value="na gde. são paulo">
-	<input type="button" id="interior" class="buttonBuscaUO" value="no interior / litoral">
+	<input type="button" id="buscaCap" class="buttonBuscaUO" value="na gde. são paulo">
+	<input type="button" id="buscaInt" class="buttonBuscaUO" value="no interior / litoral">
 	<input type="button" id="todos" class="buttonBuscaUO active" value="sem-escolha" hidden></input>
 </form>
 </div>		
@@ -419,5 +418,9 @@
 	const handler = zoom();
  </script-->
 
+ <table width="100%" height="800">
+	<tr height="800"><td><br></td></tr>
+	<tr><td><iframe src="vazio.html" name="portal" width="100%" height="1200" frameBorder="0"></iframe></td></tr>
+</table>
 </body>
 </html>

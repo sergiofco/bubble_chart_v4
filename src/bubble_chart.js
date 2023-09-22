@@ -9,7 +9,7 @@
 
 // Load the data.
  // d3.csv('data/orasbolasC.csv', display);
- d3.csv('data/atual-210923.csv', display);
+ d3.csv('data/atual-250923b.csv', display);
 
  function bubbleChart() {
  
@@ -26,7 +26,7 @@
  // cores para dias da semana e finais de semana
    const corAzul = '#0097ad'
    const corLaranja = '#ffb100'
-   const corAll = '#CC7722'
+   const corAll = '#B2B349'
  
  // Grid de 21 pontos em tela
    const corrigeW = width/20;
@@ -86,7 +86,14 @@
      nextM: { y: posCH+posH/2-corrigeH},
      sempre: { y: pos3H+3*posH/2-corrigeH}
    };
- 
+
+   var periodoDoDiaCenters = {
+    manhã: { y: posCH-posH-corrigeH},
+    tarde: { y: posCH-posH/2-corrigeH},
+    noite: { y: posCH-corrigeH},
+    consulte: { y: posCH+posH/2-corrigeH},
+  };
+  
    // posição central dos cabeçalhos da visão por semana.
    var semanasTitleX = {
      seg: posCW-6*posW, 
@@ -173,23 +180,25 @@
  
    91: posCW-6*posW-posW/4, // Campo LImpo
    57: posCW-4*posW-posW/4, // Ipiranga
-   70: posCW-2*posW-posW/4, // Santo Amaro
-   
+   49: posCW-2*posW, // 14 Bis
+   70: posCW-4*posW-posW/4, // Santo Amaro
+ 
    94: posCW+2*posW+posW/4, // Bom Retiro
    64: posCW+4*posW+posW/4, // Carmo
    53: posCW+6*posW+posW/4, // Santana
+   60: posCW+4*posW+posW/4, // Casa Verde
    
    59: posCW-2*posW, // Cinesesc
    89: posCW, // CPF
    61: posCW+2*posW, // Florencio
    
-   55: posCW-5*posW, // Interlagos
+  55: posCW-6*posW-posW/4, // Interlagos
    73: posCW-posCW/2, // Guarulhos
    72: posCW-posCW/4, // Mogi das Cruzes
    95: posCW, // Osasco
    67: posCW+posCW/4, // São Caetano
    88: posCW+posCW/2, // Santo André
-   56: posCW+5*posW, // Itaquera
+  56: posCW+6*posW+posW/4, // Itaquera
    // 74: pos6W, // Dom Pedro
      
  };
@@ -205,11 +214,13 @@
    66: pos1H+posH, // Vila Mariana
  
    91: pos2H+posH/2, // Campo LImpo
+  49: pos2H+posH/2, // 14 Bis
    94: pos2H+posH/2, // Bom Retiro
    57: pos2H+posH/2, // Ipiranga
    53: pos2H+posH/2, // Santana
-   70: pos2H+posH/2, // Santo Amaro
+  70: pos3H, // Santo Amaro
    64: pos2H+posH/2, // Carmo
+  60: pos3H, // Casa Verde
  
    59: pos2H+2*posH+posH/2, // Cinesesc
    89: pos2H+2*posH+posH/2, // CPF
@@ -236,7 +247,7 @@
    
    91: {x: posCW-6*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Campo LImpo
    57: {x: posCW-4*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Ipiranga
-   70: {x: posCW-2*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Santo Amaro
+   70: {x: posCW-4*posW-posW/4-corrigeW, y:pos3H-posH}, // Santo Amaro
    
    94: {x: posCW+2*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Bom Retiro
    64: {x: posCW+4*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Carmo
@@ -246,14 +257,17 @@
    89: {x: posCW-corrigeW, y:pos2H+posH+posH/2}, // CPF
    61: {x: posCW+2*posW-corrigeW, y:pos2H+posH+posH/2}, // Florencio
    
-   55: {x: posCW-5*posW-corrigeW, y:pos3H-posH}, // Interlagos
+  55: {x: posCW-6*posW-posW/4-corrigeW, y:pos3H-posH}, // Interlagos
    73: {x: posCW-posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Guarulhos
    72: {x: posCW-posCW/4-corrigeW, y:pos3H+posH-posH/4}, // Mogi das Cruzes
    95: {x: posCW-corrigeW, y:pos3H+posH-posH/4}, // Osasco
    67: {x: posCW+posCW/4-corrigeW, y:pos3H+posH-posH/4}, // São Caetano
    88: {x: posCW+posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Santo André
-   56: {x: posCW+5*posW-corrigeW, y:pos3H-posH}, // Itaquera
+  56: {x: posCW+6*posW+posW/4-corrigeW, y:pos3H-posH}, // Itaquera
    // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
+  49: {x: posCW-6*posW-posW/4-corrigeW, y:pos2H-posH/2}, // 14 Bis
+  60: {x: posCW-6*posW-posW/4-corrigeW, y:pos3H-posH}, // Casa Verde
+
    
    // interior
    85: {x: posCW-5*posW-corrigeW, y:pos1H}, // Birigui
@@ -332,11 +346,11 @@
    .range(["shows e espetáculos", "cursos e oficinas", "debates e palestras", "exposições", "filmes", "atividade física", "bibliotecas","turismo", "+lazer"]);
  
     var fillunidadesCap = d3.scaleOrdinal()
-    .domain([52,53,55,56,57,58,59,61,62,63,64,65,66,67,68,70,72,73,88,89,91,94,95])
+   .domain([52,53,55,56,57,58,59,61,62,63,64,65,66,67,68,70,72,73,88,89,91,94,95,49,60])
     .range(["24 de maio","Santana","Interlagos","Itaquera","Ipiranga","Pinheiros","Cinesesc",
             "Florêncio","Consolação","Pompeia","Carmo","Av. Paulista","Vila Mariana","São Caetano",
             "Belenzinho","Santo Amaro","Mogi das Cruzes","Guarulhos","Santo André","CPF",
-            "Campo Limpo","Bom Retiro","Osasco"]);
+           "Campo Limpo","Bom Retiro","Osasco","14 Bis","Casa Verde"]);
   
     var fillunidadesInt = d3.scaleOrdinal()
      .domain([71,75,76,77,78,79,80,81,82,83,84,85,86,87,92,93,96])
@@ -381,10 +395,32 @@
          .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
          .range([corAzul, corAzul, corAzul, corAzul, corAzul, corLaranja, corLaranja, corAll]);
    
-   var opacidadeColor = d3.scaleOrdinal()
-             .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
-         .range(['1','.7','.5','.25','.8']);
- 
+  //  var opacidadeColor = d3.scaleOrdinal()
+  //            .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
+  //        .range(['1','.7','.5','.25','.8']);
+
+  var opacidadeColor = d3.scaleOrdinal()
+  .domain(['manhã', 'tarde', 'noite', 'consulte'])
+  .range(['0.3','0.5','0.8','1']);
+
+
+//////////////////////////////////////////////////////////////////////////////////////     
+/// Tentativa de trazer qual é a data para o dia da semana exibido        
+
+
+var Vardatadasemana = {
+  seg: { function (d) { return d.data_sessao; } },
+  ter: { function (d) { return d.data_sessao; } },
+  qua: { function (d) { return d.data_sessao; } },
+  qui: { function (d) { return d.data_sessao; } },
+  sex: { function (d) { return d.data_sessao; } },
+  sáb: { function (d) { return d.data_sessao; } },
+  dom: { function (d) { return d.data_sessao; } },
+  sempre: { function (d) { return d.data_sessao; } }
+};
+
+////////////////////////////////////
+
    /*
     * createNodes transforma os dados do CSV em uma matriz de objetos-nós (node objects)
     * Cada nó será um pontyo/bubble que armazena dados do CSV e valores para a visualização
@@ -398,7 +434,7 @@
      // Tamanho dos pontos baseado na área.
      var radiusScale = d3.scalePow()
        .exponent(0.8)
-       .range([6,42])
+      .range([7,35])
        .domain([20, maxAmount]);
  
      // map() converte rawData em "node data".
@@ -406,7 +442,7 @@
        
        return {
          id: d.id,
-         radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+4000) : radiusScale(+d.lugares)),
+        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+3500) : radiusScale(+d.lugares)),
          value: +d.lugares,
          name: d.nome,
          name2: d.complemento,
@@ -435,6 +471,7 @@
          datafinal: d.datafinal,
          data: d.data_sessao,
          hora: d.hora,
+         turno: d.turno,
  //        sinopse: d.sinopse,
          x: Math.random() * 900,
          y: Math.random() * 800
@@ -509,13 +546,13 @@
          (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
        ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)})
  
-       .attr('opacity', function(d) { return opacidadeColor(d.filtra_data); })
+       .attr('opacity', function(d) { return opacidadeColor(d.turno); })
        .attr('stroke', function (d) { return (d.online == 1)
                                               ? "gold" : (d.ingresso == 1) 
                                               ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
        .attr('stroke-width', 2)
        .on('mouseover', showDetail)
-       .on('click', linkSite)
+//      .on('click', showDetail)
        .on('mouseout', hideDetail);
  
      // @v4 Merge the original empty selection and the enter selection
@@ -560,7 +597,7 @@
    }
  
    function nodeperiodoPos(d) {
-     return periodoCenters[d.filtra_data].y;
+     return periodoCenters[d.filtra_data].y + (periodoDoDiaCenters[d.turno].y/30);
    }
  
    function nodeformatoXPos(d) {
@@ -568,7 +605,7 @@
    }
  
    function nodeformatoYPos(d) {
-     return formatoCenters[d.cod_formato].y + (periodoCenters[d.filtra_data].y/50);
+     return formatoCenters[d.cod_formato].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y/50));
    }
  
    function nodeunidadeXPos(d) {
@@ -576,7 +613,7 @@
    }
  
    function nodeunidadeYPos(d) {
-     return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/20);
+     return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y/50));
    }
  
  // Função que separa o que não foi filtrado e joga pra fora
@@ -850,6 +887,10 @@
          // filtrado + ' ' + 
         
      novo_span.innerText = fe + fo + fg + fc + fonde + fq + fp + fa + fi;
+
+    if (filtrado == 0) {
+      novo_span.innerText = "Ops! Nada por esse caminho. Que tal começar de novo com a opção 'limpar filtros'?"
+        } 
      display_filtro.appendChild(novo_span);
  };
  
@@ -880,8 +921,28 @@
      }
  }
  
- 
- if (atual == "limpar") {
+
+ if (atual != "servicos") {
+  var arr = ['12','13','15','16','17','18'];
+  for(var i=0; i < arr.length; i++) { 
+
+    document.getElementById(`ca${arr[i]}`).disabled = false; 
+    document.getElementById(`ca${arr[i]}`).style.visibility = "visible";
+
+    tem = filtroAplicadoSemCategoria.filter(function(d) { 
+      return ((
+        d.cod_formato == formatoMem &&
+        d.cod_categoria == arr[i]
+        ));}).size();
+          if (tem == 0) {  
+            document.getElementById(`ca${arr[i]}`).style.visibility = "hidden"; 
+            document.getElementById(`ca${arr[i]}`).checked = false; 
+            document.getElementById(`ca${arr[i]}`).disabled = true; 
+          } 
+    }
+}
+
+if (atual == "limpar") {
    document.getElementById("agora").checked = true; 
    document.getElementById("proxima").checked = false; 
    document.getElementById("depois").checked = false; 
@@ -896,9 +957,9 @@
    arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
               65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
               78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
-              89, 91, 92, 93, 94, 95, 96];
+             89, 91, 92, 93, 94, 95, 96, 49, 60];
    
-   arr_formatos = [1, 2, 3, 4, 5,6, 7, 8, 9];
+   arr_formatos = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   
  // Zera unidades             
        for(var i=0; i < arr_uos.length; i++) { 
@@ -924,7 +985,7 @@
  
  // tira as opções zeradas em unidades
   if (atual != "unidade") {
-   arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96];
+  arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 49, 60];
    for(var i=0; i < arr_uos.length; i++) { 
  
      document.getElementById("uo"+arr_uos[i]).disabled = false; 
@@ -1516,13 +1577,17 @@ if (atual != "regiao") {
        var escolhido = button.attr('value');
  
        var tiraCat = document.querySelector("#mySideNavCategoria");
-             tiraCat.querySelector("form").reset();
+           tiraCat.querySelector("form").reset();
+ 
+       var tiraSer = document.querySelector("#mySideNavServicos");
+           tiraSer.querySelector("form").reset();
+ 
              categoriaMem = '99';
              categoriaId = '99';
  
          var datavis = "unidades";
  
-             arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '14'];
+             arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '14','12','13','15','16','17','18'];
               for(var i=0; i < arr.length; i++) { 
                   var op = document.getElementById('ca'+arr[i]);
                       op.classList.remove('active');
@@ -1561,7 +1626,7 @@ if (atual != "regiao") {
        var vendaId = 0;
        var acessivelId = 0;
        var onlineId = 0;
-       var win = window.open('vazio.html', 'portal');
+//       var win = window.open('vazio.html', 'portal');
  
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
@@ -1591,6 +1656,31 @@ if (atual != "regiao") {
      });
  }
  
+
+ function setupButtonsFiltroServicos(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+  d3.select('#mySideNavServicos')
+    .selectAll('.buttonSer')
+    .on('click', function () {
+      // Remove active class from all buttons
+      d3.selectAll('.buttonSer').classed('active', false);
+      // Find the button just clicked
+      var button = d3.select(this);
+
+      // Set it as the active button
+      button.classed('active', true);
+
+      // Get the id of the button
+      var categoriaId = button.attr('id').substring(2);
+      var escolhido = button.attr('value');
+          var atual = "servicos";
+          var datavis = "unidades";
+
+          foco();
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+    });
+}
+
+
  function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
    d3.select('#temporal')
      .selectAll('.temporal')
@@ -1768,7 +1858,18 @@ if (atual != "regiao") {
                 op.classList.remove('active');
                 op.checked = false;
        } 
+
+       var tiraSer = document.querySelector("#mySideNavServicos");
+       tiraSer.querySelector("form").reset();
  
+       arr = ['12', '13', '15', '16', '17', '18'];
+        for(var i=0; i < arr.length; i++) { 
+            var op = document.getElementById('ca'+arr[i]);
+                op.classList.remove('active');
+                op.checked = false;
+       } 
+       
+
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
      });
@@ -1784,6 +1885,7 @@ if (atual != "regiao") {
   setupButtons();
   setupButtonTudo();
   setupButtonsFiltroCategorias();
+  setupButtonsFiltroServicos();
   setupButtonsFiltroTemporal();
   setupButtonsFiltroRegiao();
   setupButtonsFiltroPublico();
