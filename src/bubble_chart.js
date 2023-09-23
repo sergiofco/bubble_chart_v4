@@ -9,7 +9,7 @@
 
 // Load the data.
  // d3.csv('data/orasbolasC.csv', display);
- d3.csv('data/atual-250923b.csv', display);
+ d3.csv('data/atual-250923c.csv', display);
 
  function bubbleChart() {
  
@@ -24,9 +24,9 @@
    var tooltip = floatingTooltip('gates_tooltip', 360);
  
  // cores para dias da semana e finais de semana
-   const corAzul = '#0097ad'
-   const corLaranja = '#ffb100'
-   const corAll = '#B2B349'
+   const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
+   const corLaranja = '#DE7802' // '#FFA500'; // #ffb100';
+   const corAll = '#BBAB8B'; // verde '#B2B349'
  
  // Grid de 21 pontos em tela
    const corrigeW = width/20;
@@ -84,14 +84,14 @@
      nextW: { y: posCH-posH/2-corrigeH},
      thisM: { y: posCH-corrigeH},
      nextM: { y: posCH+posH/2-corrigeH},
-     sempre: { y: pos3H+3*posH/2-corrigeH}
+     sempre: { y: pos3H+1*posH/2-corrigeH}
    };
 
    var periodoDoDiaCenters = {
-    manhã: { y: posCH-posH-corrigeH},
-    tarde: { y: posCH-posH/2-corrigeH},
-    noite: { y: posCH-corrigeH},
-    consulte: { y: posCH+posH/2-corrigeH},
+    manhã: { y: -posH*0.75},
+    tarde: { y: -posH*0.3},
+    noite: { y: posH*0.75},
+    consulte: { y: posH*0.3},
   };
   
    // posição central dos cabeçalhos da visão por semana.
@@ -107,16 +107,56 @@
    };
  
    var semanasTitleY = {
-     seg: pos3H-2*posH+posH/2, 
-     ter: pos3H-2*posH+posH/2,
-     qua: pos3H-2*posH+posH/2,
-     qui: pos3H-2*posH+posH/2,
-     sex: pos3H-2*posH+posH/2,
-     sáb: pos3H-2*posH+posH/2,
-     dom: pos3H-2*posH+posH/2,
-     sempre: pos3H+5*posH/2
+    seg: pos1H-posH-posH/2, 
+    ter: pos1H-posH-posH/2,
+    qua: pos1H-posH-posH/2,
+    qui: pos1H-posH-posH/2,
+    sex: pos1H-posH-posH/2,
+    sáb: pos1H-posH-posH/2,
+    dom: pos1H-posH-posH/2,
+    sempre: pos3H+6*posH/2
    };
- 
+
+// Data do Dia   
+   var DataDoDia = {
+    seg: function (d) { return TrazData(d.dia_da_semana)},
+    ter: function (d) { return TrazData(d.dia_da_semana)},
+    qua: function (d) { return TrazData(d.dia_da_semana)},
+    qui: function (d) { return TrazData(d.dia_da_semana)},
+    sex: function (d) { return TrazData(d.dia_da_semana)},
+    sáb: function (d) { return TrazData(d.dia_da_semana)},
+    dom: function (d) { return TrazData(d.dia_da_semana)},
+    sempre: function (d) { return TrazData(d.dia_da_semana)} 
+    };
+
+//////////////////////////////////////////////////////////////////////// 
+// Tentativa de buscar a data do dia (data_sessao) para exibir no cabeçalho, junto com o dia da semana
+
+
+  // d3.max(rawData, function(d) { return d.data_sessao; })
+  
+  function Adata(d) {
+    return DataDoDia[d.dia_da_semana];
+    }
+
+var TrazData = d3.scaleOrdinal()
+   .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
+   .range([
+           function(d) { return (d.dia_da_semana == 'seg' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'ter' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'qua' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'qui' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'sex' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'sáb' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'dom' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
+           function(d) { return (d.dia_da_semana == 'sempre' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}
+          ]);
+
+          
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////     
+
+
  // Centro das posições da vista por semana ---------------------------------------------------------------------------
    var semanaCenters = {
      seg: { x: posCW-6*posW, y: height / 2 },
@@ -126,7 +166,7 @@
      sex: { x: posCW+2*posW, y: height / 2 },
      sáb: { x: posCW+4*posW, y: height / 2 },
      dom: { x: posCW+6*posW, y: height / 2 },
-     sempre: { x: posCW, y: pos3H+3*posH/2-corrigeH }
+     sempre: { x: posCW, y: pos3H+4*posH/2-corrigeH }
    };
  
  // Centro dos cabeçalhos da visão por formato
@@ -162,9 +202,9 @@
      3: { x: posCW+4*posW-corrigeW, y: pos2H-posH/2 }, // debates
      4: { x: posCW-corrigeW-corrigeW/3, y: pos3H-3*posH }, // expos
      5: { x: posCW-corrigeW, y: pos3H+3*posH/5 }, // filmes
-     6: { x: posCW-2*posW-corrigeW, y: pos3H-3*posH/2 }, // esporte
+     6: { x: posCW-2*posW-posW/2-corrigeW, y: pos3H-3*posH/2 }, // esporte
      7: { x: posCW-5*posW-corrigeW, y: pos1H-posH }, // biblio
-     8: { x: posCW+2*posW-corrigeW, y: pos3H-3*posH/2 }, // turismo
+     8: { x: posCW+2*posW-posW/2-corrigeW, y: pos3H-3*posH/2 }, // turismo
      9: { x: posCW+4*posW-corrigeW, y: pos3H-3*posH/2 }, // lazer
    };
  
@@ -338,12 +378,10 @@
    77: pos3H+posH/4, 
  };
    
- 
- 
- 
+
    var fillformatos = d3.scaleOrdinal()
    .domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
-   .range(["shows e espetáculos", "cursos e oficinas", "debates e palestras", "exposições", "filmes", "atividade física", "bibliotecas","turismo", "+lazer"]);
+   .range(["shows e espetáculos", "cursos e oficinas", "debates e palestras", "exposições", "filmes", "atividade física", "serviços","turismo", "+lazer"]);
  
     var fillunidadesCap = d3.scaleOrdinal()
    .domain([52,53,55,56,57,58,59,61,62,63,64,65,66,67,68,70,72,73,88,89,91,94,95,49,60])
@@ -382,8 +420,9 @@
    var simulation = d3.forceSimulation()
      .velocityDecay(0.3)
      .force('x', d3.forceX().strength(forceStrength).x(posCW))
-     .force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos))
+     .force('y', d3.forceY().strength(forceStrength).y(posCH)) // (nodeperiodoPos))
      .force('charge', d3.forceManyBody().strength(charge))
+     .force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
      .on('tick', ticked);
  
  // @v4 Force starts up automatically, which we don't want as there aren't any nodes yet.
@@ -396,30 +435,12 @@
          .range([corAzul, corAzul, corAzul, corAzul, corAzul, corLaranja, corLaranja, corAll]);
    
   //  var opacidadeColor = d3.scaleOrdinal()
-  //            .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
-  //        .range(['1','.7','.5','.25','.8']);
+  //      .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
+  //      .range(['1','.7','.5','.25','.8']);
 
   var opacidadeColor = d3.scaleOrdinal()
-  .domain(['manhã', 'tarde', 'noite', 'consulte'])
-  .range(['0.3','0.5','0.8','1']);
-
-
-//////////////////////////////////////////////////////////////////////////////////////     
-/// Tentativa de trazer qual é a data para o dia da semana exibido        
-
-
-var Vardatadasemana = {
-  seg: { function (d) { return d.data_sessao; } },
-  ter: { function (d) { return d.data_sessao; } },
-  qua: { function (d) { return d.data_sessao; } },
-  qui: { function (d) { return d.data_sessao; } },
-  sex: { function (d) { return d.data_sessao; } },
-  sáb: { function (d) { return d.data_sessao; } },
-  dom: { function (d) { return d.data_sessao; } },
-  sempre: { function (d) { return d.data_sessao; } }
-};
-
-////////////////////////////////////
+      .domain(['manhã', 'tarde', 'noite', 'consulte'])
+      .range(['0.5','0.75','1','0.9']);
 
    /*
     * createNodes transforma os dados do CSV em uma matriz de objetos-nós (node objects)
@@ -433,8 +454,8 @@ var Vardatadasemana = {
  
      // Tamanho dos pontos baseado na área.
      var radiusScale = d3.scalePow()
-       .exponent(0.8)
-      .range([7,35])
+       .exponent(1)
+       .range([6,35])
        .domain([20, maxAmount]);
  
      // map() converte rawData em "node data".
@@ -446,14 +467,14 @@ var Vardatadasemana = {
          value: +d.lugares,
          name: d.nome,
          name2: d.complemento,
-             busca: d.nome +" - "+d.complemento +" - "+d.categoria+" - "+d.projeto+" - "+d.dispositivo,
+         busca: d.nome +" - "+d.complemento +" - "+d.categoria+" - "+d.projeto+" - "+d.dispositivo,
          projeto: d.projeto,
          unidade: d.unidade,
          cod_formato: +d.cod_formato,
          dia_da_semana: d.dia_da_semana,
          cod_uo: +d.cod_uo,
          weekday: +d.weekday+1,
-             regiao: d.regiao,
+         regiao: d.regiao,
          filtra_data: d.tempo,
          filtra_dataF: d.tempoF,
          exibirdatas: d.exibirdatas,
@@ -461,20 +482,20 @@ var Vardatadasemana = {
          cod_categoria: +d.cod_categoria,
          destaque: d.destaque,
          formato: d.formato,
-           publico: d.publico,
-             gratis: d.gratis,
-             ingresso: d.ingresso,
-             online: d.online,
-             tem: d.tem,
-             dispositivo: d.dispositivo,
+         publico: d.publico,
+         gratis: d.gratis,
+         ingresso: d.ingresso,
+         online: d.online,
+         tem: d.tem,
+         dispositivo: d.dispositivo,
          datainicial: d.datainicial,
          datafinal: d.datafinal,
          data: d.data_sessao,
          hora: d.hora,
          turno: d.turno,
  //        sinopse: d.sinopse,
-         x: Math.random() * 900,
-         y: Math.random() * 800
+         x: posCW, // Math.random() * 900,  // inicia centralizado
+         y: posCH// Math.random() * 800 // para iniciar centralizado
  
        };
      });
@@ -597,7 +618,7 @@ var Vardatadasemana = {
    }
  
    function nodeperiodoPos(d) {
-     return periodoCenters[d.filtra_data].y + (periodoDoDiaCenters[d.turno].y/30);
+     return periodoCenters[d.filtra_data].y + (periodoDoDiaCenters[d.turno].y);
    }
  
    function nodeformatoXPos(d) {
@@ -605,7 +626,7 @@ var Vardatadasemana = {
    }
  
    function nodeformatoYPos(d) {
-     return formatoCenters[d.cod_formato].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y/50));
+     return formatoCenters[d.cod_formato].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y)/3);
    }
  
    function nodeunidadeXPos(d) {
@@ -613,7 +634,7 @@ var Vardatadasemana = {
    }
  
    function nodeunidadeYPos(d) {
-     return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y/50));
+     return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y)/3);
    }
  
  // Função que separa o que não foi filtrado e joga pra fora
@@ -701,14 +722,19 @@ var Vardatadasemana = {
      (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
    ) ? 1 : 3});
  
+/////////////////////////////////////////
+//
+// Ajuste fino das formas (+ decay e collision)
+//
+//////////////////////////////////////////
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
-       var circulo = heightTotal*0.98; 
+       var circulo = heightTotal; 
        var forceStrength = 0.08;
-       var forceStrengthRadial = 0.3; 
-     } else {
-       var circulo = heightTotal*0.75;
-       var forceStrength = 0.06;
        var forceStrengthRadial = 0.2; 
+     } else {
+       var circulo = heightTotal*0.80;
+       var forceStrength = 0.06;
+       var forceStrengthRadial = 0.12; 
      }
  
  // Força radial para afastar as ações não filtradas
@@ -771,11 +797,9 @@ var Vardatadasemana = {
        } else { 
          simulation.stop() };
  
- // separar as bolhas
-       simulation.force('collision', 
-               d3.forceCollide()
-                 .radius(function(d) { return d.radius+1.5 }))
-       simulation.alpha(1).restart();
+// separar as bolhas
+// simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+0.5 }))
+simulation.alpha(1).restart();
  
  
  // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
@@ -977,11 +1001,8 @@ if (atual == "limpar") {
          var op = document.getElementById('fo'+arr[i]);
              op.classList.remove('active');
        } 
- 
- 
  }
- 
- 
+  
  
  // tira as opções zeradas em unidades
   if (atual != "unidade") {
@@ -1219,19 +1240,20 @@ if (atual != "regiao") {
     
      bubbles.transition()
             .duration(1500)
-            .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
-                     ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
+///            .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
+///                     ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
+            .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
  
  // Cria aro dourado para ação online ou vermelho para esgotado
-     .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
-       ? '#555555' : (d.online == 1)
-       ? "gold" : (d.ingresso == 1) 
-       ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-     .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+            .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
+              ? '#555555' : (d.online == 1)
+              ? "gold" : (d.ingresso == 1) 
+              ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
+            .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
  
  // preenche a cor da bolha
-     .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
-             ? "url(#" + d.destaque + ")" : !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : fillColor(d.dia_da_semana)});
+            .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
+              ? "url(#" + d.destaque + ")" : !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : fillColor(d.dia_da_semana)});
  
  // 	joga para o canto as ações que não estão filtradas
  simulation.force("r", isolate(radialForceBusca, function(d) { 
@@ -1249,7 +1271,7 @@ if (atual != "regiao") {
          simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
      } else {
          simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
-         simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+         simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
      }
  
  
@@ -1289,10 +1311,8 @@ if (atual != "regiao") {
      });
  }
  setupButtonsBuscaUO();
- 
- 
+  
  }
- 
  
  
  /*
@@ -1316,16 +1336,19 @@ if (atual != "regiao") {
    function showsemanaTitles() {
      var semanasData = d3.keys(semanasTitleX);
      var semanas = svg.selectAll('.dia_da_semana')
-       .data(semanasData);
+                      .data(semanasData);
  
-     semanas.enter().append('text')
-       .attr('class', 'dia_da_semana')
-       .attr('x', function (d) { return semanasTitleX[d]; })
-       .attr('y', function (d) { return semanasTitleY[d]; })
-       .attr('fill', function(d) { return fillColor(d); })
-       .attr('text-anchor', 'middle')
-       .text(function (d) { return d; });
+         semanas.enter().append('text')
+                .attr('class', 'dia_da_semana')
+                .attr('x', function (d) { return semanasTitleX[d]; })
+                .attr('y', function (d) { return semanasTitleY[d]; })
+                .attr('fill', function(d) { return fillColor(d); })
+                .attr('text-anchor', 'middle')
+                .text(function (d) { return (d); });
+//                .text(function (d) { return TrazData(d.dia_da_semana); });
+  
    }
+
  /*
  * Mostra cabeçalhos de formatos
  */
@@ -1439,7 +1462,10 @@ if (atual != "regiao") {
    function hideDetail(d) {
      // reset outline
      d3.select(this)
-       .attr('stroke', d3.rgb(fillColor(d.dia_da_semana)).darker());
+       .attr('stroke', function (d) { return (d.online == 1)
+        ? "gold" : (d.ingresso == 1) 
+        ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
+
      tooltip.hideTooltip();
    }
  
