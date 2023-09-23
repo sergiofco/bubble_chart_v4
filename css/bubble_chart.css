@@ -967,7 +967,7 @@ visibility: visible;
 
 .containerTempo {
   position: fixed;
-  top: 130px;
+  top: 115px;
   left: 90%;
   bottom: 0;
   height: 115px;
@@ -1027,8 +1027,8 @@ visibility: visible;
   color: f6f5f1;
   font-size: 11px;
   display: flex; /* Show by default */
-  top: 10%;
-  left: 4%;
+  top: 115px;
+  left: 6%;
   height: height;
   width: 250px;
   justify-content: center;
@@ -1042,8 +1042,8 @@ visibility: visible;
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
-  top: 16%;
-  left: 4%;
+  top: 115px;
+  left: 6%;
   height: height;
   width: 210px;
   justify-content: center;
@@ -1167,7 +1167,7 @@ visibility: visible;
   height: 36px;
   color: black;
   font-weight: bold;
-  font-size: 20px;
+  font-size: clamp(1em, 1em + 1vw, 1.5em);
   text-align: center;
   line-height: 20px;
   padding: 3px;
@@ -1226,6 +1226,7 @@ visibility: visible;
 
 label {
   display: flex;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
   cursor: pointer;
   font-weight: 720;
   position: relative;
@@ -1394,10 +1395,9 @@ label span:before {
 
 .logo_sesc {
   position: fixed;
-  top: 5px;
-  left: 2%;
-  width: 180px;
-  height: 36px;
+  top: 0.5%;
+  left: 5%;
+  width: 5%;
   padding: 3px;
   margin: 1.5px;
   vertical-align: center;

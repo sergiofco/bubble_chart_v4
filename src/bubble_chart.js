@@ -118,44 +118,16 @@
    };
 
 // Data do Dia   
-   var DataDoDia = {
-    seg: function (d) { return TrazData(d.dia_da_semana)},
-    ter: function (d) { return TrazData(d.dia_da_semana)},
-    qua: function (d) { return TrazData(d.dia_da_semana)},
-    qui: function (d) { return TrazData(d.dia_da_semana)},
-    sex: function (d) { return TrazData(d.dia_da_semana)},
-    sáb: function (d) { return TrazData(d.dia_da_semana)},
-    dom: function (d) { return TrazData(d.dia_da_semana)},
-    sempre: function (d) { return TrazData(d.dia_da_semana)} 
-    };
-
-//////////////////////////////////////////////////////////////////////// 
-// Tentativa de buscar a data do dia (data_sessao) para exibir no cabeçalho, junto com o dia da semana
-
-
-  // d3.max(rawData, function(d) { return d.data_sessao; })
-  
-  function Adata(d) {
-    return DataDoDia[d.dia_da_semana];
-    }
-
-var TrazData = d3.scaleOrdinal()
-   .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
-   .range([
-           function(d) { return (d.dia_da_semana == 'seg' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'ter' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'qua' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'qui' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'sex' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'sáb' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'dom' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}, 
-           function(d) { return (d.dia_da_semana == 'sempre' && d.filtra_data == temporalId) ? d3.max(rawData, d.data_sessao) : d3.max(rawData, d.data_sessao)}
-          ]);
-
-          
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////     
-
+var DataDoDia = {
+  seg: { agora: "01/10", proxima: "08/10", depois: "15/10"},
+  ter: { agora: "02/10", proxima: "09/10", depois: "16/10"},
+  qua: { agora: "03/10", proxima: "10/10", depois: "17/10"},
+  qui: { agora: "04/10", proxima: "11/10", depois: "18/10"},
+  sex: { agora: "05/10", proxima: "12/10", depois: "19/10"},
+  sáb: { agora: "06/10", proxima: "13/10", depois: "20/10"},
+  dom: { agora: "07/10", proxima: "14/10", depois: "21/10"},
+  sempre: { agora: " ", proxima: " ", depois: " "},
+};
 
  // Centro das posições da vista por semana ---------------------------------------------------------------------------
    var semanaCenters = {
@@ -583,10 +555,10 @@ var TrazData = d3.scaleOrdinal()
      // @v4 Once we set the nodes, the simulation will start running automatically!
      simulation.nodes(nodes);
  
- // exibe o total de atrações
+ // exibe o total de atividades
     var display_tot = document.getElementById("total");
     const total = bubbles.size();
-    display_tot.innerText = total + " atrações";
+    display_tot.innerText = total + " atividades";
  
  // Set initial layout to single group.
      var datavisMem = "geral";
@@ -636,7 +608,7 @@ var TrazData = d3.scaleOrdinal()
    function nodeunidadeYPos(d) {
      return unidadeCenters[d.cod_uo].y + (periodoCenters[d.filtra_data].y/30) + ((periodoDoDiaCenters[d.turno].y)/3);
    }
- 
+
  // Função que separa o que não foi filtrado e joga pra fora
    function isolate(force, filter) {
    var initialize = force.initialize;
@@ -644,7 +616,7 @@ var TrazData = d3.scaleOrdinal()
    return force;
  }
  
- // função que faz as contagens e exibe o número de atrações filtradas
+ // função que faz as contagens e exibe o número de atividades filtradas
  function contador(current_count){
    while (display_div.hasChildNodes()) {
           display_div.removeChild(display_div.lastChild);
@@ -1223,7 +1195,7 @@ if (atual != "regiao") {
               } else {
         
  // Apaga texto amigável e mostra Busca
-                novo_span.innerText = "atrações com o termo '" + buscaId +"'";
+                novo_span.innerText = "atividades com o termo '" + buscaId +"'";
                 display_filtro.appendChild(novo_span);
                }
  
@@ -1344,10 +1316,16 @@ if (atual != "regiao") {
                 .attr('y', function (d) { return semanasTitleY[d]; })
                 .attr('fill', function(d) { return fillColor(d); })
                 .attr('text-anchor', 'middle')
-                .text(function (d) { return (d); });
-//                .text(function (d) { return TrazData(d.dia_da_semana); });
-  
-   }
+                .text(function (d) { 
+                      if (temporalMem == "agora") {
+                          return (d) + " " + DataDoDia[d].agora; 
+                         } else if (temporalMem == "proxima") {
+                          return (d) + " " + DataDoDia[d].proxima;
+                        } else {
+                          return (d) + " " + DataDoDia[d].depois;
+                        } 
+                        });
+    }
 
  /*
  * Mostra cabeçalhos de formatos
@@ -1903,7 +1881,7 @@ if (atual != "regiao") {
  
  
  function foco() {
-     document.getElementById('buscatextual').focus();
+     // document.getElementById('buscatextual').focus();
      // document.getElementById('buscatextual').select();
      }
  
