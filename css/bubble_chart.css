@@ -1358,7 +1358,7 @@ label span:before {
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
-  top: 190px;
+  top: 75px;
   height: 25px;
   width: 100%;
   justify-content: center;

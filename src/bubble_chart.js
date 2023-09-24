@@ -1163,23 +1163,25 @@ if (atual != "regiao") {
  // Visualização de Busca --------------------------------------------------------------------------------
  
    function buscaBubbles(buscaId,datavisMem,regiaoBuscaId) {
- 
-     console.log('buscaId: ' + buscaId);
-     console.log('datavisMem: ' + datavisMem);
-     console.log('regiaoBuscaId: ' + regiaoBuscaId);
-     
-     
+
+     if (regiaoBuscaId == "buscac") {
+         regiaoMem = "capital";
+         StrenghtBusca = 0.16;
+       } else if (regiaoBuscaId == "buscai") {
+         regiaoMem = "interior";
+         StrenghtBusca = 0.16;
+       } else {  StrenghtBusca = 0.06; }
+
+       forceStrength = 0.05;
  
      if (datavisMem == "geral" || atual == "limpar") {
-         var regiaoMem = "capital";
+//         var regiaoMem = "capital";
          groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                       acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
          simulation.stop();
      }
  
-        var datavisMem = "busca";
-        var atual = "busca";
- 
+            closeNavCategorias()
             hideunidadeTitles();
             hidesemanaTitles();
             hideformatoTitles();
@@ -1190,8 +1192,7 @@ if (atual != "regiao") {
                 new_span.innerText = "";
                 display_filtro.appendChild(new_span);
                 simulation.stop();  
- 
-            
+           
               } else {
         
  // Apaga texto amigável e mostra Busca
@@ -1205,62 +1206,84 @@ if (atual != "regiao") {
  // Força para expelir não filtradas  
  var radialForceBusca = 
  d3.forceRadial()
-   .radius(width*0.60)
+   .radius(heightTotal*0.90)
    .x(widthTotal/2)
    .y(heightTotal/2)
-   .strength(0.02);
-    
-     bubbles.transition()
-            .duration(1500)
-///            .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
-///                     ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
-            .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
+   .strength(StrenghtBusca);
+
+   console.log('---------------começo-------------');
+   console.log('buscaId na linha 1205: ' + buscaId);
+   console.log('datavisMem: ' + datavisMem);
+   console.log('regiaoBuscaId: ' + regiaoBuscaId);
+   console.log('regiaoMem: ' + regiaoMem);
+   console.log('----------------fim---------------');
+
+
+  if (regiaoBuscaId == 'buscac' || regiaoBuscaId == 'buscai') {
+      Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
+
+      bubbles.transition()
+      .duration(1500)
+      .attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 3 : (d.destaque !== 'undefined') 
+               ? d.radius : !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 3 : d.radius})
+      .attr('stroke', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) 
+        ? '#555555' : (d.online == 1)
+        ? "gold" : (d.ingresso == 1) 
+        ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
+      .attr('stroke-width', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 1 : 3})
+      .attr('fill', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? '#cccccc' : (d.destaque !== 'undefined')
+        ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+
+     simulation.force("r", isolate(radialForceBusca, function(d) { 
+          return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)); 
+          }));
+          simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
+          simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
  
- // Cria aro dourado para ação online ou vermelho para esgotado
-            .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
-              ? '#555555' : (d.online == 1)
-              ? "gold" : (d.ingresso == 1) 
-              ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-            .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
- 
- // preenche a cor da bolha
-            .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
-              ? "url(#" + d.destaque + ")" : !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : fillColor(d.dia_da_semana)});
- 
- // 	joga para o canto as ações que não estão filtradas
- simulation.force("r", isolate(radialForceBusca, function(d) { 
-   return !(d.busca.toLowerCase().includes(buscaId)); 
-   }));
- 
-   console.log(regiaoBuscaId);
- 
-     if (regiaoBuscaId == "buscac") {
-         showunidadeTitles();
-         simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
-         simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
-     } else if (regiaoBuscaId == "buscai") {
-         simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
-         simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
-     } else {
-         simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
-         simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
-     }
- 
- 
+    } else {
+      Filtrados = function(d) { return (d.busca.toLowerCase().includes(buscaId))};
+
+      bubbles.transition()
+      .duration(1500)
+      .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
+               ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
+      .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
+        ? '#555555' : (d.online == 1)
+        ? "gold" : (d.ingresso == 1) 
+        ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
+      .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+      .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
+        ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+
+     simulation.force("r", isolate(radialForceBusca, function(d) { 
+          return !(d.busca.toLowerCase().includes(buscaId)); 
+          }));
+          console.log('busca pura');
+          simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
+          simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
+          hideunidadeTitles();
+  }
+
  // inseri por minha conta para reiniciar
-    simulation.alpha(1).restart();
- 
+      simulation.alpha(1).restart();
+
  // contador da busca textual
-     tot = bubbles.size();
-     filtrado = bubbles.filter(function(d) { return (d.busca.toLowerCase().includes(buscaId))}).size()
-     contador(filtrado);
- 
+    tot = bubbles.size();
+    filtrado = bubbles.filter(Filtrados).size()
+    console.log('filtrados: ' + filtrado);
+    contador(filtrado);
+
+     if (regiaoBuscaId == "buscac") {
+        console.log('busca na capital');
+         showunidadeTitles();
+        } else if (regiaoBuscaId == "buscai") {
+      console.log('busca no interior');
+         showunidadeTitlesInt();
+        }
+  
     openNavBuscaUO();
     document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
  
- 
- // problema a resolver:
- // não perder o valor de BUscaID para retornar 
  function setupButtonsBuscaUO() {
    d3.select('#mySideNavBuscaUO')
      .selectAll('.buttonBuscaUO')
@@ -1278,12 +1301,13 @@ if (atual != "regiao") {
        var datavis = "unidades";
        console.log(buscaId + ' no botão');
       // foco();
+      document.getElementById('buscatextual').focus();
  
-       myBubbleChart.toggleDisplay(buscaId,datavis,regiaoBuscaId);
+      buscaBubbles(buscaId,datavis,regiaoBuscaId);
      });
  }
  setupButtonsBuscaUO();
-  
+
  }
  
  
@@ -1375,6 +1399,20 @@ if (atual != "regiao") {
  
  }
  
+   
+ function showunidadeTitlesInt() {
+
+  var unidadesData = d3.keys(unidadesTitleXInt);
+      var unidades = svg.selectAll('.dia_da_semana').data(unidadesData);
+      unidades.enter().append('text')
+        .attr('class', 'dia_da_semana')
+        .attr('x', function (d) { return unidadesTitleXInt[d]; })
+        .attr('y', function (d) { return unidadesTitleYInt[d]; })
+        .attr('text-anchor', 'middle')
+        .text(function (d) { return fillunidadesInt(d); });
+  }
+
+
  // Busca textual
  const searchInput = d3.select(".g-search input")
  .on("keyup", keyuped)
@@ -1462,9 +1500,9 @@ if (atual != "regiao") {
    chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                    acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                    {
- console.log('buscaId: ' + formatoId);
+ console.log('buscaId (formatoId): ' + formatoId);
  console.log('regiaoId: ' + regiaoId);
- console.log('regiaobuscaId: ' + temporalId);
+ console.log('regiaobuscaId (temporalId) na linha 1467: ' + temporalId);
  
    //	GUARDA AS ÚLTIMAS ESCOLHAS
    if (temporalId == "buscac" || temporalId == "buscai") {
@@ -1543,7 +1581,13 @@ if (atual != "regiao") {
    }
      regiaoBuscaId = "sem-escolha";
      buscaId = this.value; 
-     var buscaMem = buscaId;
+ 
+     var op = document.getElementById('buscac');
+         op.classList.remove('active');
+     var op = document.getElementById('buscai');
+         op.classList.remove('active');
+
+
      buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
    
  };
