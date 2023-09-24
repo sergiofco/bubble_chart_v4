@@ -119,13 +119,13 @@
 
 // Data do Dia   
 var DataDoDia = {
-  seg: { agora: "01/10", proxima: "08/10", depois: "15/10"},
-  ter: { agora: "02/10", proxima: "09/10", depois: "16/10"},
-  qua: { agora: "03/10", proxima: "10/10", depois: "17/10"},
-  qui: { agora: "04/10", proxima: "11/10", depois: "18/10"},
-  sex: { agora: "05/10", proxima: "12/10", depois: "19/10"},
-  sáb: { agora: "06/10", proxima: "13/10", depois: "20/10"},
-  dom: { agora: "07/10", proxima: "14/10", depois: "21/10"},
+  seg: { agora: "25/09", proxima: "02/10", depois: "09/10"},
+  ter: { agora: '26/09', proxima: "03/10", depois: "10/10"},
+  qua: { agora: "27/09", proxima: "04/10", depois: "11/10"},
+  qui: { agora: "28/09", proxima: "05/10", depois: "12/10"},
+  sex: { agora: "29/09", proxima: "06/10", depois: "13/10"},
+  sáb: { agora: "30/09", proxima: "07/10", depois: "14/10"},
+  dom: { agora: "01/10", proxima: "08/10", depois: "15/10"},
   sempre: { agora: " ", proxima: " ", depois: " "},
 };
 
@@ -702,7 +702,7 @@ var DataDoDia = {
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
        var circulo = heightTotal; 
        var forceStrength = 0.08;
-       var forceStrengthRadial = 0.2; 
+       var forceStrengthRadial = 0.24; 
      } else {
        var circulo = heightTotal*0.80;
        var forceStrength = 0.06;
