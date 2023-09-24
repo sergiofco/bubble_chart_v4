@@ -21,11 +21,11 @@ body {
   color: #f6f5f1;
   font-size: 13px; 
   line-height: 1.231; 
-/*   background-image: url(../img/fundo.png);
-  background-size: 75%;  
-  opacity: .1;
+/*  background-image: url(../img/fundo1.jpeg);
+  background-size: 100%;  
   background-repeat: no-repeat;
-  Background-position: center center; */
+  Background-position: center center;
+  z-index: -9999999; */
 }
 
 .acesso {
@@ -70,24 +70,40 @@ a, a:visited, a:active {
  
 .container {
  position: fixed;
- padding: 3px 3px;
- top:0;
- left: 7%;
- right: 7%;
- line-height: 32px;
- margin: auto;
+ top:0px;
+ align-items: center;
+ vertical-align: center;
  text-align: center;
+ padding: 3px 3px;
+ width: 60%;
+ height: 20px;
+ line-height: 32px;
  z-index: 10;
  color: #FFFFFF;
+}
+
+.toolbar {
+  position: fixed;
+  top:42px;
+  align-items: center;
+  left: 0%;
+  vertical-align: center;
+  text-align: center;
+  padding: 3px 3px;
+  width: 100%;
+  height: 20px;
+  line-height: 32px;
+  z-index: 10;
+  color: #FFFFFF;
 }
 
 .button {
   min-width: 65px;
   background: lightgray;
-  padding: 5px 20px;
+  padding: 5px 15px;
+  font-size: clamp(0.45em, 0.7em + 0.7vw, 1em);
   cursor: pointer;
   text-align: center;
-  font-size: 12px;
   border: 2px solid #797874;
   text-decoration: none;
   border-radius: 3%;
@@ -130,7 +146,7 @@ a, a:visited, a:active {
   padding: 5px 12px;
   cursor: pointer;
   text-align: center;
-  font-size: 11px;
+  font-size: clamp(0.45em, 0.7em + 0.7vw, 1em);
   border: 2px solid #797874;
   text-decoration: none;
   border-radius: 5%;
@@ -147,7 +163,7 @@ a, a:visited, a:active {
 
 .buttonCat.active {
   background: rgb(164, 44, 44);
-   color: #f6f5f1;
+  color: #f6f5f1;
   font-weight: bold;
 }
 
@@ -189,11 +205,6 @@ a, a:visited, a:active {
   z-index: 9;  
 }
 
-.toolbar {
-  color:#000000;
-  width: 100%;
-  top: 10%;
-}
 
 .year {
   font-size: 21px;
@@ -355,13 +366,33 @@ a, a:visited, a:active {
   .sidenav a {font-size: 18px;}
 }
 
+.logo_sesc {
+  position: fixed;
+  top: 0.5%;
+  left: 5%;
+  width: 5%;
+  padding: 3px;
+  margin: 1.5px;
+  vertical-align: center;
+}
+.logo_ajuda {
+  position: fixed;
+  top: 0.5%;
+  right: 5%;
+  width: 3%;
+  padding: 3px;
+  margin: 1.5px;
+  vertical-align: center;
+}
+
 .overlay-info {
     position: fixed;
-    top: 25px;
-    left: 25px;
-    width: 50px;
-    height: 50px;
-    background: url(../img/info.png);
+    top: 0.5%;
+    left: 5%;
+    width: 5%;
+    height: 5%;
+    padding: 3px;
+    background: url(../img/ajuda.png);
     background-size: 40px;
     cursor: pointer;
     background-repeat: no-repeat;
@@ -416,6 +447,9 @@ border: 0;
 
 #burger-toggle {
   position: relative;
+  top: 0.5%;
+  right: 5%;
+  width: 3%;
   appearance: none;
   opacity: 0;
   display:none;
@@ -462,8 +496,8 @@ border: 0;
 .burger-menu {
     --burger-menu-radius: 4em;
     position: fixed;
-    top: 25px;
-    right: 25px;
+    top: 0.5%;
+    right: 2%;
     z-index: 100;
     display: block;
     width: var(--burger-menu-radius);
@@ -797,30 +831,6 @@ border: 0;
     cursor: pointer;
 }
 
-
-.mapa {
-  position: relative;
-  z-index: -99999;
-  opacity: .2;
-  animation: fadeIn ease-in-out 2s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
- }
-
-
-.mapa_spe {
-  background: url(https://servicodados.ibge.gov.br/api/v3/malhas/estados/SP);
-  background-repeat: no-repeat;
-  background-position-x: 30%;
-  background-position-y: center;
-  opacity: .2;
-  position: relative;
-  animation: fadeIn ease-in-out 2s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-    z-index: -99999;
-}
-
 @keyframes fadeIn {
 0% {
 opacity: 0;
@@ -967,7 +977,7 @@ visibility: visible;
 
 .containerTempo {
   position: fixed;
-  top: 115px;
+  top: 12%;
   left: 90%;
   bottom: 0;
   height: 115px;
@@ -1010,11 +1020,11 @@ visibility: visible;
 
 .containerRadioRegiao {
   position: fixed;
-  top: 130px;
+  top: 12%;
   left: 0%;
   bottom: 0;
   height: 75px;
-  width: 140px;
+  width: 135px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1025,12 +1035,12 @@ visibility: visible;
 .containerRadioUOs {
   position: fixed;
   color: f6f5f1;
-  font-size: 11px;
+  font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: flex; /* Show by default */
-  top: 115px;
-  left: 6%;
+  top: 5.5%;
+  left: 5%;
   height: height;
-  width: 250px;
+  width: 150px;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -1040,12 +1050,12 @@ visibility: visible;
 .containerRadioUOsInterior {
   position: fixed;
   color: f6f5f1;
-  font-size: 11px;
+  font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Hidden by default */
-  top: 115px;
-  left: 6%;
+  top: 7.5%;
+  left: 5%;
   height: height;
-  width: 210px;
+  width: 150px;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -1058,7 +1068,7 @@ visibility: visible;
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
-  top: 75px;
+  top: 80px;
   height: 25px;
   width: 100%;
   justify-content: center;
@@ -1073,7 +1083,7 @@ visibility: visible;
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
-  top: 75px;
+  top: 80px;
   height: 25px;
   left: 15%;
   width: 100%;
@@ -1111,8 +1121,8 @@ visibility: visible;
   width: 50px;
   height: 25px;
   font-weight: bold;
-  font-size: 18px;
-  text-shadow: 3px 3px 3px white;
+  font-size: clamp(0.75em, 0.8em + 0.8vw, 1.3em);;
+  text-shadow: 2px 2px 2px #EEEEEE;
   text-align: center;
   line-height: 20px;
   padding: 3px;
@@ -1127,7 +1137,7 @@ visibility: visible;
   width: 40px;
   height: 30px;
   font-weight: bold;
-  font-size: 12px;
+  font-size: clamp(0.6em, 1em + 1vw, 1.2em);
   text-align: center;
   line-height: 20px;
   padding: 3px;
@@ -1160,20 +1170,14 @@ visibility: visible;
 
 
 .total {
-  position: fixed;
-  top: 3px;
-  left: 26%;
-  width: 180px;
-  height: 36px;
-  color: black;
-  font-weight: bold;
-  font-size: clamp(1em, 1em + 1vw, 1.5em);
-  text-align: center;
-  line-height: 20px;
-  padding: 3px;
-  margin: 1.5px;
-  font-family: Montserrat;
+  position: relative;
   vertical-align: center;
+  right: 10%;
+  width: 100%;
+  color: #444444;
+  font-weight: bold;
+  font-size: clamp(0.75em, 1em + 1vw, 1.2em);
+  font-family: Montserrat;
 }
 
  .contador {
@@ -1231,7 +1235,7 @@ label {
   font-weight: 720;
   position: relative;
   overflow: hidden;
-  margin-bottom: 0.375em;
+  margin-bottom: 0.275em;
   
     /*
   	&:focus-within {
@@ -1280,7 +1284,7 @@ label input:checked + span:before {
 label span {
   display: flex;
   align-items: center;
-  padding: 0.375em 0.75em 0.375em 0.375em;
+  padding: 0.275em 0.4em 0.275em 0.275em;
   border-radius: 99em;
   transition: 0.25s ease;
   background-color: lightgray;
@@ -1307,34 +1311,31 @@ label span:before {
 
 
 .zera {
+  position: relative;
   color:#FFFFFF;
-  width: 90%;
-  position: fixed;
+  width: 100%;
   top: 0.4%;
-  right: 27%;
-  width: 120px;
-  height: 36px;
+  width: 100%;
+  height: 100%;
   color: #FFFFFF;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  line-height: 20px;
   padding: 1px;
   margin: 1.5px;
   font-family: Montserrat;
   vertical-align: center;
-  z-index: 10;
+  z-index: 9999;
 }
 
 .buttonTudo {
+  position: relative;
+  left: 10%;
   min-width: 100px;
   max-width: 120px;
   background: black;
   color: #FFFFFF;
-  padding: 5px 20px;
+  padding: 6px 20px;
   cursor: pointer;
   text-align: center;
-  font-size: 12px;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
   border: 2px solid #f6f5f1;
   text-decoration: none;
   border-radius: 3%;
@@ -1358,7 +1359,7 @@ label span:before {
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
-  top: 75px;
+  top: 80px;
   height: 25px;
   width: 100%;
   justify-content: center;
@@ -1393,12 +1394,4 @@ label span:before {
   font-weight: bold;
 }
 
-.logo_sesc {
-  position: fixed;
-  top: 0.5%;
-  left: 5%;
-  width: 5%;
-  padding: 3px;
-  margin: 1.5px;
-  vertical-align: center;
-}
+

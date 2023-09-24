@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>sesc sp infovis</title>
-  <meta name="description" content="Using D3v4 to create a Bubble chart. Based on NYT visualization">
+  <meta name="description" content="Using D3v4 to create a Bubble chart.">
   <meta name="author" content="Jim Vallandingham / Adaptação Sérgio Seabra">
 <!--parte do zoom -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -30,13 +30,87 @@
 	</div>
 
 </div>
+
            <input type="checkbox" id="burger-toggle">
            <label for="burger-toggle" class="burger-menu">
 			  <div class="line"></div>
               <div class="line"></div>
               <div class="line"></div>
-			  <img alt="ajuda" src="img/ajuda.png" width="50">  
+			  <img alt="ajuda" src="img/ajuda.png" width="100%" class="logo_ajuda">  
 			</label>
+
+<!-- LOGO E CONTADOR -->
+<div class="logo_sesc" id="logo"><img alt="logo" src='img/logo.png' style="width:100%"></div>		
+<div class="contador" id="contador"></div>
+
+<body class="flex flex-col items-center py-16">
+
+<div class="container">
+ <table class="container" width="50%">
+  <tr>
+	<td><div class="total" id="total"><span id="total"></span></div></td>
+	<td>
+	  <div id="busca" class="g-search">
+	   <form>
+		  <input class="g-search" id="buscatextual" name="buscatextual" type="text"  placeholder=" escreva aqui o que você procura ou escolha abaixo&hellip;">
+	   </form>  
+	  </div>
+	</td>
+<!-- LIMPA TUDO -->
+	<td>
+		<div class="zera" id="zera">
+			<span id="zera">
+	 		<form>
+			 <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros" width="100px"></input>
+	 		</form>
+   			</span>
+  		</div>		
+	</td>
+  </tr>
+</table>
+<div id="toolbar" class="toolbar">
+	<form>
+			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
+			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
+			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
+			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo4" class="button" value="exposições"></input>
+			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
+			 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo8" class="button" value="turismo"></input>
+			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
+			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="crianças"></input>
+			 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
+	</form>
+</div>
+</div>
+  <div id="mySideNavCategoria" class="containerCategorias">
+	  <form>
+		  <input type="button" id="ca6" class="buttonCat" value="artes visuais">
+		  <input type="button" id="ca1" class="buttonCat" value="música">
+		  <input type="button" id="ca3" class="buttonCat" value="circo">
+		  <input type="button" id="ca4" class="buttonCat" value="dança">
+		  <input type="button" id="ca2" class="buttonCat" value="teatro">
+		  <input type="button" id="ca7" class="buttonCat" value="literatura">
+		  <input type="button" id="ca5" class="buttonCat" value="cinema">
+		  <input type="button" id="ca8" class="buttonCat" value="educação">
+		  <input type="button" id="ca9" class="buttonCat" value="meio ambiente">
+		  <input type="button" id="ca10" class="buttonCat" value="saúde">
+		  <input type="button" id="ca11" class="buttonCat" value="atividade física">
+		  <input type="button" id="ca14" class="buttonCat" value="+ lazer">
+		  <input type="button" id="ca" class="buttonCat active" value="zera" hidden></input>
+	  </form>
+  </div>
+  <div id="mySideNavServicos" class="containerServicos">
+	  <form>
+		  <input type="button" id="ca12" class="buttonSer" value="excursão">
+		  <input type="button" id="ca13" class="buttonSer" value="passeio">
+		  <input type="button" id="ca15" class="buttonSer" value="piscina">
+		  <input type="button" id="ca16" class="buttonSer" value="biblioteca">
+		  <input type="button" id="ca17" class="buttonSer" value="odontologia">
+		  <input type="button" id="ca18" class="buttonSer" value="comedoria - restaurantes">
+		  <input type="button" id="se" class="buttonSer active" value="zera" hidden></input>
+	  </form>
+  </div>
+  
 
 <div id="temporal" class="containerTempo">
 	<form>
@@ -108,8 +182,6 @@
 		</label>
 	</form>
 </div>
-
-<div id="slider-range"></div>
 
 <div id="unidades">
 	<form>
@@ -295,63 +367,6 @@
   </form>
 </div>
 
-<body class="flex flex-col items-center py-16">
-
-  <div class="container">
-	<div id="busca" class="g-search">
-	 <form>
-		<input class="g-search" id="buscatextual" name="buscatextual" type="text"  placeholder=" escreva aqui o que você procura ou escolha abaixo&hellip;">
-	 </form>  
-	</div>
-	<div id="toolbar">
-	<form>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
-	 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo4" class="button" value="exposições"></input>
-	 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
-	 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo8" class="button" value="turismo"></input>
-	 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
-	 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="+ lazer"></input>
-	 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
-	</div>
- </form>
-
-</div>
-<div id="mySideNavCategoria" class="containerCategorias">
-	<form>
-		<input type="button" id="ca6" class="buttonCat" value="artes visuais">
-		<input type="button" id="ca1" class="buttonCat" value="música">
-		<input type="button" id="ca3" class="buttonCat" value="circo">
-		<input type="button" id="ca4" class="buttonCat" value="dança">
-		<input type="button" id="ca2" class="buttonCat" value="teatro">
-		<input type="button" id="ca7" class="buttonCat" value="literatura">
-		<input type="button" id="ca5" class="buttonCat" value="cinema">
-		<input type="button" id="ca8" class="buttonCat" value="educação">
-		<input type="button" id="ca9" class="buttonCat" value="meio ambiente">
-		<input type="button" id="ca10" class="buttonCat" value="saúde">
-		<input type="button" id="ca11" class="buttonCat" value="atividade física">
-		<input type="button" id="ca14" class="buttonCat" value="+ lazer">
-		<input type="button" id="ca" class="buttonCat active" value="zera" hidden></input>
-	</form>
-</div>
-<div id="mySideNavServicos" class="containerServicos">
-	<form>
-		<input type="button" id="ca12" class="buttonSer" value="excursão">
-		<input type="button" id="ca13" class="buttonSer" value="passeio">
-		<input type="button" id="ca15" class="buttonSer" value="piscina">
-		<input type="button" id="ca16" class="buttonSer" value="biblioteca">
-		<input type="button" id="ca17" class="buttonSer" value="odontologia">
-		<input type="button" id="ca18" class="buttonSer" value="comedoria - restaurantes">
-		<input type="button" id="se" class="buttonSer active" value="zera" hidden></input>
-	</form>
-</div>
-
-<!-- CONTADOR -->
-  <div class="total" id="total"><span id="total"></span></div>		
-  <div class="logo_sesc" id="logo"><img alt="logo" src='img/logo.png' style="width:100%"></div>		
-  <div class="contador" id="contador"></div>
-
 <!-- BUSCA EXIBINDO UOs -->
 <div id="mySideNavBuscaUO" class="containerBuscaUO">
 	<form>
@@ -360,15 +375,6 @@
 	<input type="button" id="todos" class="buttonBuscaUO active" value="sem-escolha" hidden></input>
 </form>
 </div>		
-
-<!-- LIMPA TUDO -->
-  <div class="zera" id="zera">
-	<span id="zera">
-	 <form>
-		<input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros" width="100px"></input>
-	 </form>
-   </span>
-  </div>		
 
 <nav class="menu">
 <!-- AJUDA -->
