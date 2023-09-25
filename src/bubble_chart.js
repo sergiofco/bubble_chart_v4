@@ -435,7 +435,7 @@ var DataDoDia = {
        
        return {
          id: d.id,
-        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+3500) : radiusScale(+d.lugares)),
+        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+1500) : radiusScale(+d.lugares)),
          value: +d.lugares,
          name: d.nome,
          name2: d.complemento,
