@@ -9,7 +9,7 @@
 
 // Load the data.
  // d3.csv('data/orasbolasC.csv', display);
- d3.csv('data/atual-250923c.csv', display);
+ d3.csv('data/tudo-semdfe.csv', display);
 
  function bubbleChart() {
  
@@ -867,7 +867,7 @@ simulation.alpha(1).restart();
        var fp = ' para ' + 'todos os publicos' } else { fp = ' para ' + publicoMem};
  
    if (gratisMem == 1) {
-         var fg = ' gratuitos ' } else { fg = ''};
+         var fg = ' gratuitas ' } else { fg = ''};
          
    if (onlineMem == 1) {
            var fo = ' online ' } else { fo = ''};
@@ -1633,7 +1633,7 @@ if (atual != "regiao") {
              categoriaMem = '99';
              categoriaId = '99';
  
-         var datavis = "unidades";
+   //      var datavis = "unidades";
  
              arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '14','12','13','15','16','17','18'];
               for(var i=0; i < arr.length; i++) { 
@@ -1697,7 +1697,7 @@ if (atual != "regiao") {
        var categoriaId = button.attr('id').substring(2);
        var escolhido = button.attr('value');
            var atual = "categoria";
-           var datavis = "unidades";
+//           var datavis = "unidades";
  
            foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
@@ -1721,7 +1721,7 @@ if (atual != "regiao") {
       var categoriaId = button.attr('id').substring(2);
       var escolhido = button.attr('value');
           var atual = "servicos";
-          var datavis = "unidades";
+   //       var datavis = "unidades";
 
           foco();
       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
@@ -1746,7 +1746,7 @@ if (atual != "regiao") {
        var escolhido = temporal.attr('value');
  
        var atual = "temporal";
-       var datavis = "agenda";
+   //    var datavis = "agenda";
  
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
@@ -1924,6 +1924,21 @@ if (atual != "regiao") {
  }
  
  
+ function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) {
+  var datavisMem = "unidades";
+  console.log('passou aqui na 17')
+  myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
+
+ } 
+
+ function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) {
+  console.log('passou aqui na 23')
+  var datavisMem = "agenda";
+  myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
+
+ } 
+
+ 
  function foco() {
      // document.getElementById('buscatextual').focus();
      // document.getElementById('buscatextual').select();
@@ -1942,3 +1957,5 @@ if (atual != "regiao") {
   setupButtonsFiltroAcessivel();
   setupButtonsFiltroOnline();
   setupButtonsFiltroUnidades();
+  VizPorUO();
+  VizPorAgenda();

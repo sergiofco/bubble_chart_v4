@@ -68,8 +68,12 @@
 	</td>
   </tr>
 </table>
+</div>
+
 <div id="toolbar" class="toolbar">
-	<form>
+  <table><tr><td></td>
+	<td>
+ 		<form>
 			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
 			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
 			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
@@ -79,11 +83,22 @@
 			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
 			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="crianças"></input>
 			 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
-	</form>
+		</form>
+	</td><td></td></tr>
+	<tr><td>
+		<div class="uos">
+			<a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="48px" height="48px"></a>  
+		</div>
+	</td><td></td>
+	<td>
+		<div class="week">
+			<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="48px" height="48px"></a>  
+		</div>
+	</td></tr>
+	</table>
 </div>
-</div>
-  <div id="mySideNavCategoria" class="containerCategorias">
-	  <form>
+<div id="mySideNavCategoria" class="containerCategorias">
+	     <form>
 		  <input type="button" id="ca6" class="buttonCat" value="artes visuais">
 		  <input type="button" id="ca1" class="buttonCat" value="música">
 		  <input type="button" id="ca3" class="buttonCat" value="circo">
@@ -97,7 +112,7 @@
 		  <input type="button" id="ca11" class="buttonCat" value="atividade física">
 		  <input type="button" id="ca14" class="buttonCat" value="+ lazer">
 		  <input type="button" id="ca" class="buttonCat active" value="zera" hidden></input>
-	  </form>
+	     </form>
   </div>
   <div id="mySideNavServicos" class="containerServicos">
 	  <form>
@@ -410,7 +425,11 @@
 <div class="escape"></div>
 			<!-- p>Protótipo desenvolvido por Sérgio Seabra com a biblioteca D3v4.js a partir do trabalho de Jim Vallandingham [vallandingham.me]</p>
 			<strong>GEDES . Gerência de Estudos e Desenvolvimento | GSD . Gerência Sesc Digital</strong -->
-	</div>
+				<a href="https://www.freepik.com/icons/calendar">Icon by Freepik</a>
+				<a target="_blank" href="https://icons8.com/icon/85798/per%C3%ADmetro-virtual">Perímetro virtual</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+
+</div>
 </nav>
 
 <!-- AJUDA INICIAL -->
@@ -425,7 +444,6 @@
 <div class= "help-texto1">Cada ponto é uma atração do Sesc.</div>
 <div class= "help-texto2">Utilize os filtros para encontrar a sua!</div>
 <div class= "help-texto3">Passando o mouse sobre os pontos você vê detalhes da atração.</div>
-
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4"></script>
