@@ -75,11 +75,11 @@ a, a:visited, a:active {
  vertical-align: center;
  text-align: center;
  padding: 1px 1px;
- right: 24%;
- width: 55%;
+ right: 17%;
+ width: 65%;
  height: 20px;
  line-height: 32px;
- z-index: 10;
+ z-index: 12;
  color: #FFFFFF;
 }
 
@@ -90,11 +90,11 @@ a, a:visited, a:active {
   vertical-align: center;
   text-align: center;
   padding: 5px 5px;
-  right: 24%;
-  width: 55%;
+  right: 8%;
+  width: 82%;
   height: 40px;
   line-height: 32px;
-  z-index: 10;
+  z-index: 12;
   color: #FFFFFF;
 }
 
@@ -1093,14 +1093,14 @@ visibility: visible;
   color: f6f5f1;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: flex; /* Show by default */
-  top: 30%;
+  top: 26%;
   left: -45px;
   height: height;
   width: 150px;
   justify-content: left;
   align-items: left;
   padding: 20px;
-  z-index: 10;
+  z-index: 9;
 }
 
 
@@ -1109,8 +1109,8 @@ visibility: visible;
   color: f6f5f1;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: flex; /* Show by default */
-  top: 5.5%;
-  left: 5%;
+  top: 6.5%;
+  left: 6%;
   height: height;
   width: 150px;
   justify-content: center;
@@ -1248,7 +1248,7 @@ visibility: visible;
   width: 100%;
   color: #444444;
   font-weight: bold;
-  font-size: clamp(0.75em, 1em + 1vw, 1.2em);
+  font-size: clamp(0.75em, 0.85em + 0.85vw, 1em);
   font-family: Montserrat;
 }
 
