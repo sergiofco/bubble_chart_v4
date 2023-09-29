@@ -46,7 +46,7 @@
 <body class="flex flex-col items-center py-16">
 
 <div class="container">
- <table class="container" width="50%">
+ <table class="container">
   <tr>
 	<td><div class="total" id="total"><span id="total"></span></div></td>
 	<td>
@@ -70,6 +70,9 @@
 </table>
 </div>
 
+<div class="uos">
+	<a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="48px" height="48px"></a>  
+</div>
 <div id="toolbar" class="toolbar">
   <table><tr><td></td>
 	<td>
@@ -81,21 +84,15 @@
 			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo5" class="button" value="filmes"></input>
 			 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo8" class="button" value="turismo"></input>
 			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo6" class="button" value="atividade física"></input>
-			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="crianças"></input>
+			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="para brincar"></input>
 			 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
 		</form>
 	</td><td></td></tr>
-	<tr><td>
-		<div class="uos">
-			<a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="48px" height="48px"></a>  
-		</div>
-	</td><td></td>
-	<td>
-		<div class="week">
-			<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="48px" height="48px"></a>  
-		</div>
-	</td></tr>
 	</table>
+	<div class="week">
+		<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="48px" height="48px"></a>  
+	</div>
+
 </div>
 <div id="mySideNavCategoria" class="containerCategorias">
 	     <form>
@@ -137,10 +134,12 @@
 			<input type="radio" id="proxima" class="temporal" name="radio"/ checked>
 			<span>próxima semana</span>
 		</label>
+		<!-- oculto até resolver os problemas de performance
 		<label>
 			<input type="radio" id="depois" class="temporal" name="radio"/>
 			<span>e depois...</span>
 		</label>
+		-->
 	</form>
 </div>
 	<br><br>
@@ -189,18 +188,18 @@
 	<form>
 		<label>
 			<input type="radio" class="regiao" id="capital" value="Grande São Paulo" name="radio"/ checked>
-			<span onclick="closeNavInterior(),openNavCapital()">Grande São Paulo</span>
+			<span onclick="closeNavInterior(),openNavCapital(),openNavGdeSP()">Grande São Paulo</span>
 		</label>
 		<label>
 			<input type="radio" class="regiao" id="interior" value="Interior e Litoral" name="radio"/>
-			<span onclick="closeNavCapital(),openNavInterior()">Interior e Litoral</span>
+			<span onclick="closeNavCapital(),openNavInterior(),closeNavGdeSP()">Interior e Litoral</span>
 		</label>
 	</form>
 </div>
 
 <div id="unidades">
 	<form>
-		<div id="mySideNavCapital" class="containerRadioUOs">
+	<div id="mySideNavCapital" class="containerRadioUOs">
 		<ul>
 		<label>
 			<input type="radio" class="uo" value="14 Bis" id="uo49" name="radio"/>
@@ -251,10 +250,6 @@
 			<span>Florêncio de Abreu</span>
 		</label>
 		<label>
-			<input type="radio" class="uo" value="Guarulhos" id="uo73" name="radio"/>
-			<span>Guarulhos</span>
-		</label>
-		<label>
 			<input type="radio" class="uo" value="Interlagos" id="uo55" name="radio"/>
 			<span>Interlagos</span>
 		</label>
@@ -265,14 +260,6 @@
 		<label>
 			<input type="radio" class="uo" value="Itaquera" id="uo56" name="radio"/>
 			<span>Itaquera</span>
-		</label>
-		<label>
-			<input type="radio" class="uo" value="Mogi das Cruzes" id="uo72" name="radio"/>
-			<span>Mogi das Cruzes</span>
-		</label>
-		<label>
-			<input type="radio" class="uo" value="Osasco" id="uo95" name="radio"/>
-			<span>Osasco</span>
 		</label>
 		<label>
 			<input type="radio" class="uo" value="Pinheiros" id="uo58" name="radio"/>
@@ -291,6 +278,26 @@
 			<span>Santo Amaro</span>
 		</label>
 		<label>
+			<input type="radio" class="uo" value="Vila Mariana" id="uo66" name="radio"/>
+			<span>Vila Mariana</span>
+		</label>
+	</ul>
+</div>
+	<div id="mySideNavGdeSP" class="containerRadioUOsGdeSP">
+		<ul>
+		<label>
+			<input type="radio" class="uo" value="Guarulhos" id="uo73" name="radio"/>
+			<span>Guarulhos</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Mogi das Cruzes" id="uo72" name="radio"/>
+			<span>Mogi das Cruzes</span>
+		</label>
+		<label>
+			<input type="radio" class="uo" value="Osasco" id="uo95" name="radio"/>
+			<span>Osasco</span>
+		</label>
+		<label>
 			<input type="radio" class="uo" value="Santo André" id="uo88" name="radio"/>
 			<span>Santo André</span>
 		</label>
@@ -298,13 +305,10 @@
 			<input type="radio" class="uo" value="São Caetano" id="uo67" name="radio"/>
 			<span>São Caetano</span>
 		</label>
-		<label>
-			<input type="radio" class="uo" value="Vila Mariana" id="uo66" name="radio"/>
-			<span>Vila Mariana</span>
-		</label>
 	</ul>
+	</div>
 </form>
-</div>
+
 
  <div id="mySideNavInterior" class="containerRadioUOsInterior">
 <form>
@@ -394,12 +398,28 @@
 <nav class="menu">
 <!-- AJUDA -->
 <div class= "help-oque1"><img alt="oque" src='img/oque.png' width="700"><br>
-	<img src='img/sesc.png' width="150"></img><br><br>
+	<table><tr>
 	Cada ponto é uma atividade realizada pelo Sesc SP.<br>
 	Utilize os filtros para encontrar a sua!<br><br>
-	<img src='img/help1.png' width="500"></img><br><br>
+	<img src='img/viz_entrada.png' width="300"></img><br><br>
 	Passando o mouse sobre os pontos, você vê detalhes da atividade.<br>
 	e com um clique, você acessaria a página com as informações completas.<br><br>
+	</tr>
+	<tr>
+	 <td>
+		<img src='img/viz_cores.png' width="200"></img><br><br>
+	 </td>
+	 <td>
+		<img src='img/viz_pos.png' width="200"></img><br><br>
+	</td>
+  </tr>
+  <tr>
+	<img src='img/viz_uos.png' width="200"></img><br><br>
+	<img src='img/viz_semanal.png' width="200"></img><br><br>
+	<img src='img/viz_1uo.png' width="200"></img><br><br>
+	<img src='img/viz_busca.png' width="200"></img><br><br>
+</tr>
+</table>
 </div>
 
 <div class= "help-onde1"><img src='img/onde.png' width="150"></div><br>
@@ -417,33 +437,20 @@
 						 vários dias, em bege.
 						</div>
 
-<div class="arrow2">
+<!-- <div class="arrow2">
         <span></span>
         <span></span>
         <span></span>
-</div>
+</div> -->
+
 <div class="escape"></div>
-			<!-- p>Protótipo desenvolvido por Sérgio Seabra com a biblioteca D3v4.js a partir do trabalho de Jim Vallandingham [vallandingham.me]</p>
-			<strong>GEDES . Gerência de Estudos e Desenvolvimento | GSD . Gerência Sesc Digital</strong -->
+			<!--
+				p>Design e desenvolvimento experimental: Sérgio Seabra, com a biblioteca D3v4.js a partir do trabalho de Jim Vallandingham [vallandingham.me]</p>
+			 -->
 				<a href="https://www.freepik.com/icons/calendar">Icon by Freepik</a>
 				<a target="_blank" href="https://icons8.com/icon/85798/per%C3%ADmetro-virtual">Perímetro virtual</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-
-
 </div>
 </nav>
-
-<!-- AJUDA INICIAL -->
-<div class="ajudaInicial">
-	<!--
-	<div class= "help-oque"><img src='img/oque.png' width="700"></div><br>
-	<div class= "help-onde"><img src='img/onde.png' width="150"></div>
-	<div class= "help-quando"><img src='img/quando.png' width="150"></div>
-	-->
-</div>
-
-<div class= "help-texto1">Cada ponto é uma atração do Sesc.</div>
-<div class= "help-texto2">Utilize os filtros para encontrar a sua!</div>
-<div class= "help-texto3">Passando o mouse sobre os pontos você vê detalhes da atração.</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4"></script>

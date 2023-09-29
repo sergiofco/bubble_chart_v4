@@ -8,8 +8,7 @@
  */
 
 // Load the data.
- // d3.csv('data/orasbolasC.csv', display);
- d3.csv('data/tudo-semdfe.csv', display);
+ d3.csv('data/tudo2909-2semamas.csv', display);
 
  function bubbleChart() {
  
@@ -80,10 +79,10 @@
  
    // Posição central pelo proximidade da ação
    var periodoCenters = {
-     thisW: { y: posCH-posH-corrigeH},
-     nextW: { y: posCH-posH/2-corrigeH},
-     thisM: { y: posCH-corrigeH},
-     nextM: { y: posCH+posH/2-corrigeH},
+     thisW: { y: posCH-posH/2-corrigeH},
+     nextW: { y: posCH-posH/4-corrigeH},
+//     thisM: { y: posCH-corrigeH},
+//     nextM: { y: posCH+posH/4-corrigeH},
      sempre: { y: pos3H+1*posH/2-corrigeH}
    };
 
@@ -107,13 +106,13 @@
    };
  
    var semanasTitleY = {
-    seg: pos1H-posH-posH/2, 
-    ter: pos1H-posH-posH/2,
-    qua: pos1H-posH-posH/2,
-    qui: pos1H-posH-posH/2,
-    sex: pos1H-posH-posH/2,
-    sáb: pos1H-posH-posH/2,
-    dom: pos1H-posH-posH/2,
+    seg: pos1H-posH, 
+    ter: pos1H-posH,
+    qua: pos1H-posH,
+    qui: pos1H-posH,
+    sex: pos1H-posH,
+    sáb: pos1H-posH,
+    dom: pos1H-posH,
     sempre: pos3H+6*posH/2
    };
 
@@ -277,8 +276,8 @@ var DataDoDia = {
    88: {x: posCW+posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Santo André
   56: {x: posCW+6*posW+posW/4-corrigeW, y:pos3H-posH}, // Itaquera
    // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
-  49: {x: posCW-6*posW-posW/4-corrigeW, y:pos2H-posH/2}, // 14 Bis
-  60: {x: posCW-6*posW-posW/4-corrigeW, y:pos3H-posH}, // Casa Verde
+  49: {x: posCW-2*posW-corrigeW, y:pos2H-posH/2}, // 14 Bis
+  60: {x: posCW+4*posW+posW/4-corrigeW, y:pos3H-posH}, // Casa Verde
 
    
    // interior
@@ -406,10 +405,6 @@ var DataDoDia = {
          .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
          .range([corAzul, corAzul, corAzul, corAzul, corAzul, corLaranja, corLaranja, corAll]);
    
-  //  var opacidadeColor = d3.scaleOrdinal()
-  //      .domain(['thisW', 'nextW', 'thisM', 'nextM','sempre'])
-  //      .range(['1','.7','.5','.25','.8']);
-
   var opacidadeColor = d3.scaleOrdinal()
       .domain(['manhã', 'tarde', 'noite', 'consulte'])
       .range(['0.5','0.75','1','0.9']);
@@ -565,6 +560,7 @@ var DataDoDia = {
      var atual = "limpar";
      var temporalId = "agora";
      var regiaoId = "capital";
+
      groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
        acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
   };
@@ -636,9 +632,19 @@ var DataDoDia = {
  
  // Transições 
           bubbles.transition().duration(4000);
+          bubbles.attr('r', function(d) { return (
+            !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
+
+          bubblesDaSemana = bubbles.filter(function(d) { 
+            return (d.filtra_dataF == temporalMem)
+            });    
+            console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
+
+
+
  
  // Escolhe cor de acordo com o dia da semana e cinza se não filtrada
-    bubbles.attr('fill', function(d) { return (
+ bubblesDaSemana.attr('fill', function(d) { return (
      (d.regiao != regiaoMem) || 
      (d.gratis != 1 && gratisMem == 1) || 
      (d.ingresso != 0 && vendaMem == 1) || 
@@ -647,11 +653,11 @@ var DataDoDia = {
      (d.online != 1 && onlineMem == 1) ||
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
-     (d.tem != 1 && acessivelMem == 1) ||
-     (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+     (d.tem != 1 && acessivelMem == 1)
+//   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
     ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
  
-   bubbles.attr('r', function(d) { return (
+bubblesDaSemana.attr('r', function(d) { return (
      (d.regiao != regiaoMem) || 
      (d.gratis != 1 && gratisMem == 1) || 
      (d.ingresso != 0 && vendaMem == 1) || 
@@ -660,13 +666,13 @@ var DataDoDia = {
      (d.online != 1 && onlineMem == 1) ||
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
-     (d.tem != 1 && acessivelMem == 1) ||
-     (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+     (d.tem != 1 && acessivelMem == 1)
+//    || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
      ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
    });
  
  // Cria aro dourado para ação online ou vermelho para esgotado
-   bubbles.attr('stroke', function(d) { return (
+ bubblesDaSemana.attr('stroke', function(d) { return (
      (d.regiao != regiaoMem) || 
      (d.gratis != 1 && gratisMem == 1) || 
      (d.ingresso != 0 && vendaMem == 1) || 
@@ -675,13 +681,13 @@ var DataDoDia = {
      (d.online != 1 && onlineMem == 1) ||
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
-     (d.tem != 1 && acessivelMem == 1) ||
-     (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+     (d.tem != 1 && acessivelMem == 1)
+//    || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
    ) ? '#555555' : (d.online == 1)
    ? "gold" : (d.ingresso == 1) 
    ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()});
  
-   bubbles.attr('stroke-width', function(d) { return (
+bubblesDaSemana.attr('stroke-width', function(d) { return (
      (d.regiao != regiaoMem) || 
      (d.gratis != 1 && gratisMem == 1) || 
      (d.ingresso != 0 && vendaMem == 1) || 
@@ -690,8 +696,8 @@ var DataDoDia = {
      (d.online != 1 && onlineMem == 1) ||
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
-     (d.tem != 1 && acessivelMem == 1) ||
-     (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+     (d.tem != 1 && acessivelMem == 1)
+//   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
    ) ? 1 : 3});
  
 /////////////////////////////////////////
@@ -885,7 +891,7 @@ simulation.alpha(1).restart();
      novo_span.innerText = fe + fo + fg + fc + fonde + fq + fp + fa + fi;
 
     if (filtrado == 0) {
-      novo_span.innerText = "Ops! Nada por esse caminho. Que tal começar de novo com a opção 'limpar filtros'?"
+      novo_span.innerText = "Ôpa! Nada por esse caminho. Que tal começar de novo com a opção 'limpar filtros'?"
         } 
      display_filtro.appendChild(novo_span);
  };
@@ -941,7 +947,7 @@ simulation.alpha(1).restart();
 if (atual == "limpar") {
    document.getElementById("agora").checked = true; 
    document.getElementById("proxima").checked = false; 
-   document.getElementById("depois").checked = false; 
+//   document.getElementById("depois").checked = false; 
    document.getElementById("todos").checked = true; 
    document.getElementById("capital").checked = true; 
    document.querySelector('#online').checked = false; 
@@ -950,6 +956,7 @@ if (atual == "limpar") {
    document.querySelector('#acessivel').checked = false; 
    closeNavInterior();
    openNavCapital();
+   openNavGdeSP();
    arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
               65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
               78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
@@ -1072,40 +1079,40 @@ if (atual != "regiao") {
 
  // tira as opções zeradas NAS DATAS
  
- if (atual != "temporal") {
-   var arr = ['agora','proxima','depois'];
-   for(var i=0; i < arr.length; i++) { 
+//  if (atual != "temporal") {
+//    var arr = ['agora','proxima','depois'];
+//    for(var i=0; i < arr.length; i++) { 
  
-     document.getElementById(arr[i]).disabled = false; 
+//      document.getElementById(arr[i]).disabled = false; 
  
-     if (formatoMem != '100' && formatoMem != '') {
+//      if (formatoMem != '100' && formatoMem != '') {
  
-     tem = filtroAplicadoSemTempo.filter(function(d) { 
-           return (
-             d.cod_formato == formatoMem &&
-             d.filtra_dataF == arr[i]
-           );}).size();
+//      tem = filtroAplicadoSemTempo.filter(function(d) { 
+//            return (
+//              d.cod_formato == formatoMem &&
+//              d.filtra_dataF == arr[i]
+//            );}).size();
  
-           if (tem == 0) {  
-             document.getElementById(arr[i]).checked = false; 
-             document.getElementById(arr[i]).disabled = true; 
-             temporalMem = 'todos';
-           } 
-     } else {
+//            if (tem == 0) {  
+//              document.getElementById(arr[i]).checked = false; 
+//              document.getElementById(arr[i]).disabled = true; 
+//              temporalMem = 'todos';
+//            } 
+//      } else {
  
-       tem = filtroAplicadoSemTempo.filter(function(d) { 
-             return (
-               d.filtra_dataF == arr[i]
-             );}).size();
+//        tem = filtroAplicadoSemTempo.filter(function(d) { 
+//              return (
+//                d.filtra_dataF == arr[i]
+//              );}).size();
    
-             if (tem == 0) {  
-               document.getElementById(arr[i]).checked = false; 
-               document.getElementById(arr[i]).disabled = true; 
-               temporalMem = 'todos';
-             } 
-       }
-     }
-     }
+//              if (tem == 0) {  
+//                document.getElementById(arr[i]).checked = false; 
+//                document.getElementById(arr[i]).disabled = true; 
+//                temporalMem = 'todos';
+//              } 
+//        }
+//      }
+//      }
  
    if (atual != "online") {
        document.getElementById('online').disabled = false; 
@@ -1176,8 +1183,8 @@ if (atual != "regiao") {
  
      if (datavisMem == "geral" || atual == "limpar") {
 //         var regiaoMem = "capital";
-         groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                      acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
+    //     groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
+    //                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
          simulation.stop();
      }
  
@@ -1223,16 +1230,30 @@ if (atual != "regiao") {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
 
       bubbles.transition()
-      .duration(1500)
-      .attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 3 : (d.destaque !== 'undefined') 
-               ? d.radius : !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 3 : d.radius})
-      .attr('stroke', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) 
-        ? '#555555' : (d.online == 1)
-        ? "gold" : (d.ingresso == 1) 
-        ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-      .attr('stroke-width', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 1 : 3})
-      .attr('fill', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? '#cccccc' : (d.destaque !== 'undefined')
-        ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+             .duration(1500);
+
+      bubbles.attr('r', function(d) { return (
+              !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
+
+      bubblesDaSemana = bubbles.filter(function(d) { 
+        return (d.filtra_dataF == temporalMem)
+        });    
+        console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
+
+
+
+        bubblesDaSemana.attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) 
+                                                      && (d.regiao == regiaoMem)) 
+                                                      ? 3 : (d.destaque !== 'undefined') 
+                                                      ? d.radius : !((d.busca.toLowerCase().includes(buscaId)) 
+                                                      && (regiaoMem == d.regiao)) ? 3 : d.radius})
+                       .attr('stroke', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) 
+                            ? '#555555' : (d.online == 1)
+                            ? "gold" : (d.ingresso == 1) 
+                            ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
+                       .attr('stroke-width', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 1 : 3})
+                       .attr('fill', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? '#cccccc' : (d.destaque !== 'undefined')
+                            ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
      simulation.force("r", isolate(radialForceBusca, function(d) { 
           return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)); 
@@ -1506,13 +1527,10 @@ if (atual != "regiao") {
  
    //	GUARDA AS ÚLTIMAS ESCOLHAS
    if (temporalId == "buscac" || temporalId == "buscai") {
- 
-       buscaBubbles(formatoId,regiaoId,temporalId);
- 
- 
-   } else if (regiaoId != null) {
-     regiaoMem = regiaoId; 
-   };
+        buscaBubbles(formatoId,regiaoId,temporalId);
+       } else if (regiaoId != null) {
+         regiaoMem = regiaoId; 
+       };
  
    if (uoId != null) {
      uoMem = uoId; 
@@ -1557,8 +1575,7 @@ if (atual != "regiao") {
    if (datavis != null) {
      datavisMem = datavis; 
    };
- 
- 
+
       groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
    };
@@ -1602,6 +1619,30 @@ if (atual != "regiao") {
    if (error) {
      console.log(error);
    }
+
+//    var filters = {
+//     'tempoF': 'agora,proxima'
+//   };
+
+// data = data.filter(function(row) {
+// // run through all the filters, returning a boolean
+// return ['id','lugares','cod_formato','formato','cod_categoria','categoria','cod_uo','unidade','regiao','gratis','ingresso','publico','projeto','nome','complemento','exibirdatas','tempo','tempoF','dia_da_semana','weekday','hora','destaque','data_sessao','datainicial','datafinal','tem','dispositivo','online','turno']
+// .reduce(function(pass, column) {
+// return pass && (
+//         // pass if no filter is set
+//     !filters[column] ||
+//         // pass if the row's value is equal to the filter
+//         // (i.e. the filter is set to a string)
+//     row[column] === filters[column] ||
+//         // pass if the row's value is in an array of filter values
+//     filters[column].indexOf(row[column]) >= 0
+// );
+// }, true);
+// });
+
+// console.log(data.length, data);
+// //////////////////////
+
    myBubbleChart('#vis', data);
  }
  
@@ -1746,7 +1787,7 @@ if (atual != "regiao") {
        var escolhido = temporal.attr('value');
  
        var atual = "temporal";
-   //    var datavis = "agenda";
+     //  var datavis = "agenda";
  
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);

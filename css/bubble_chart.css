@@ -75,7 +75,8 @@ a, a:visited, a:active {
  vertical-align: center;
  text-align: center;
  padding: 3px 3px;
- width: 60%;
+ right: 24%;
+ width: 55%;
  height: 20px;
  line-height: 32px;
  z-index: 10;
@@ -90,7 +91,7 @@ a, a:visited, a:active {
   vertical-align: center;
   text-align: center;
   padding: 3px 3px;
-  width: 100%;
+  width: 80%;
   height: 40px;
   line-height: 32px;
   z-index: 10;
@@ -100,7 +101,7 @@ a, a:visited, a:active {
 .button {
   min-width: 65px;
   background: lightgray;
-  padding: 5px 15px;
+  padding: 5px 10px;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 1em);
   cursor: pointer;
   text-align: center;
@@ -387,8 +388,8 @@ a, a:visited, a:active {
 
 .uos {
   position: fixed;
-  top: 80px;
-  left: 22%;
+  top: 40px;
+  left: 19%;
   padding: 3px;
   margin: 1.5px;
   vertical-align: center;
@@ -397,9 +398,9 @@ a, a:visited, a:active {
 
 .uos :hover {
   position: fixed;
-  top: 80px;
-  left: 22%;
-  padding: 3px;
+  top: 40px;
+  left: 19%;
+  padding: 5px;
   margin: 1.5px;
   vertical-align: center;
   z-index: 11;
@@ -408,14 +409,23 @@ a, a:visited, a:active {
 
 .week {
   position: fixed;
-  top: 80px;
-  right: 23%;
+  top: 40px;
+  right: 21%;
   padding: 3px;
   margin: 1.5px;
   vertical-align: center;
   z-index: 11;
 }
 
+.week :hover {
+  position: fixed;
+  top: 40px;
+  right: 21%;
+  padding: 5px;
+  margin: 1.5px;
+  vertical-align: center;
+  z-index: 11;
+}
 
 
 .overlay-info {
@@ -686,6 +696,8 @@ border: 0;
   text-align: center;
   font-family: Quando;
   font-size: large;
+  overflow-x:auto;
+  overflow-y:auto;
 }
 
 
@@ -1065,6 +1077,22 @@ visibility: visible;
   z-index: 10;
 }
 
+.containerRadioUOsGdeSP {
+  position: fixed;
+  color: f6f5f1;
+  font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
+  display: flex; /* Show by default */
+  top: 40%;
+  left: 0%;
+  height: height;
+  width: 150px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 10;
+}
+
+
 .containerRadioUOs {
   position: fixed;
   color: f6f5f1;
@@ -1106,7 +1134,7 @@ visibility: visible;
   width: 100%;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 15px;
   z-index: 10;
 }
 
@@ -1205,7 +1233,7 @@ visibility: visible;
 .total {
   position: relative;
   vertical-align: center;
-  right: 10%;
+  right: 1%;
   width: 100%;
   color: #444444;
   font-weight: bold;
@@ -1317,7 +1345,7 @@ label input:checked + span:before {
 label span {
   display: flex;
   align-items: center;
-  padding: 0.275em 0.4em 0.275em 0.275em;
+  padding: 0.375em 0.4em 0.375em 0.375em;
   border-radius: 99em;
   transition: 0.25s ease;
   background-color: lightgray;
@@ -1360,12 +1388,12 @@ label span:before {
 
 .buttonTudo {
   position: relative;
-  left: 10%;
+  left: 0px;
   min-width: 100px;
   max-width: 120px;
   background: black;
   color: #FFFFFF;
-  padding: 6px 20px;
+  padding: 5px 20px;
   cursor: pointer;
   text-align: center;
   font-size: clamp(0.5em, 1em + 1vw, 1em);

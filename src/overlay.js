@@ -14,6 +14,13 @@ function openNavCapital() {
 
 }
 
+function openNavGdeSP() {
+  document.getElementById("mySideNavGdeSP").style.width = "250px";
+  document.getElementById("mySideNavGdeSP").style.display = "flex";
+
+}
+
+
 function openNavCategorias() {
   document.getElementById("mySideNavCategoria").style.width = "100%";
   document.getElementById("mySideNavCategoria").style.display = "flex";
@@ -35,6 +42,13 @@ function openNavBuscaUO() {
 function closeNavCapital() {
   document.getElementById("mySideNavCapital").style.width = "0";
   document.getElementById("mySideNavCapital").style.display = "none";
+}
+
+function closeNavGdeSP() {
+  document.getElementById("mySideNavGdeSP").style.width = "0";
+  document.getElementById("mySideNavGdeSP").style.display = "none";
+  document.getElementById("mySideNavGdeSP").style.display = "none";
+  document.getElementById("mySideNavGdeSP").style.visibility = "hidden";
 }
 
 function closeNavInterior() {
