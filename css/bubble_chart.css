@@ -389,10 +389,10 @@ a, a:visited, a:active {
 .uos {
   position: flex;
   top: 0px;
-  padding: 5px;
+  padding: 3px;
   vertical-align: center;
   z-index: 11;
-  width: 100%;
+  width: 32px;
 }
 
 .uos :hover {
@@ -401,25 +401,25 @@ a, a:visited, a:active {
   padding: 3px;
   vertical-align: center;
   z-index: 11;
-  width: 100%;
+  width: 32px;
 }
 
 
 .week {
-  position: relative;
+  position: flex;
   top: 0px;
   padding: 3px;
   vertical-align: center;
-  width: 100%;
+  width: 32px;
   z-index: 11;
 }
 
 .week :hover {
-  position: relative;
+  position: flex;
   top: 0px;
   padding: 3px;
   vertical-align: center;
-  width: 100%;
+  width: 32px;
   z-index: 11;
 }
 
@@ -1062,7 +1062,7 @@ visibility: visible;
 
 .containerIngressos {
   position: fixed;
-  top: 56%;
+  top: 53%;
   left: 90%;
   bottom: 0;
   height: 150px;
