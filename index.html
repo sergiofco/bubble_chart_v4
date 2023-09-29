@@ -48,7 +48,14 @@
 <div class="container">
  <table class="container">
   <tr>
-	<td><div class="total" id="total"><span id="total"></span></div></td>
+	<td>
+		<div class="uos">
+			<a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="36px" height="36px"></a>  
+		</div>
+	</td>
+	<td>
+		<div class="total" id="total"><span id="total"></span></div>
+	</td>
 	<td>
 	  <div id="busca" class="g-search">
 	   <form>
@@ -66,17 +73,19 @@
    			</span>
   		</div>		
 	</td>
+	<td>
+		<div class="week">
+			<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="36px" height="36px"></a>  
+		</div>
+	</td>
   </tr>
 </table>
 </div>
 
-<div class="uos">
-	<a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="48px" height="48px"></a>  
-</div>
-<div id="toolbar" class="toolbar">
   <table><tr><td></td>
 	<td>
- 		<form>
+ 	 <div id="toolbar" class="toolbar">
+		<form>
 			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo1" class="button" value="shows e espetáculos"></input>
 			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo2" class="button" value="cursos e oficinas"></input>
 			 <input type="button" onclick="closeNavServicos(),openNavCategorias()" id="fo3" class="button" value="debates e palestras"></input>
@@ -87,13 +96,10 @@
 			 <input type="button" onclick="closeNavServicos(),closeNavCategorias()" id="fo9" class="button" value="para brincar"></input>
 			 <input type="button" onclick="closeNavCategorias(),openNavServicos()" id="fo7" class="button" value="serviços"></input>
 		</form>
-	</td><td></td></tr>
+	  </div>
+	 </td><td></td></tr>
 	</table>
-	<div class="week">
-		<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="48px" height="48px"></a>  
-	</div>
 
-</div>
 <div id="mySideNavCategoria" class="containerCategorias">
 	     <form>
 		  <input type="button" id="ca6" class="buttonCat" value="artes visuais">

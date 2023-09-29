@@ -166,17 +166,17 @@ var DataDoDia = {
  
  };
  
- // Centro das ações
+ // Centro das ações na isão FORMATOS (quando se clica em uma unidade)
    var formatoCenters = {
-     1: { x: posCW-corrigeW, y: pos2H-3*posH }, // shows
-     2: { x: posCW-4*posW-corrigeW, y: pos2H-posH/2 }, // cursos
-     3: { x: posCW+4*posW-corrigeW, y: pos2H-posH/2 }, // debates
-     4: { x: posCW-corrigeW-corrigeW/3, y: pos3H-3*posH }, // expos
-     5: { x: posCW-corrigeW, y: pos3H+3*posH/5 }, // filmes
-     6: { x: posCW-2*posW-posW/2-corrigeW, y: pos3H-3*posH/2 }, // esporte
-     7: { x: posCW-5*posW-corrigeW, y: pos1H-posH }, // biblio
-     8: { x: posCW+2*posW-posW/2-corrigeW, y: pos3H-3*posH/2 }, // turismo
-     9: { x: posCW+4*posW-corrigeW, y: pos3H-3*posH/2 }, // lazer
+     1: { x: posCW-2*corrigeW, y: pos2H-3*posH }, // shows
+     2: { x: posCW-4*posW-2*corrigeW, y: pos2H-posH/2 }, // cursos
+     3: { x: posCW+4*posW-2*corrigeW, y: pos2H-posH/2 }, // debates
+     4: { x: posCW-2*corrigeW-2*corrigeW/3, y: pos3H-3*posH }, // expos
+     5: { x: posCW-2*corrigeW, y: pos3H+3*posH/5 }, // filmes
+     6: { x: posCW-2*posW-posW/2-2*corrigeW, y: pos3H-3*posH/2 }, // esporte
+     7: { x: posCW-5*posW-2*corrigeW, y: pos1H-posH }, // biblio
+     8: { x: posCW+2*posW-posW/2-2*corrigeW, y: pos3H-3*posH/2 }, // turismo
+     9: { x: posCW+4*posW-2*corrigeW, y: pos3H-3*posH/2 }, // lazer
    };
  
  // Cabeçalhos da visão por unidades da capital.
@@ -1958,6 +1958,19 @@ if (atual != "regiao") {
                 op.classList.remove('active');
                 op.checked = false;
        } 
+
+       // Zera formatos
+       var tiraFormato = document.querySelector("#toolbar");
+           tiraFormato.querySelector("form").reset();
+           formatoMem = '100';
+           formatoId = '100';
+           arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+       for(var i=0; i < arr.length; i++) { 
+           var op = document.getElementById('fo'+arr[i]);
+               op.classList.remove('active');
+         } 
+
        
 
        foco();
