@@ -709,28 +709,10 @@ border: 0;
 
 .help-quando1 {
   position: fixed;
-  top: 10%;
-  right: 3%;
+  top: 2%;
+  right: 2%;
 }
 
-
-.help-hoje {
-  position: fixed;
-  top: 39%;
-  left: 28%;
-  font-family: Quando;
-  font-size: xx-large; 
-}
-
-.help-hoje2 {
-  position: fixed;
-  top: 50%;
-  left: 22%;
-  font-family: Ubuntu;
-  font-style: italic;
-  font-size: small;
-  text-align: right;
-}
 
 .help-texto1 {
   position: fixed;
@@ -796,14 +778,46 @@ border: 0;
   font-size: x-large; 
 }
 
-.help-cores {
+
+.help-aadireita {
   position: fixed;
-  top: 50%;
-  right: 28%;
+  top: 13%;
+  left: 23%;
+  font-family: Ubuntu;
+  font-style: italic;
+  font-size: small;
+  text-align: right;
+}
+
+.help-aaesquerda {
+  position: fixed;
+  top: 13%;
+  right: 24%;
   font-family: Ubuntu;
   font-style: italic;
   font-size: small;
   text-align: left;
+}
+
+
+.help-cores {
+  position: fixed;
+  top: 52%;
+  right: 59%;
+  font-family: Ubuntu;
+  font-style: italic;
+  font-size: small;
+  text-align: right;
+}
+
+.help-pos {
+  position: fixed;
+  top: 80%;
+  right: 59%;
+  font-family: Ubuntu;
+  font-style: italic;
+  font-size: small;
+  text-align: right;
 }
 
 
