@@ -1082,12 +1082,12 @@ visibility: visible;
   color: f6f5f1;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: flex; /* Show by default */
-  top: 40%;
-  left: 0%;
+  top: 30%;
+  left: -45px;
   height: height;
   width: 150px;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   padding: 20px;
   z-index: 10;
 }

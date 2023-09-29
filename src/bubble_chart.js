@@ -12,22 +12,22 @@
 
  function bubbleChart() {
  
- // Janela e centro
+// Janela e centro
    var widthTotal = window.innerWidth * 1;
    var heightTotal = window.innerHeight * 1;
  
    var width = widthTotal*0.75+widthTotal*0.14;
    var height = heightTotal*0.90+heightTotal*0.08;
  
- // tooltip for mouseover functionality
+// tooltip for mouseover functionality
    var tooltip = floatingTooltip('gates_tooltip', 360);
  
- // cores para dias da semana e finais de semana
+// cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
    const corLaranja = '#DE7802' // '#FFA500'; // #ffb100';
    const corAll = '#BBAB8B'; // verde '#B2B349'
  
- // Grid de 21 pontos em tela
+// Grid de 21 pontos em tela
    const corrigeW = width/20;
    const corrigeH = height/20;
    const posW = width/20;
@@ -407,7 +407,7 @@ var DataDoDia = {
    
   var opacidadeColor = d3.scaleOrdinal()
       .domain(['manhã', 'tarde', 'noite', 'consulte'])
-      .range(['0.5','0.75','1','0.9']);
+      .range(['0.5','0.75','1','1']);
 
    /*
     * createNodes transforma os dados do CSV em uma matriz de objetos-nós (node objects)
@@ -430,7 +430,7 @@ var DataDoDia = {
        
        return {
          id: d.id,
-        radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+1500) : radiusScale(+d.lugares)),
+         radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+2500) : radiusScale(+d.lugares)),
          value: +d.lugares,
          name: d.nome,
          name2: d.complemento,
@@ -534,7 +534,8 @@ var DataDoDia = {
          (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
        ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)})
  
-       .attr('opacity', function(d) { return opacidadeColor(d.turno); })
+       .attr('opacity', function(d) { return (d.destaque == 'undefined') 
+                                              ? opacidadeColor(d.turno) : 1; })
        .attr('stroke', function (d) { return (d.online == 1)
                                               ? "gold" : (d.ingresso == 1) 
                                               ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
@@ -955,8 +956,9 @@ if (atual == "limpar") {
    document.querySelector('#venda').checked = false; 
    document.querySelector('#acessivel').checked = false; 
    closeNavInterior();
-   openNavCapital();
    openNavGdeSP();
+   openNavCapital();
+
    arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
               65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
               78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
@@ -1521,15 +1523,14 @@ if (atual != "regiao") {
    chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                    acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                    {
- console.log('buscaId (formatoId): ' + formatoId);
- console.log('regiaoId: ' + regiaoId);
- console.log('regiaobuscaId (temporalId) na linha 1467: ' + temporalId);
- 
+
    //	GUARDA AS ÚLTIMAS ESCOLHAS
    if (temporalId == "buscac" || temporalId == "buscai") {
         buscaBubbles(formatoId,regiaoId,temporalId);
-       } else if (regiaoId != null) {
-         regiaoMem = regiaoId; 
+       };
+       
+   if (regiaoId != null) {
+       regiaoMem = regiaoId; 
        };
  
    if (uoId != null) {

@@ -17,6 +17,7 @@ function openNavCapital() {
 function openNavGdeSP() {
   document.getElementById("mySideNavGdeSP").style.width = "250px";
   document.getElementById("mySideNavGdeSP").style.display = "flex";
+  document.getElementById("mySideNavGdeSP").style.visibility = "visible";  
 
 }
 
@@ -46,7 +47,6 @@ function closeNavCapital() {
 
 function closeNavGdeSP() {
   document.getElementById("mySideNavGdeSP").style.width = "0";
-  document.getElementById("mySideNavGdeSP").style.display = "none";
   document.getElementById("mySideNavGdeSP").style.display = "none";
   document.getElementById("mySideNavGdeSP").style.visibility = "hidden";
 }
