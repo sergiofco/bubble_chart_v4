@@ -9,6 +9,7 @@
       {
         "frame-title": "off"
       }
-    ]
+    ],
+    "meta-viewport": "off"
   }
 }

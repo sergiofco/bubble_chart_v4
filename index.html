@@ -25,12 +25,7 @@
 
 <div class="miolo" id="vis">
 
-	<div class="EmExibicao">
-		<span id="EmExibicao" class="EmExibicao"></span>
-	</div>
-
 </div>
-
            <input type="checkbox" id="burger-toggle">
            <label for="burger-toggle" class="burger-menu">
 			  <div class="line"></div>
@@ -41,48 +36,40 @@
 
 <!-- LOGO E CONTADOR -->
 <div class="logo_sesc" id="logo"><img alt="logo" src='img/logo.png' style="width:100%"></div>		
-<div class="contador" id="contador"></div>
 
-<body class="flex flex-col items-center py-16">
-
+<body>
 <div class="container">
- <table class="container">
-  <tr>
+ <table width="100%" border="0">
+        <tr>
 	<td>
 		<div class="uos">
 			<a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="32px" height="32px"></a>  
 		</div>
 	</td>
 	<td>
-		<div class="total" id="total"><span id="total"></span></div>
-	</td>
-	<td>
-	  <div id="busca" class="g-search">
-	   <form>
+		<div class="week">
+			<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="32px" height="32px"></a>  
+		</div>
+        <td width="100%">
+            <div id="busca" class="g-search">
+    	   <form>
 		  <input class="g-search" id="buscatextual" name="buscatextual" type="text"  placeholder=" escreva aqui o que você procura ou escolha abaixo&hellip;">
 	   </form>  
 	  </div>
 	</td>
-<!-- LIMPA TUDO -->
-	<td>
+	<td align="right">
 		<div class="zera" id="zera">
 			<span id="zera">
 	 		<form>
-			 <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros" width="100px"></input>
+<!-- Volta para o filtro inicial -->
+            <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros" width="100px"></input>
 	 		</form>
    			</span>
   		</div>		
 	</td>
-	<td>
-		<div class="week">
-			<a href='#' onclick="VizPorAgenda()"><img alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="32px" height="32px"></a>  
-		</div>
-	</td>
   </tr>
 </table>
-</div>
-
-  <table><tr><td></td>
+ <table><tr><td></td>
 	<td>
  	 <div id="toolbar" class="toolbar">
 		<form>
@@ -128,6 +115,25 @@
 		  <input type="button" id="se" class="buttonSer active" value="zera" hidden></input>
 	  </form>
   </div>
+
+  <div class="contador" id="contador"></div><br>
+  <div class="EmExibicao">
+      <span id="EmExibicao" class="EmExibicao"></span>
+  </div>
+
+  <!-- BUSCA EXIBINDO UOs -->
+<div id="mySideNavBuscaUO" class="containerBuscaUO">
+	<form>
+	<input type="button" id="buscac" class="buttonBuscaUO" value="na gde. são paulo">
+	<input type="button" id="buscai" class="buttonBuscaUO" value="no interior / litoral">
+	<input type="button" id="buscaa" class="buttonBuscaUO" value="por dia da semana">
+
+	<input type="button" id="todos" class="buttonBuscaUO active" value="sem-escolha" hidden></input>
+</form>
+</div>		
+
+
+</div>
   
 
 <div id="temporal" class="containerTempo">
@@ -392,14 +398,6 @@
   </form>
 </div>
 
-<!-- BUSCA EXIBINDO UOs -->
-<div id="mySideNavBuscaUO" class="containerBuscaUO">
-	<form>
-	<input type="button" id="buscac" class="buttonBuscaUO" value="na gde. são paulo">
-	<input type="button" id="buscai" class="buttonBuscaUO" value="no interior / litoral">
-	<input type="button" id="todos" class="buttonBuscaUO active" value="sem-escolha" hidden></input>
-</form>
-</div>		
 
 <nav class="menu">
 

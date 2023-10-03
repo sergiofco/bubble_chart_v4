@@ -8,7 +8,8 @@
  */
 
 // Load the data.
- d3.csv('data/semdfe-2909.csv', display);
+//  d3.csv('data/2809-servicos.csv', display);
+d3.csv('data/semdfe-2909.csv', display);
 
  function bubbleChart() {
  
@@ -541,7 +542,7 @@ var DataDoDia = {
                                               ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
        .attr('stroke-width', 2)
        .on('mouseover', showDetail)
-//      .on('click', showDetail)
+       .on('click', BubbleZoom)
        .on('mouseout', hideDetail);
  
      // @v4 Merge the original empty selection and the enter selection
@@ -552,10 +553,9 @@ var DataDoDia = {
      simulation.nodes(nodes);
  
  // exibe o total de atividades
-    var display_tot = document.getElementById("total");
-    const total = bubbles.size();
-    display_tot.innerText = total + " atividades";
- 
+    // var display_tot = document.getElementById("total");
+    // const total = bubbles.size();
+     
  // Set initial layout to single group.
      var datavisMem = "geral";
      var atual = "limpar";
@@ -628,6 +628,7 @@ var DataDoDia = {
  function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                        acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
  
+          showsemanaTitles();
           closeNavBuscaUO();
           hidesemanaTitles();
  
@@ -713,7 +714,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
      } else {
        var circulo = heightTotal*0.80;
        var forceStrength = 0.06;
-       var forceStrengthRadial = 0.18; 
+       var forceStrengthRadial = 0.12; 
      }
  
  // Força radial para afastar as ações não filtradas
@@ -722,7 +723,9 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
                         .x(widthTotal/2)
                         .y(heightTotal/2)
                         .strength(forceStrengthRadial);
-     
+
+                        
+if (datavisMem != "formatos") {
  // 	envia para as bordas as ações que não estão filtradas
  simulation.force("r", isolate(radialForce, function(d) { return (
    (d.regiao != regiaoMem) || 
@@ -736,6 +739,9 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
    (d.tem != 1 && acessivelMem == 1) ||
    (d.publico != publicoMem && publicoMem != 'todos')
  );}))
+ .force('collision',d3.forceCollide().radius(function(d) { return d.radius }));
+ // .alpha(1).restart();
+};
  
  
      // Define formato da visualização    
@@ -750,10 +756,31 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
        var datavis = "unidades";
        var datavisMem = "unidades";
    
-       } else if (datavisMem == "formatos" || atual == "unidade") {
+       } else if (atual == "unidade" || datavisMem == "formatos") {
              // por Formatos
              hidesemanaTitles();
              showformatoTitles();
+
+             if (datavisMem == "formatos") {
+
+              console.log('tenho o formato?' + formatoMem + ' - ' + formatoId + ' uo: ' + uoMem);
+              bubblesDaSemana.transition()
+                             .duration(1000)
+                             .attr('r', function(d) { 
+                                    return ((d.cod_formato == formatoMem || d.cod_categoria == categoriaMem) && d.cod_uo == uoMem ) 
+                                    || (uoMem == d.cod_uo) 
+                                    
+                                    ? d.radius : 3});             
+              }
+              simulation.force("r", isolate(radialForce, function(d) { return (
+                (d.gratis != 1 && gratisMem == 1) || 
+                (d.ingresso != 0 && vendaMem == 1) || 
+                (d.filtra_dataF != temporalMem && temporalMem != 'todos') ||
+                (d.online != 1 && onlineMem == 1) ||
+                (d.cod_uo != uoMem && uoMem != '100') ||
+                (d.tem != 1 && acessivelMem == 1) ||
+                (d.publico != publicoMem && publicoMem != 'todos')
+              );}))
              simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
              simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
    //          simulation.alpha(1).restart();
@@ -778,6 +805,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
  
 // separar as bolhas
 // simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+0.5 }))
+simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
 simulation.alpha(1).restart();
  
  
@@ -1179,7 +1207,10 @@ if (atual != "regiao") {
        } else if (regiaoBuscaId == "buscai") {
          regiaoMem = "interior";
          StrenghtBusca = 0.16;
-       } else {  StrenghtBusca = 0.06; }
+       } else if (regiaoBuscaId == "buscaa") {
+        datavisMem = "agenda";
+        StrenghtBusca = 0.16;
+      } else  {  StrenghtBusca = 0.06; }
 
        forceStrength = 0.05;
  
@@ -1220,6 +1251,9 @@ if (atual != "regiao") {
    .y(heightTotal/2)
    .strength(StrenghtBusca);
 
+  collisionForce = d3.forceCollide().radius(function(d) { return d.radius+15 }); 
+
+
    console.log('---------------começo-------------');
    console.log('buscaId na linha 1205: ' + buscaId);
    console.log('datavisMem: ' + datavisMem);
@@ -1227,7 +1261,9 @@ if (atual != "regiao") {
    console.log('regiaoMem: ' + regiaoMem);
    console.log('----------------fim---------------');
 
-
+ // contador da busca textual
+ // tot = bubbles.size();
+ 
   if (regiaoBuscaId == 'buscac' || regiaoBuscaId == 'buscai') {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
 
@@ -1263,20 +1299,60 @@ if (atual != "regiao") {
           simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
           simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
  
+    } else if (regiaoBuscaId == 'buscaa') {
+
+      Filtrados = function(d) { return (d.busca.toLowerCase().includes(buscaId))};
+
+      filtrado = bubbles.filter(Filtrados).size();
+
+      bubbles.transition()
+             .duration(1500)
+             .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
+               ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (filtrado < 20) ? d.radius+10 :  d.radius})
+
+             .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
+                ? '#555555' : (d.online == 1)
+                ? "gold" : (d.ingresso == 1) 
+                ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
+              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+              .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
+                ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+
+
+     simulation.force("r", isolate(radialForceBusca, function(d) { 
+          return !(d.busca.toLowerCase().includes(buscaId)); 
+          }));
+          console.log('busca pura');
+          simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
+          simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+
+          if (filtrado < 20) {
+          simulation.force('collision', isolate(collisionForce, function(d) { 
+                    return ((d.busca.toLowerCase().includes(buscaId)))}));
+            } else {
+              simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }));
+            }
+
+          hideunidadeTitles();
+
     } else {
       Filtrados = function(d) { return (d.busca.toLowerCase().includes(buscaId))};
 
+      filtrado = bubbles.filter(Filtrados).size();
+
       bubbles.transition()
-      .duration(1500)
-      .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
-               ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : d.radius})
-      .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
-        ? '#555555' : (d.online == 1)
-        ? "gold" : (d.ingresso == 1) 
-        ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-      .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
-      .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
-        ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+             .duration(1500)
+             .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
+               ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (filtrado < 20) ? d.radius+10 :  d.radius})
+
+             .attr('stroke', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) 
+                ? '#555555' : (d.online == 1)
+                ? "gold" : (d.ingresso == 1) 
+                ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
+              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+              .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
+                ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
+
 
      simulation.force("r", isolate(radialForceBusca, function(d) { 
           return !(d.busca.toLowerCase().includes(buscaId)); 
@@ -1284,24 +1360,31 @@ if (atual != "regiao") {
           console.log('busca pura');
           simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
           simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
+
+          if (filtrado < 20) {
+          simulation.force('collision', isolate(collisionForce, function(d) { 
+                    return ((d.busca.toLowerCase().includes(buscaId)))}));
+            } else {
+              simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }));
+            }
+
           hideunidadeTitles();
   }
 
+  contador(filtrado);
+
  // inseri por minha conta para reiniciar
       simulation.alpha(1).restart();
-
- // contador da busca textual
-    tot = bubbles.size();
-    filtrado = bubbles.filter(Filtrados).size()
-    console.log('filtrados: ' + filtrado);
-    contador(filtrado);
 
      if (regiaoBuscaId == "buscac") {
         console.log('busca na capital');
          showunidadeTitles();
         } else if (regiaoBuscaId == "buscai") {
-      console.log('busca no interior');
+          console.log('busca no interior');
          showunidadeTitlesInt();
+        } else if (regiaoBuscaId == "buscaa") {
+          console.log('busca na agenda');
+         showsemanaTitles();
         }
   
     openNavBuscaUO();
@@ -1311,21 +1394,22 @@ if (atual != "regiao") {
    d3.select('#mySideNavBuscaUO')
      .selectAll('.buttonBuscaUO')
      .on('click', function () {
-       // Remove active class from all buttons
+// Remove active class from all buttons
        d3.selectAll('.buttonBuscaUO').classed('active', false);
-       // Find the button just clicked
+// Find the button just clicked
        var button = d3.select(this);
  
-       // Set it as the active button
+// Set it as the active button
        button.classed('active', true);
  
-       // Get the id of the button
+// Get the id of the button
        var regiaoBuscaId = button.attr('id');
-       var datavis = "unidades";
        console.log(buscaId + ' no botão');
-      // foco();
+// foco();
       document.getElementById('buscatextual').focus();
- 
+
+      if (regiaoBuscaId == "buscaa") { var datavis = "agenda"; } else { var datavis = "unidades"; }
+       
       buscaBubbles(buscaId,datavis,regiaoBuscaId);
      });
  }
@@ -1441,11 +1525,18 @@ if (atual != "regiao") {
  .on("keyup", keyuped)
  foco();
  
+ function BubbleZoom(d) {
+  console.log('esta ação: ' + d.id);
+  }   
  
  // Exibe o detalhamento com o MOuseOver
    function showDetail(d) {
      // change outline to indicate hover state.
-     d3.select(this).attr('stroke', 'black');
+     d3.select(this)
+       .transition()
+       .duration(200)
+       .attr('stroke', 'red')
+       .attr('r', d.radius+25);
  
  // tratamento de variáveis para exibição
     const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
@@ -1501,9 +1592,13 @@ if (atual != "regiao") {
    function hideDetail(d) {
      // reset outline
      d3.select(this)
+       .transition()
+       .duration(200)
        .attr('stroke', function (d) { return (d.online == 1)
         ? "gold" : (d.ingresso == 1) 
         ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
+       .attr('r', d.radius);
+
 
      tooltip.hideTooltip();
    }
@@ -1524,8 +1619,10 @@ if (atual != "regiao") {
                                    acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                    {
 
+console.log('buscaId: ' + formatoId);                                    
+
    //	GUARDA AS ÚLTIMAS ESCOLHAS
-   if (temporalId == "buscac" || temporalId == "buscai") {
+   if (temporalId == "buscac" || temporalId == "buscai" || temporalId == "buscaa" ) {
         buscaBubbles(formatoId,regiaoId,temporalId);
        };
        
@@ -1600,18 +1697,71 @@ if (atual != "regiao") {
      regiaoBuscaId = "sem-escolha";
      buscaId = this.value; 
  
-     var op = document.getElementById('buscac');
-         op.classList.remove('active');
-     var op = document.getElementById('buscai');
-         op.classList.remove('active');
+// Zera filtros anteriores
+var op = document.getElementById('buscac');
+    op.classList.remove('active');
+var op = document.getElementById('buscai');
+    op.classList.remove('active');
+var op = document.getElementById('capital');
+    op.classList.remove('active');
+var op = document.getElementById('interior');
+    op.classList.remove('active');
 
-
-     buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
-   
- };
-  
- }
+    document.getElementById('capital').checked = false; 
+    document.getElementById('interior').checked = false; 
  
+
+var tiraFormato = document.querySelector("#toolbar");
+    tiraFormato.querySelector("form").reset();
+    formatoMem = '100';
+    formatoId = '100';
+
+    arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    for(var i=0; i < arr.length; i++) { 
+    var op = document.getElementById('fo'+arr[i]);
+        op.classList.remove('active');
+    } 
+
+
+arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+           65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+           78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+           89, 91, 92, 93, 94, 95, 96, 49, 60];
+
+ for(var i=0; i < arr_uos.length; i++) { 
+         document.getElementById("uo"+arr_uos[i]).checked = false; 
+         document.getElementById("uo"+arr_uos[i]).classList.remove('active');
+
+ }
+
+var tiraCat = document.querySelector("#mySideNavCategoria");
+    tiraCat.querySelector("form").reset();
+
+    arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
+
+  for(var i=0; i < arr.length; i++) { 
+      var op = document.getElementById('ca'+arr[i]);
+          op.classList.remove('active');
+          op.checked = false;
+   } 
+
+var tiraSer = document.querySelector("#mySideNavServicos");
+    tiraSer.querySelector("form").reset();
+
+    arr = ['12', '13', '15', '16', '17', '18'];
+    for(var i=0; i < arr.length; i++) { 
+    var op = document.getElementById('ca'+arr[i]);
+        op.classList.remove('active');
+        op.checked = false;
+    } 
+
+    //////////////////////////////////////////////     
+
+buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
+   
+};
+}
  // Inicia a visualização
  var myBubbleChart = bubbleChart();
  
@@ -1648,7 +1798,6 @@ if (atual != "regiao") {
  }
  
  // Configura os botões utilizados pelo usuário para escolher a visualização
- 
  function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
    d3.select('#toolbar')
      .selectAll('.button')
@@ -1666,6 +1815,9 @@ if (atual != "regiao") {
        var atual = "formato";
        var escolhido = button.attr('value');
  
+       var LimpaBusca = document.querySelector("#busca");
+           LimpaBusca.querySelector("form").reset();
+
        var tiraCat = document.querySelector("#mySideNavCategoria");
            tiraCat.querySelector("form").reset();
  
@@ -1819,7 +1971,11 @@ if (atual != "regiao") {
  
         var atual = "regiao";
         var datavis = "unidades";
- 
+
+        var LimpaBusca = document.querySelector("#busca");
+            LimpaBusca.querySelector("form").reset();
+     
+
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
      });
@@ -1914,8 +2070,8 @@ if (atual != "regiao") {
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
      });
  }
- 
- function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+
+function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
    d3.select('#unidades')
      .selectAll('.uo')
      .on('click', function () {
@@ -1933,43 +2089,46 @@ if (atual != "regiao") {
        var atual = "unidade";
        var datavis = "formatos";
  
-       var formatoId = '100';
-       var categoriaId = '99';
+//       var formatoId = '100';
+//       var categoriaId = '99';
  
+       var LimpaBusca = document.querySelector("#busca");
+           LimpaBusca.querySelector("form").reset();
+
        document.getElementById('capital').checked = false; 
        document.getElementById('interior').checked = false; 
  
-       var tiraCat = document.querySelector("#mySideNavCategoria");
-       tiraCat.querySelector("form").reset();
+      //  var tiraCat = document.querySelector("#mySideNavCategoria");
+      //  tiraCat.querySelector("form").reset();
  
-       arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
-        for(var i=0; i < arr.length; i++) { 
-            var op = document.getElementById('ca'+arr[i]);
-                op.classList.remove('active');
-                op.checked = false;
-       } 
+      //  arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','14'];
+      //   for(var i=0; i < arr.length; i++) { 
+      //       var op = document.getElementById('ca'+arr[i]);
+      //           op.classList.remove('active');
+      //           op.checked = false;
+      //  } 
 
-       var tiraSer = document.querySelector("#mySideNavServicos");
-       tiraSer.querySelector("form").reset();
+      //  var tiraSer = document.querySelector("#mySideNavServicos");
+      //  tiraSer.querySelector("form").reset();
  
-       arr = ['12', '13', '15', '16', '17', '18'];
-        for(var i=0; i < arr.length; i++) { 
-            var op = document.getElementById('ca'+arr[i]);
-                op.classList.remove('active');
-                op.checked = false;
-       } 
+      //  arr = ['12', '13', '15', '16', '17', '18'];
+      //   for(var i=0; i < arr.length; i++) { 
+      //       var op = document.getElementById('ca'+arr[i]);
+      //           op.classList.remove('active');
+      //           op.checked = false;
+      //  } 
 
-       // Zera formatos
-       var tiraFormato = document.querySelector("#toolbar");
-           tiraFormato.querySelector("form").reset();
-           formatoMem = '100';
-           formatoId = '100';
-           arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+      // Zera formatos
+      //  var tiraFormato = document.querySelector("#toolbar");
+      //      tiraFormato.querySelector("form").reset();
+      //      formatoMem = '100';
+      //      formatoId = '100';
+      //      arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-       for(var i=0; i < arr.length; i++) { 
-           var op = document.getElementById('fo'+arr[i]);
-               op.classList.remove('active');
-         } 
+      //  for(var i=0; i < arr.length; i++) { 
+      //      var op = document.getElementById('fo'+arr[i]);
+      //          op.classList.remove('active');
+      //    } 
 
        
 
@@ -1979,21 +2138,25 @@ if (atual != "regiao") {
  }
  
  
- function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) {
+ function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
   var datavisMem = "unidades";
-  console.log('passou aqui na 17')
-  myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
+  console.log('passou aqui na 2084')
+  myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
 
  } 
 
  function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) {
-  console.log('passou aqui na 23')
-  var datavisMem = "agenda";
-  myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
 
+  var atual = "ver-agenda";
+  var datavisMem = "agenda";
+  
+  myBubbleChart.toggleDisplay(
+  formatoId,regiaoId,temporalId,publicoId,
+  vendaId,gratisId,acessivelId,onlineId,
+  uoId,categoriaId,atual,escolhido,datavisMem);
+  
  } 
 
- 
  function foco() {
      // document.getElementById('buscatextual').focus();
      // document.getElementById('buscatextual').select();

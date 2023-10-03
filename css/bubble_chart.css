@@ -16,16 +16,31 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  vertical-align: top;
+  height: 100%;
   margin: 0;
   color: #f6f5f1;
   font-size: 13px; 
   line-height: 1.231; 
-/*  background-image: url(../img/fundo1.jpeg);
-  background-size: 100%;  
-  background-repeat: no-repeat;
-  Background-position: center center;
-  z-index: -9999999; */
+}
+
+.centraliza {
+  align-self:center;
+}
+
+.slider1 {
+  position: fixed;
+  top:500px;
+  left: 600px;
+  align-items: center;
+  vertical-align: center;
+  text-align: center;
+  padding: 2px 2px;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  color: #FFFFFF;
+
 }
 
 .acesso {
@@ -43,8 +58,7 @@ body {
   z-index:1
 }
 
-
-a, a:visited, a:active {
+a, h1, a:visited, a:active {
   color: #000000;
 }
 
@@ -69,34 +83,172 @@ a, a:visited, a:active {
  }
  
 .container {
- position: fixed;
+ position: flex;
  top:0px;
  align-items: center;
- vertical-align: center;
- text-align: center;
+ vertical-align: top;
  padding: 1px 1px;
- right: 17%;
- width: 65%;
- height: 20px;
- line-height: 32px;
+ height: 20%;
  z-index: 12;
  color: #FFFFFF;
 }
 
 .toolbar {
-  position: fixed;
+  position: flex;
   top:46px;
   align-items: center;
   vertical-align: center;
   text-align: center;
-  padding: 5px 5px;
-  right: 8%;
-  width: 82%;
-  height: 40px;
-  line-height: 32px;
+  padding: 2px 2px;
+  width: 100%;
+  height: 100%;
   z-index: 12;
   color: #FFFFFF;
 }
+
+.containerCategorias {
+  position: flex;
+  color: f6f5f1;
+  font-size: 11px;
+  display: none; /* Hidden by default */
+  width: 100%;
+  align-items: center;
+  vertical-align: top;
+  text-align: center;
+  padding: 2px 2px;
+  z-index: 10;
+}
+
+.containerServicos {
+  position: flex;
+  color: f6f5f1;
+  font-size: 11px;
+  display: none; /* Hidden by default */
+  width: 100%;
+  align-items: center;
+  vertical-align: top;
+  text-align: center;
+  padding: 2px;
+  z-index: 10;
+}
+
+.contador {
+  position: flex;
+  color:rgb(164, 44, 44);
+  text-shadow: 0.5px 0.5px 1px black;
+  font-weight: bold;
+  font-size: 45px;
+  text-align: center;
+  line-height: 20px;
+  padding: 3px;
+  margin: 1.5px;
+  font-family: Montserrat;
+  vertical-align: center;
+}
+
+
+.uos {
+  position: flex;
+  vertical-align: center;
+  align-items:center;
+  z-index: 11;
+  width: 32px;
+  margin: 0;
+  padding: 3px;
+  appearance: none;
+  cursor:pointer;
+  border:none;
+}
+
+.uos:hover {
+  position: flex;
+  vertical-align: center;
+  align-items:center;
+  z-index: 11;
+  width: 32px;
+  margin: 0;
+  padding: 3px;
+  appearance: none;
+  cursor:pointer;
+  border:none;
+}
+
+.week {
+  position: flex;
+  padding: 3px;
+  vertical-align: top;
+  align-items:center;
+  width: 32px;
+  z-index: 11;
+  padding: 3px;
+  appearance: none;
+  cursor:pointer;
+  border:none;
+}
+
+
+.week:hover {
+  position: flex;
+  padding: 3px;
+  vertical-align: center;
+  align-items:center;
+  width: 32px;
+  z-index: 11;
+  padding: 3px;
+  appearance: none;
+  cursor:pointer;
+  border:none;
+}
+
+.buttonImg {
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  background-color: inherit;
+  background:url(https://master.d34ggdimlzi1e8.amplifyapp.com/img/week.png) no-repeat; 
+  cursor:pointer;
+  border:none;
+  width: 32px;
+  height: 32px;
+  transition: transform 0.1s ease-in-out;
+  }
+
+.buttonImg:hover {
+  border-color: #820000;
+  transform:scale(0.9)
+}
+
+
+.buttonImg:active {
+  transform:scale(0.8);
+}
+
+
+.buttonImgCap {
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  background-color: inherit;
+  background:url(img/mapa_capital.png) no-repeat; 
+  cursor:pointer;
+  border:none;
+  width: 32px;
+  height: 32px;
+  transition: transform 0.1s ease-in-out;
+  }
+
+.buttonImgCap:hover {
+  border-color: #820000;
+  transform:scale(0.9)
+}
+
+
+.buttonImgCap:active {
+  transform:scale(0.8);
+}
+
+
+
 
 .button {
   min-width: 65px;
@@ -386,42 +538,7 @@ a, a:visited, a:active {
   vertical-align: center;
 }
 
-.uos {
-  position: flex;
-  top: 0px;
-  padding: 3px;
-  vertical-align: center;
-  z-index: 11;
-  width: 32px;
-}
 
-.uos :hover {
-  position: flex;
-  top: 0px;
-  padding: 3px;
-  vertical-align: center;
-  z-index: 11;
-  width: 32px;
-}
-
-
-.week {
-  position: flex;
-  top: 0px;
-  padding: 3px;
-  vertical-align: center;
-  width: 32px;
-  z-index: 11;
-}
-
-.week :hover {
-  position: flex;
-  top: 0px;
-  padding: 3px;
-  vertical-align: center;
-  width: 32px;
-  z-index: 11;
-}
 
 
 .overlay-info {
@@ -973,7 +1090,7 @@ visibility: visible;
 
 .g-search {
   float: center;
-  position: relative;
+  position: flex;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1134,38 +1251,6 @@ visibility: visible;
   z-index: 10;
 }
 
-
-.containerCategorias {
-  position: fixed;
-  color: f6f5f1;
-  font-size: 11px;
-  display: none; /* Hidden by default */
-  top: 85px;
-  height: 25px;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  z-index: 10;
-}
-
-
-.containerServicos {
-  position: fixed;
-  color: f6f5f1;
-  font-size: 11px;
-  display: none; /* Hidden by default */
-  top: 85px;
-  height: 25px;
-  left: 5%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  z-index: 10;
-}
-
-
 .containerBar {
   display: flex;
   justify-content: center;
@@ -1242,40 +1327,18 @@ visibility: visible;
 
 
 .total {
-  position: relative;
+  position: flex;
   vertical-align: center;
-  right: 1%;
-  width: 100%;
+  padding: 5px;
   color: #444444;
   font-weight: bold;
   font-size: clamp(0.75em, 0.85em + 0.85vw, 1em);
   font-family: Montserrat;
 }
 
- .contador {
-  position: fixed;
-  top: 120px;
-  left: 46%;
-  width: 150px;
-  height: 30px;
-  color:rgb(164, 44, 44);
-  text-shadow: 0.5px 0.5px 1px black;
-  font-weight: bold;
-  font-size: 45px;
-  text-align: center;
-  line-height: 20px;
-  padding: 3px;
-  margin: 1.5px;
-  font-family: Montserrat;
-  vertical-align: center;
-}
 
 .EmExibicao {
-  position: fixed;
-  top: 153px;
-  left: 15%;
-  right: 15%;
-  width: 800px;
+  position: flex;
   font-family: MontSerrat;
   font-size: 15px;
   text-shadow: 0.5px 0.5px 1px darkgray;
@@ -1383,21 +1446,20 @@ label span:before {
 
 
 .zera {
-  position: relative;
+  position: flex;
   color:#FFFFFF;
-  width: 100%;
   top: 1.5%;
   color: #FFFFFF;
   padding: 6px;
   margin: 1.5px;
   font-family: Montserrat;
   vertical-align: center;
+  -moz-box-align: end;
   z-index: 9999;
 }
 
 .buttonTudo {
-  position: relative;
-  left: 0px;
+  position: flex;
   min-width: 100px;
   max-width: 120px;
   background: black;
@@ -1405,7 +1467,7 @@ label span:before {
   top: 0.4%;
   padding: 5px 20px;
   cursor: pointer;
-  text-align: center;
+  text-align: right;
   vertical-align: center;
   font-size: clamp(0.5em, 1em + 1vw, 1em);
   border: 2px solid #f6f5f1;
