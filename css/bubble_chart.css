@@ -146,7 +146,6 @@ a, h1, a:visited, a:active {
   vertical-align: center;
 }
 
-
 .uos {
   position: flex;
   align-items:center;
@@ -157,7 +156,8 @@ a, h1, a:visited, a:active {
   appearance: none;
   cursor:pointer;
   border:none;
-}
+  filter: drop-shadow(1px 1px 1px goldenrod);
+  }
 
 .uos:hover {
   position: flex;
@@ -169,7 +169,8 @@ a, h1, a:visited, a:active {
   appearance: none;
   cursor:pointer;
   border:none;
-}
+  filter: drop-shadow(1px 1px 1px darkred);
+}   
 
 .week {
   position: flex;
@@ -182,6 +183,7 @@ a, h1, a:visited, a:active {
   appearance: none;
   cursor:pointer;
   border:none;
+  filter: drop-shadow(1px 1px 1px goldenrod);
 }
 
 
@@ -196,6 +198,7 @@ a, h1, a:visited, a:active {
   appearance: none;
   cursor:pointer;
   border:none;
+  filter: drop-shadow(1px 1px 1px darkred);
 }
 
 .buttonImg {
@@ -569,6 +572,7 @@ border: 0;
   background-color: rgba(0,0,0,0.7); /* Black background with opacity */
   z-index: 101; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
+  opacity: 0.9;
 }
 
 .overlay a {
@@ -782,7 +786,7 @@ border: 0;
 .help-oque1 {
   position: fixed;
   top: 0px;
-  right:25%;
+  right:30%;
   align-items: center;
   vertical-align: top;
   text-align: center;

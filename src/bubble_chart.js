@@ -1221,14 +1221,14 @@ if (atual != "regiao") {
 
      if (regiaoBuscaId == "buscac") {
          regiaoMem = "capital";
-         StrenghtBusca = 0.16;
+         StrenghtBusca = 0.26;
        } else if (regiaoBuscaId == "buscai") {
          regiaoMem = "interior";
-         StrenghtBusca = 0.16;
+         StrenghtBusca = 0.26;
        } else if (regiaoBuscaId == "buscaa") {
         datavisMem = "agenda";
-        StrenghtBusca = 0.16;
-      } else  {  StrenghtBusca = 0.06; }
+        StrenghtBusca = 0.26;
+      } else  {  StrenghtBusca = 0.1; }
 
        forceStrength = 0.05;
  
@@ -1254,7 +1254,7 @@ if (atual != "regiao") {
               } else {
         
  // Apaga texto amigável e mostra Busca
-                novo_span.innerText = "atividades com o termo '" + buscaId +"'";
+                novo_span.innerText = "atividades encontradas com '" + buscaId +"'";
                 display_filtro.appendChild(novo_span);
                }
  
@@ -1280,18 +1280,17 @@ if (atual != "regiao") {
       bubbles.transition()
              .duration(1500);
 
-      bubbles.attr('r', function(d) { return (
-              !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
+      // bubbles.attr('r', function(d) { return (
+      //         !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
 
-      bubblesDaSemana = bubbles.filter(function(d) { 
-        return (d.filtra_dataF == temporalMem)
-        });    
-        console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
+      // bubblesDaSemana = bubbles.filter(function(d) { 
+      //   return (d.filtra_dataF == temporalMem)
+      //   });    
+      //   console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
 
 
 
-        bubblesDaSemana.attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) 
-                                                      && (d.regiao == regiaoMem)) 
+        bubbles.attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (d.regiao == regiaoMem)) 
                                                       ? 3 : (d.destaque !== 'undefined') 
                                                       ? d.radius : !((d.busca.toLowerCase().includes(buscaId)) 
                                                       && (regiaoMem == d.regiao)) ? 3 : d.radius})
