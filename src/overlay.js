@@ -76,9 +76,13 @@ function closeNavBuscaUO() {
 
 
 function on() {
-  document.getElementById("overlay").style.display = "block";
+  document.getElementById("overlay").style.width = "100%";
+  document.getElementById("overlay").style.display = "flex";
+  document.getElementById("overlay").style.visibility = "visible";
 }
 
 function off() {
+  document.getElementById("overlay").style.width = "0";
   document.getElementById("overlay").style.display = "none";
+  document.getElementById("overlay").style.visibility = "hidden";
 }

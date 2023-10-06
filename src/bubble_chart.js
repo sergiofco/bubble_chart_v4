@@ -9,7 +9,7 @@
 
 // Load the data.
 //  d3.csv('data/2809-servicos.csv', display);
-d3.csv('data/semdfe-2909.csv', display);
+d3.csv('data/semdfe-1006-uau.csv', display);
 
  function bubbleChart() {
  
@@ -27,6 +27,8 @@ d3.csv('data/semdfe-2909.csv', display);
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
    const corLaranja = '#DE7802' // '#FFA500'; // #ffb100';
    const corAll = '#BBAB8B'; // verde '#B2B349'
+   const azulado = 'hue-rotate(195deg)';
+   const laranjado = 'hue-rotate(25deg)';
  
 // Grid de 21 pontos em tela
    const corrigeW = width/20;
@@ -39,8 +41,8 @@ d3.csv('data/semdfe-2909.csv', display);
    const pos2H = posCH;
    const pos3H = (posCH + 3*posH);
  
-   var datavis = "geral";
-   var datavisMem = "geral";
+   var datavis = "agenda";
+   var datavisMem = "agenda";
    
  // Variáveis de Filtro
    var buscaId = '';
@@ -75,7 +77,7 @@ d3.csv('data/semdfe-2909.csv', display);
    var new_span = document.createElement('span');
    var novo_span = document.createElement('span');
    var escolhido = "ações na capital e grande são paulo nesta semana e na próxima";
-   var atual = "limpar";
+   var atual = "agenda";
  
  
    // Posição central pelo proximidade da ação
@@ -119,13 +121,13 @@ d3.csv('data/semdfe-2909.csv', display);
 
 // Data do Dia   
 var DataDoDia = {
-  seg: { agora: "25/09", proxima: "02/10", depois: "09/10"},
-  ter: { agora: '26/09', proxima: "03/10", depois: "10/10"},
-  qua: { agora: "27/09", proxima: "04/10", depois: "11/10"},
-  qui: { agora: "28/09", proxima: "05/10", depois: "12/10"},
-  sex: { agora: "29/09", proxima: "06/10", depois: "13/10"},
-  sáb: { agora: "30/09", proxima: "07/10", depois: "14/10"},
-  dom: { agora: "01/10", proxima: "08/10", depois: "15/10"},
+  seg: { agora: "02/10", proxima: "09/10", depois: "09/10"},
+  ter: { agora: "03/10", proxima: "10/10", depois: "10/10"},
+  qua: { agora: "04/10", proxima: "11/10", depois: "11/10"},
+  qui: { agora: "05/10", proxima: "12/10", depois: "12/10"},
+  sex: { agora: "06/10", proxima: "13/10", depois: "13/10"},
+  sáb: { agora: "07/10", proxima: "14/10", depois: "14/10"},
+  dom: { agora: "08/10", proxima: "15/10", depois: "15/10"},
   sempre: { agora: " ", proxima: " ", depois: " "},
 };
 
@@ -391,8 +393,8 @@ var DataDoDia = {
  
    var simulation = d3.forceSimulation()
      .velocityDecay(0.3)
-     .force('x', d3.forceX().strength(forceStrength).x(posCW))
-     .force('y', d3.forceY().strength(forceStrength).y(posCH)) // (nodeperiodoPos))
+     .force('x', d3.forceX(posCW).strength(forceStrength).x(posCW))
+     .force('y', d3.forceY(posCH).strength(forceStrength).y(posCH)) // (nodeperiodoPos))
      .force('charge', d3.forceManyBody().strength(charge))
      .force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
      .on('tick', ticked);
@@ -405,7 +407,11 @@ var DataDoDia = {
    var fillColor = d3.scaleOrdinal()
          .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
          .range([corAzul, corAzul, corAzul, corAzul, corAzul, corLaranja, corLaranja, corAll]);
-   
+
+   var HueColor = d3.scaleOrdinal()
+         .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])
+         .range([azulado, azulado, azulado, azulado, azulado, laranjado, laranjado, 'sepia(0.2)']);
+         
   var opacidadeColor = d3.scaleOrdinal()
       .domain(['manhã', 'tarde', 'noite', 'consulte'])
       .range(['0.5','0.75','1','1']);
@@ -431,7 +437,7 @@ var DataDoDia = {
        
        return {
          id: d.id,
-         radius: ((d.destaque !== 'undefined') ? radiusScale(+d.lugares+2500) : radiusScale(+d.lugares)),
+         radius: ((d.destaque !== 'undefined' && d.cod_formato !== 4) ? radiusScale(+d.lugares+2000) : radiusScale(+d.lugares)),
          value: +d.lugares,
          name: d.nome,
          name2: d.complemento,
@@ -492,7 +498,9 @@ var DataDoDia = {
      svg = d3.select(selector)
              .append('svg')
              .attr('width', widthTotal)
-             .attr('height', heightTotal);
+             .attr('height', heightTotal)
+             .append('g')
+             .attr("transform","translate(" + 0 + "," + 0 + ")");
  
      // associa os dados dos nós aos elementos DOM que os representará na visualização.
      bubbles = svg.selectAll('.bubble')
@@ -540,7 +548,13 @@ var DataDoDia = {
        .attr('stroke', function (d) { return (d.online == 1)
                                               ? "gold" : (d.ingresso == 1) 
                                               ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
-       .attr('stroke-width', 2)
+       .attr('filter', function(d) { return (d.destaque == 'undefined') 
+                       ? 'sepia(0)' : HueColor(d.dia_da_semana); })
+       .attr('saturation', function(d) { return (d.destaque == 'undefined') 
+                       ? 1 : 0.6; })
+
+       .attr('stroke-width', 1)
+
        .on('mouseover', showDetail)
        .on('click', BubbleZoom)
        .on('mouseout', hideDetail);
@@ -557,8 +571,8 @@ var DataDoDia = {
     // const total = bubbles.size();
      
  // Set initial layout to single group.
-     var datavisMem = "geral";
-     var atual = "limpar";
+     var datavisMem = "agenda";
+     var atual = "agenda";
      var temporalId = "agora";
      var regiaoId = "capital";
 
@@ -628,11 +642,19 @@ var DataDoDia = {
  function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                        acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
  
+                        console.log('-------- começo do groupb --------');
+                        console.log('formatoMem: ' + formatoMem);
+                        console.log('atual: ' + atual);
+                        console.log('datavisMem: ' + datavisMem);
+                        console.log('uoMem: ' + uoMem);
+                        console.log('uoId: ' + uoId);
+                        console.log('----------------fim---------------');
+                   
           showsemanaTitles();
           closeNavBuscaUO();
           hidesemanaTitles();
- 
- // Transições 
+
+// Transições 
           bubbles.transition().duration(4000);
           bubbles.attr('r', function(d) { return (
             !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
@@ -642,9 +664,6 @@ var DataDoDia = {
             });    
             console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
 
-
-
- 
  // Escolhe cor de acordo com o dia da semana e cinza se não filtrada
  bubblesDaSemana.attr('fill', function(d) { return (
      (d.regiao != regiaoMem) || 
@@ -700,7 +719,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
 //   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-   ) ? 1 : 3});
+   ) ? 1 : 1});
  
 /////////////////////////////////////////
 //
@@ -709,15 +728,15 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
 //////////////////////////////////////////
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
        var circulo = heightTotal; 
-       var forceStrength = 0.08;
-       var forceStrengthRadial = 0.24; 
+       var forceStrength = 0.12;
+       var forceStrengthRadial = 0.3; 
      } else {
-       var circulo = heightTotal*0.80;
-       var forceStrength = 0.06;
-       var forceStrengthRadial = 0.12; 
+       var circulo = heightTotal*0.90;
+       var forceStrength = 0.12;
+       var forceStrengthRadial = 0.3; 
      }
- 
- // Força radial para afastar as ações não filtradas
+
+// Força radial para afastar as ações não filtradas
     var radialForce = d3.forceRadial()
                         .radius(circulo)
                         .x(widthTotal/2)
@@ -756,14 +775,13 @@ if (datavisMem != "formatos") {
        var datavis = "unidades";
        var datavisMem = "unidades";
    
-       } else if (atual == "unidade" || datavisMem == "formatos") {
+       } else if (atual == "unidade" || (datavisMem == "formatos" && atual != "regiao")) {
              // por Formatos
              hidesemanaTitles();
              showformatoTitles();
 
-             if (datavisMem == "formatos") {
+             if (datavisMem == "formatos" && atual != "regiao") {
 
-              console.log('tenho o formato?' + formatoMem + ' - ' + formatoId + ' uo: ' + uoMem);
               bubblesDaSemana.transition()
                              .duration(1000)
                              .attr('r', function(d) { 
@@ -806,7 +824,7 @@ if (datavisMem != "formatos") {
 // separar as bolhas
 // simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+0.5 }))
 simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
-simulation.alpha(1).restart();
+simulation.alpha(0.6).restart();
  
  
  // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
@@ -1252,15 +1270,7 @@ if (atual != "regiao") {
    .strength(StrenghtBusca);
 
   collisionForce = d3.forceCollide().radius(function(d) { return d.radius+15 }); 
-
-
-   console.log('---------------começo-------------');
-   console.log('buscaId na linha 1205: ' + buscaId);
-   console.log('datavisMem: ' + datavisMem);
-   console.log('regiaoBuscaId: ' + regiaoBuscaId);
-   console.log('regiaoMem: ' + regiaoMem);
-   console.log('----------------fim---------------');
-
+  
  // contador da busca textual
  // tot = bubbles.size();
  
@@ -1289,7 +1299,7 @@ if (atual != "regiao") {
                             ? '#555555' : (d.online == 1)
                             ? "gold" : (d.ingresso == 1) 
                             ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-                       .attr('stroke-width', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 1 : 3})
+                       .attr('stroke-width', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? 1 : 1})
                        .attr('fill', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) ? '#cccccc' : (d.destaque !== 'undefined')
                             ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
@@ -1314,7 +1324,7 @@ if (atual != "regiao") {
                 ? '#555555' : (d.online == 1)
                 ? "gold" : (d.ingresso == 1) 
                 ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 1})
               .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
                 ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
@@ -1322,7 +1332,6 @@ if (atual != "regiao") {
      simulation.force("r", isolate(radialForceBusca, function(d) { 
           return !(d.busca.toLowerCase().includes(buscaId)); 
           }));
-          console.log('busca pura');
           simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
           simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
 
@@ -1349,7 +1358,7 @@ if (atual != "regiao") {
                 ? '#555555' : (d.online == 1)
                 ? "gold" : (d.ingresso == 1) 
                 ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 1})
               .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
                 ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
@@ -1357,7 +1366,6 @@ if (atual != "regiao") {
      simulation.force("r", isolate(radialForceBusca, function(d) { 
           return !(d.busca.toLowerCase().includes(buscaId)); 
           }));
-          console.log('busca pura');
           simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
           simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
 
@@ -1377,13 +1385,10 @@ if (atual != "regiao") {
       simulation.alpha(1).restart();
 
      if (regiaoBuscaId == "buscac") {
-        console.log('busca na capital');
          showunidadeTitles();
         } else if (regiaoBuscaId == "buscai") {
-          console.log('busca no interior');
          showunidadeTitlesInt();
         } else if (regiaoBuscaId == "buscaa") {
-          console.log('busca na agenda');
          showsemanaTitles();
         }
   
@@ -1404,7 +1409,6 @@ if (atual != "regiao") {
  
 // Get the id of the button
        var regiaoBuscaId = button.attr('id');
-       console.log(buscaId + ' no botão');
 // foco();
       document.getElementById('buscatextual').focus();
 
@@ -1619,17 +1623,21 @@ if (atual != "regiao") {
                                    acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
                                    {
 
-console.log('buscaId: ' + formatoId);                                    
+                                    console.log('-------- começo do chart.toggle  --------');
+                                    console.log('formatoId: ' + formatoId);
+                                    console.log('atual: ' + atual);
+                                    console.log('datavis: ' + datavis);
+                                    console.log('excolhido: ' + escolhido);
+                                    console.log('uoId: ' + uoId);
+                                    console.log('----------------fim---------------');
+            
+
 
    //	GUARDA AS ÚLTIMAS ESCOLHAS
    if (temporalId == "buscac" || temporalId == "buscai" || temporalId == "buscaa" ) {
         buscaBubbles(formatoId,regiaoId,temporalId);
        };
        
-   if (regiaoId != null) {
-       regiaoMem = regiaoId; 
-       };
- 
    if (uoId != null) {
      uoMem = uoId; 
    };
@@ -1638,10 +1646,14 @@ console.log('buscaId: ' + formatoId);
      formatoMem = formatoId; 
    };
  
-   if (formatoId == "100") {
-     datavisMem = "geral"; 
-   };
- 
+  //  if (formatoId == "100") {
+  //    datavisMem = "geral"; 
+  //  };
+
+   if (regiaoId != null) {
+       regiaoMem = regiaoId;
+    };
+
    if (categoriaId != null) {
      categoriaMem = categoriaId; 
    };
@@ -1673,6 +1685,12 @@ console.log('buscaId: ' + formatoId);
    if (datavis != null) {
      datavisMem = datavis; 
    };
+
+   if (atual == "regiao") { datavisMem = "unidades" };
+   if (formatoMem == 7) { datavisMem = "unidades" };
+
+
+
 
       groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
                   acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
@@ -1709,7 +1727,9 @@ var op = document.getElementById('interior');
 
     document.getElementById('capital').checked = false; 
     document.getElementById('interior').checked = false; 
- 
+
+    document.getElementById('agora').checked = false; 
+    document.getElementById('proxima').checked = false; 
 
 var tiraFormato = document.querySelector("#toolbar");
     tiraFormato.querySelector("form").reset();
@@ -1722,7 +1742,6 @@ var tiraFormato = document.querySelector("#toolbar");
     var op = document.getElementById('fo'+arr[i]);
         op.classList.remove('active');
     } 
-
 
 arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
            65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
@@ -1966,9 +1985,18 @@ buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
  
  // Zera as unidades
        var uoId = 100;
-    var tiraUO = document.querySelector("#unidades");
-        tiraUO.querySelector("form").reset();
+       var tiraUO = document.querySelector("#unidades");
+           tiraUO.querySelector("form").reset();
  
+           arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+                      65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+                      78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+                      89, 91, 92, 93, 94, 95, 96, 49, 60];
+  
+          for(var i=0; i < arr_uos.length; i++) { 
+              document.getElementById("uo"+arr_uos[i]).checked = false; 
+           }
+
         var atual = "regiao";
         var datavis = "unidades";
 
@@ -2140,14 +2168,13 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
  
  function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
   var datavisMem = "unidades";
-  console.log('passou aqui na 2084')
-  myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
 
  } 
 
  function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) {
 
-  var atual = "ver-agenda";
+  var atual = "agenda";
   var datavisMem = "agenda";
   
   myBubbleChart.toggleDisplay(

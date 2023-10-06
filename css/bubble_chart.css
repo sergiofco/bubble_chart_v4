@@ -149,12 +149,12 @@ a, h1, a:visited, a:active {
 
 .uos {
   position: flex;
-  vertical-align: center;
+  vertical-align: bottom;
   align-items:center;
   z-index: 11;
-  width: 32px;
+  width: 35px;
   margin: 0;
-  padding: 3px;
+  padding: 5px;
   appearance: none;
   cursor:pointer;
   border:none;
@@ -165,9 +165,9 @@ a, h1, a:visited, a:active {
   vertical-align: center;
   align-items:center;
   z-index: 11;
-  width: 32px;
+  width: 35px;
   margin: 0;
-  padding: 3px;
+  padding: 5px;
   appearance: none;
   cursor:pointer;
   border:none;
@@ -176,7 +176,7 @@ a, h1, a:visited, a:active {
 .week {
   position: flex;
   padding: 3px;
-  vertical-align: top;
+  vertical-align: center;
   align-items:center;
   width: 32px;
   z-index: 11;
@@ -520,20 +520,17 @@ a, h1, a:visited, a:active {
 }
 
 .logo_sesc {
-  position: fixed;
-  top: 0.5%;
-  left: 5%;
-  width: 5%;
-  padding: 3px;
+  position: flex;
+  padding: 1px;
   margin: 1.5px;
   vertical-align: center;
 }
 .logo_ajuda {
-  position: fixed;
+  position: flex;
   top: 0.5%;
-  right: 5%;
+  right: 8%;
   width: 3%;
-  padding: 3px;
+  padding: 1px;
   margin: 1.5px;
   vertical-align: center;
 }
@@ -566,24 +563,23 @@ border: 0;
   width: 100%; /* Full width (cover the whole page) */
   height: 100%; /* Full height (cover the whole page) */
   text-align: center;
+  vertical-align: top;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.7); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  z-index: 101; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
 
 .overlay a {
-  padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
   color: #ffffff;
-  display: block;
   transition: 0.3s;
   background: "#ffffff";
-  opacity: 0.1;
+  opacity: 1;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -651,7 +647,7 @@ border: 0;
 }
 .burger-menu {
     --burger-menu-radius: 4em;
-    position: fixed;
+    position: FIXED;
     top: 0.5%;
     right: 2%;
     z-index: 100;
@@ -707,14 +703,12 @@ border: 0;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 99999999;
   width: 100%;
   height: 100%;
-  display: flex;
   justify-content: center;
   align-items: center;
   background: #555555; 
-  visibility: hidden;
   transition: 0.3s;
 }
 
@@ -768,24 +762,9 @@ border: 0;
   }
   
 
-.help-oque {
-  position: fixed;
-  top: 0px;
-  align-items: center;
-  text-align: center;
-  font-family: Quando;
-  font-size: large;
-  visibility: hidden;
-  overflow-x: hidden;
-  animation: fadeOutHelp ease-in-out 6s;
-  animation-delay: 4s;
-}
-
-
 .help-onde {
   position: fixed;
   top: 10%;
-  left:3%;
   visibility: hidden;
   overflow-x: hidden;
   animation: fadeOutHelp ease-in-out 6s;
@@ -805,12 +784,12 @@ border: 0;
 .help-oque1 {
   position: fixed;
   top: 0px;
+  right:25%;
   align-items: center;
+  vertical-align: top;
   text-align: center;
   font-family: Quando;
   font-size: large;
-  overflow-x:auto;
-  overflow-y:auto;
 }
 
 
@@ -1489,7 +1468,7 @@ label span:before {
 }
 
 .containerBuscaUO {
-  position: fixed;
+  position: flex;
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
