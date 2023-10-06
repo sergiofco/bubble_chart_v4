@@ -1635,6 +1635,8 @@ if (atual != "regiao") {
 
    //	GUARDA AS ÚLTIMAS ESCOLHAS
    if (temporalId == "buscac" || temporalId == "buscai" || temporalId == "buscaa" ) {
+        console.log('-------- passou na BUSCABUB  --------');
+
         buscaBubbles(formatoId,regiaoId,temporalId);
        };
        
@@ -1686,8 +1688,17 @@ if (atual != "regiao") {
      datavisMem = datavis; 
    };
 
-   if (atual == "regiao") { datavisMem = "unidades" };
-   if (formatoMem == 7) { datavisMem = "unidades" };
+   if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; };
+   if (atual == "regiao") { datavisMem = "unidades"; };
+   if (formatoMem == 7) { datavisMem = "unidades"; };
+
+   console.log('-------- fim do chart.toggle  --------');
+   console.log('formatoId: ' + formatoId);
+   console.log('atual: ' + atual);
+   console.log('datavis: ' + datavis);
+   console.log('excolhido: ' + escolhido);
+   console.log('uoId: ' + uoId);
+   console.log('----------------fim---------------');
 
 
 

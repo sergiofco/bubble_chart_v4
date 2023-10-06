@@ -10,8 +10,6 @@
 
 <!--css -->
 <link rel="stylesheet" href="css/bubble_chart.css">
-<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-
   
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -37,8 +35,16 @@
 			<div class="uos"><img alt="sesc" src='img/logo.png' width="90px" height="42px"></div>
 		</td>
 	<td>
+		<div class="uos">
+			<!-- a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/mapa_capital.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="40px" height="42px"></a -->  
+			<a href='#' onclick="VizPorUO()"><img class="uos" alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="35px" height="35px"></a>  
+		</div>
 	</td>
 		<td>
+		<div class="week">
+			<!-- a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/mapa_estado.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="40px" height="34px"></a -->  
+			<a href='#' onclick="VizPorAgenda()"><img class="week" alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="35px" height="35px"></a>  
+		</div>
 	</td>
         <td width="60%">
             <div id="busca" class="g-search">
@@ -112,21 +118,8 @@
 		  <input type="button" id="se" class="buttonSer active" value="zera" hidden></input>
 	  </form>
   </div>
-<table width="100%" border="0"><tr><td align="right" border="0">
-<div class="uos">
-	<!-- a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/mapa_capital.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="40px" height="42px"></a -->  
-	<a href='#' onclick="VizPorUO()"><img class="uos" alt="por unidades" src="img/uos.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="35px" height="35px"></a>  
-</div>
-</td><td width="20%" align="center">
+
   <div class="contador" id="contador"></div><br>
-</td><td align="left">
-	<div class="week">
-		<!-- a href='#' onclick="VizPorUO()"><img alt="por unidades" src="img/mapa_estado.png" title="Exibe atividades separadas por unidades da região, selecionada à esquerda" width="40px" height="34px"></a -->  
-		<a href='#' onclick="VizPorAgenda()"><img class="week" alt="por dia da semana" src="img/week.png" title="Exibe atividades separadas por dias da semana, selecionada à direita" width="35px" height="35px"></a>  
-	</div>
-</td></tr></table>
-
-
   <div class="EmExibicao">
       <span id="EmExibicao" class="EmExibicao"></span>
   </div>
@@ -141,6 +134,7 @@
 	<input type="button" id="todos-" class="buttonBuscaUO active" value="sem-escolha" hidden></input>
 </form>
  </div>		
+
 
 </div>
   
@@ -461,6 +455,7 @@
 					   a domingo (mais à direita).<br>
 						</div>
 
+
 <div class="escape"></div>
 			<!--
 				p>Design e desenvolvimento experimental: Sérgio Seabra, com a biblioteca D3v4.js a partir do trabalho de Jim Vallandingham [vallandingham.me]</p>
@@ -480,8 +475,6 @@
 	import {zoom} from "https://cdn.skypack.dev/d3-zoom@3";
 	const handler = zoom();
  </script-->
- <script type="text/javascript" src="slick/slick.js"></script>
- <script type="text/javascript" src="slick/carrossel.js"></script>
- 
+
 </body>
 </html>
