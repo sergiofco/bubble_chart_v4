@@ -38,6 +38,11 @@ function openNavBuscaUO() {
   document.getElementById("mySideNavBuscaUO").style.display = "flex";
 }
 
+function openNavRegiao() {
+  document.getElementById("mySideNavRegiao").style.width = "100%";
+  document.getElementById("mySideNavRegiao").style.display = "flex";
+}
+
 function on() {
   document.getElementById("overlay").style.width = "100%";
   document.getElementById("overlay").style.display = "flex";
@@ -77,6 +82,12 @@ function closeNavBuscaUO() {
   document.getElementById("mySideNavBuscaUO").style.width = "0";
   document.getElementById("mySideNavBuscaUO").style.display = "none";
 }
+
+function closeNavRegiao() {
+  document.getElementById("mySideNavRegiao").style.width = "0";
+  document.getElementById("mySideNavRegiao").style.display = "none";
+}
+
 
 function off() {
   document.getElementById("overlay").style.width = "0";

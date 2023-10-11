@@ -1396,6 +1396,37 @@ label span:before {
   font-weight: bold;
 }
 
+.buttonVer {
+  position: flex;
+  min-width: 120px;
+  max-width: 180px;
+  background: #f3c429;
+  color: #000000;
+  top: 0.4%;
+  padding: 5px 20px;
+  cursor: pointer;
+  text-align: right;
+  vertical-align: center;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  border: 2px solid #f6f5f1;
+  text-decoration: none;
+  border-radius: 3%;
+  font-weight: bold;
+}
+
+.buttonVer:active {
+  background: black;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.buttonVer:hover {
+  background: goldenrod;
+  color: #000000;
+  font-weight: bold;
+}
+
+
 .ajuda {
   position: flex;
   min-width: 60px;
@@ -1438,7 +1469,7 @@ label span:before {
   justify-content: center;
   align-items: center;
   padding: 5px;
-  z-index: 10;
+  z-index: 9999999999999999999999999999999999999999999999999999999999999;
 }
 
 .buttonBuscaUO {

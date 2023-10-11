@@ -654,7 +654,7 @@ var DataDoDia = {
                    
           showsemanaTitles();
   //        closeNavBuscaUO();
-  document.getElementById("mySideNavBuscaUO").style.visibility = "hidden";
+  // document.getElementById("mySideNavBuscaUO").style.visibility = "hidden";
 
           hidesemanaTitles();
 
@@ -1221,16 +1221,23 @@ if (atual != "regiao") {
  
  // Visualização de Busca --------------------------------------------------------------------------------
  
-   function buscaBubbles(buscaId,datavisMem,regiaoBuscaId) {
+   function buscaBubbles(buscaId,datavisMem,regiaoId) {
 
-     if (regiaoBuscaId == "buscac") {
+    console.log('buscaMem no buscacubbles: ' + buscaId)
+    console.log('datavisMem no buscacubbles: ' + datavisMem)
+    console.log('regiaoId no buscacubbles: ' + regiaoId)
+
+
+      if (datavisMem == "verUO-C") {
          regiaoMem = "capital";
+         datavisMem = "verUO";
          StrenghtBusca = 0.26;
-       } else if (regiaoBuscaId == "buscai") {
+       } else if (datavisMem == "verUO-I") {
          regiaoMem = "interior";
+         datavisMem = "verUO";
          StrenghtBusca = 0.26;
-       } else if (regiaoBuscaId == "buscaa") {
-        datavisMem = "agenda";
+       } else if (datavisMem == "verAgenda") {
+        datavisMem = "verAgenda";
         StrenghtBusca = 0.26;
       } else  {  StrenghtBusca = 0.1; }
 
@@ -1278,7 +1285,7 @@ if (atual != "regiao") {
  // contador da busca textual
  // tot = bubbles.size();
  
-  if (regiaoBuscaId == 'buscac' || regiaoBuscaId == 'buscai') {
+  if (datavisMem == 'verUO-C' || datavisMem == 'verUO-I') {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
 
       bubbles.transition()
@@ -1312,7 +1319,7 @@ if (atual != "regiao") {
           simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
           simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
  
-    } else if (regiaoBuscaId == 'buscaa') {
+    } else if (datavisMem == 'verAgenda') {
 
       Filtrados = function(d) { return (d.busca.toLowerCase().includes(buscaId))};
 
@@ -1387,40 +1394,56 @@ if (atual != "regiao") {
  // inseri por minha conta para reiniciar
       simulation.alpha(1).restart();
 
-     if (regiaoBuscaId == "buscac") {
+     if (datavisMem == "verUO-C") {
          showunidadeTitles();
-        } else if (regiaoBuscaId == "buscai") {
+        } else if (datavisMem == "verUO-I") {
          showunidadeTitlesInt();
-        } else if (regiaoBuscaId == "buscaa") {
+        } else if (datavisMem == "verAgenda") {
          showsemanaTitles();
         }
   
 //    openNavBuscaUO();
-    document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
- 
- function setupButtonsBuscaUO() {
-   d3.select('#mySideNavBuscaUO')
-     .selectAll('.buttonBuscaUO')
-     .on('click', function () {
-// Remove active class from all buttons
-       d3.selectAll('.buttonBuscaUO').classed('active', false);
-// Find the button just clicked
-       var button = d3.select(this);
- 
-// Set it as the active button
-       button.classed('active', true);
- 
-// Get the id of the button
-       var regiaoBuscaId = button.attr('id');
-// foco();
-      document.getElementById('buscatextual').focus();
+//    document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
 
-      if (regiaoBuscaId == "buscaa") { var datavis = "agenda"; } else { var datavis = "unidades"; }
-       
-      buscaBubbles(buscaId,datavis,regiaoBuscaId);
-     });
- }
- setupButtonsBuscaUO();
+function setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId) {
+  d3.select('#comoVer')
+    .selectAll('.buttonVer')
+    .on('click', function () {
+      // Remove active class from all buttons
+      d3.selectAll('.buttonVer').classed('active', false);
+      // Find the button just clicked
+      var buttonVer= d3.select(this);
+
+      // Set it as the active button
+      buttonVer.classed('active', true);
+
+// Get the id of the button
+      var ComoVer = buttonVer.attr('id');
+          document.getElementById('buscatextual').focus();
+          console.log('buscaMem no botao: ' + buscaId);
+
+    if (ComoVer == "verAgenda") {
+        var datavis = "agenda"; 
+        var atual = "verAgenda"
+      } else {
+        var datavis = "unidades"; 
+        var atual = datavisMem;
+      }
+
+      foco();
+
+    if (buscaId != '') {
+        buscaBubbles(buscaId,atual,regiaoId,buscaId);
+
+    }  else {
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
+    }
+
+    });
+}
+setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
+
+
 
  }
  
@@ -1656,7 +1679,7 @@ if (atual != "regiao") {
     * Opções de interação do usuário
     */
    chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                                   acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) 
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) 
                                    {
 
                                     console.log('-------- começo do chart.toggle  --------');
@@ -1665,18 +1688,20 @@ if (atual != "regiao") {
                                     console.log('datavis: ' + datavis);
                                     console.log('excolhido: ' + escolhido);
                                     console.log('uoId: ' + uoId);
+                                    console.log('buscaId: ' + buscaId);
                                     console.log('----------------fim---------------');
             
 
 
-   //	GUARDA AS ÚLTIMAS ESCOLHAS
-   if (temporalId == "buscac" || temporalId == "buscai" || temporalId == "buscaa" ) {
+//   if (temporalId == "buscac" || temporalId == "buscai" || atual == "buscaa" || buscaId != '') {
+     if ((atual == "verUO-C" || atual == "verUO-I" ||atual == "verAgenda") && buscaId != '') {
         console.log('-------- passou na BUSCABUB  --------');
 
-        buscaBubbles(formatoId,regiaoId,temporalId);
+        buscaBubbles(buscaId,atual,regiaoId,buscaId);
        };
        
-   if (uoId != null) {
+
+  if (uoId != null) {
      uoMem = uoId; 
    };
  
@@ -1761,11 +1786,13 @@ if (atual != "regiao") {
    }
      regiaoBuscaId = "sem-escolha";
      buscaId = this.value; 
- 
+
+     var buscaMem = this.value;
+
 // Zera filtros anteriores
-var op = document.getElementById('buscac');
+var op = document.getElementById('verUO-C');
     op.classList.remove('active');
-var op = document.getElementById('buscai');
+var op = document.getElementById('verUO-I');
     op.classList.remove('active');
 var op = document.getElementById('capital');
     op.classList.remove('active');
@@ -1824,7 +1851,8 @@ var tiraSer = document.querySelector("#mySideNavServicos");
 
     //////////////////////////////////////////////     
 
-buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
+// buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
+buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
    
 };
 }
@@ -1889,6 +1917,8 @@ buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
  
        var tiraSer = document.querySelector("#mySideNavServicos");
            tiraSer.querySelector("form").reset();
+
+       var buscaMem = null;
  
              categoriaMem = '99';
              categoriaId = '99';
@@ -1902,7 +1932,7 @@ buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
              } 
  
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaMem);
      });
  }
  
@@ -2146,7 +2176,7 @@ buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
      });
  }
 
-function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis,buscaId) {
    d3.select('#unidades')
      .selectAll('.uo')
      .on('click', function () {
@@ -2212,23 +2242,26 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
      });
  }
  
+     
  
  function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
   var datavisMem = "unidades";
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
-
+  var atual = "verUO";
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,
+                                  vendaId,gratisId,acessivelId,onlineId,
+                                  uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
  } 
 
- function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis) {
+ function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
 
-  var atual = "agenda";
+  var atual = "verAgenda";
   var datavisMem = "agenda";
-  
-  myBubbleChart.toggleDisplay(
-  formatoId,regiaoId,temporalId,publicoId,
-  vendaId,gratisId,acessivelId,onlineId,
-  uoId,categoriaId,atual,escolhido,datavisMem);
-  
+
+  console.log('VizPorAgenda: ' + formatoId + '---' + regiaoId)
+
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,
+                                  vendaId,gratisId,acessivelId,onlineId,
+                                  uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
  } 
 
  function foco() {
@@ -2251,3 +2284,4 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
   setupButtonsFiltroUnidades();
   VizPorUO();
   VizPorAgenda();
+  
