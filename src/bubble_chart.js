@@ -22,6 +22,8 @@ d3.csv('data/semdfe-1006-uau.csv', display);
  
 // tooltip for mouseover functionality
    var tooltip = floatingTooltip('gates_tooltip', 360);
+
+//   var card = floatingCard('Ativ_Escolhida');
  
 // cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
@@ -651,7 +653,9 @@ var DataDoDia = {
                         console.log('----------------fim---------------');
                    
           showsemanaTitles();
-          closeNavBuscaUO();
+  //        closeNavBuscaUO();
+  document.getElementById("mySideNavBuscaUO").style.visibility = "hidden";
+
           hidesemanaTitles();
 
 // Transições 
@@ -1391,7 +1395,7 @@ if (atual != "regiao") {
          showsemanaTitles();
         }
   
-    openNavBuscaUO();
+//    openNavBuscaUO();
     document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
  
  function setupButtonsBuscaUO() {
@@ -1528,8 +1532,41 @@ if (atual != "regiao") {
  .on("keyup", keyuped)
  foco();
  
+ 
+ // ao clicar na bolha
  function BubbleZoom(d) {
   console.log('esta ação: ' + d.id);
+ 
+  document.getElementById('addSlide').click = true; 
+
+  window.addEventListener('load',function(){
+    var glider = new Glider(document.getElementById('glider-add'), {
+      slidesToShow: 3,
+      duration: .6,
+      dots: '#add-dots',
+      arrows: {
+        prev: '#glider-prev-add',
+        next: '#glider-next-add'
+      }
+    });
+    
+    document.getElementById('addSlide').addEventListener('click',function(){
+      var ele = document.getElementById('add').cloneNode(true);
+      ele.id = '';
+      ele.querySelector('h1').textContent = glider.slides.length + 1;
+      glider.addItem(ele);
+      try{
+        ga('send','event','Add/Remove Item', 'Add')
+      } catch(ex){}
+    });
+
+  })
+
+
+  var textContent = '<span class="name"></span>' +
+  '<span class="name"><b>NOME</b></span>' +
+  '<span class="name"><b>' + online + '</b></span>';
+
   }   
  
  // Exibe o detalhamento com o MOuseOver

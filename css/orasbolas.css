@@ -1,0 +1,96 @@
+:root {
+  --clr-dark: #0f172a;
+  --clr-light: #dddddd;
+  --clr-accent: #820000;
+  --clr-topo: #820000;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 0 0 0;
+  color: var(--clr-dark);
+  background-color: var(--clr-light);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.container {
+  margin: 0 auto;
+  border: 0px solid var(--clr-dark);
+  justify-content: start;
+  align-content: start;
+}
+
+.topo, .topo2, .topo3, .corpo, .esquerda, .direita, .calhau, .card  {
+  font-weight: 700;
+  color: var(--clr-dark);
+  border: 0px solid var(--clr-accent);
+}
+
+/* ALterações */
+
+.container {
+  display: grid;
+  grid-template-columns: 200px, 4fr, 140px;
+  grid-template-rows: 60px, 60px, 60px, 60px, 1fr, -1;
+}
+
+.topo {
+  grid-area: 1 / 1 / 1 / 4;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 999;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: var(--clr-light);
+  background-color: var(--clr-topo);
+}
+
+.topo2 {
+  grid-area: 2 / 1 / 2 / 4;
+  z-index: 999;
+  padding-top: 8px;
+  padding-bottom: 4px;
+}
+
+.topo3 {
+  grid-area: 3 / 1 / 3 / 4;
+  z-index: 999;
+}
+
+.corpo {
+  padding: 10px;
+  grid-area: 4 / 1 / 4 / 4;
+}
+
+
+.calhau {
+  grid-area: 5 / 1 / 5 / 1;
+}
+
+.card {
+  grid-area: 6 / 1 / 6 / 1;
+  padding-left: 40px;
+  padding-right: 10px;
+}
+
+.esquerda {
+  grid-area: 4 / 1 / 4 / 1;
+  z-index: 999;
+}
+
+.direita {
+  grid-area: 4 / 3 / 4 / 3;
+}
+
+.datavis {
+  grid-area: 1 / 2 / 6 / 2;
+  z-index: -999;
+}

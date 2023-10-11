@@ -38,6 +38,11 @@ function openNavBuscaUO() {
   document.getElementById("mySideNavBuscaUO").style.display = "flex";
 }
 
+function on() {
+  document.getElementById("overlay").style.width = "100%";
+  document.getElementById("overlay").style.display = "flex";
+  document.getElementById("overlay").style.visibility = "visible";
+}
 
 /* Set the width of the side navigation to 0 */
 function closeNavCapital() {
@@ -68,17 +73,9 @@ function closeNavServicos() {
   document.getElementById("mySideNavServicos").style.display = "none";
 }
 
-
 function closeNavBuscaUO() {
   document.getElementById("mySideNavBuscaUO").style.width = "0";
   document.getElementById("mySideNavBuscaUO").style.display = "none";
-}
-
-
-function on() {
-  document.getElementById("overlay").style.width = "100%";
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("overlay").style.visibility = "visible";
 }
 
 function off() {

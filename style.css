@@ -1,0 +1,74 @@
+:root {
+    --clr-dark: #0f172a;
+    --clr-light: #dddddd;
+    --clr-accent: #e11d48;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0 0 0 0;
+    padding: 1rem;
+    line-height: 1.6;
+    word-spacing: 1.4px;
+    color: var(--clr-dark);
+    background-color: var(--clr-light);
+  }
+  
+  .container {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    border: 5px solid var(--clr-dark);
+  }
+  
+  .topo, .topo2, .topo3, .corpo, .esquerda, .direita, .pe  {
+    font-weight: 700;
+    color: var(--clr-dark);
+    border: 2px solid var(--clr-accent);
+  }
+
+/* ALterações */
+
+.container {
+    display: grid;
+  }
+
+.topo {
+    grid-area: 1 / 1 / 1 / 4;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.topo2 {
+    grid-area: 2 / 1 / 2 / 4;
+}
+
+.topo3 {
+    grid-area: 3 / 1 / 3 / 4;
+}
+
+.esquerda {
+    grid-area: 4 / 1 / 4 / 1;
+}
+
+.direita {
+    grid-area: 4 / 3 / 4 / 3;
+}
+
+.corpo {
+    grid-area: 4 / 2 / 4 / 2;
+}
+
+.pe {
+    grid-area: 5 / 1 / 5 / 4;
+}
+
+.datavis {
+    grid-area: 4 / 2 / 4 / 2;
+}
