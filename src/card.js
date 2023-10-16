@@ -4,35 +4,28 @@
  * Most styling is expected to come from CSS
  * so check out bubble_chart.css for more details.
  */
-function floatingCard(cardId) {  // tirei ", width"
+function floatingCard(cardId,width) {  
   // Local variable to hold tooltip div for
   // manipulation in other functions.
-  var card = d3.select('#glider-add')
-    .append('div')
-    .attr('class', 'card')
-    .attr('id', cardId);
-//    .style('pointer-events', 'none');
+  var card = d3.select('#card')
+               .append('div')
+               .attr('class', 'clicada')
+               .attr('id', cardId);
+//               .style('pointer-events', 'none');
 
-  // Set a width if it is provided.
-//  if (width) {
-//    tt.style('width', width);
-//  }
+//  Set a width if it is provided.
+  if (width) {
+    card.style('width', width);
+  }
 
   // Initially it is hidden.
   hideCard();
 
-  /*
-   * Display tooltip with provided content.
-   *
-   * content is expected to be HTML string.
-   *
-   * event is d3.event for positioning.
-   */
-  function showCard(content, event) {
-    card.style('opacity', 1.0)
-      .html(content);
+  function showCard(contentCard, event) {
+    card.style('opacity', 0.75)
+        .html(contentCard);
 
-    updatePosition(event);
+    updatePositionCard(event);
   }
 
   /*
@@ -46,12 +39,12 @@ function floatingCard(cardId) {  // tirei ", width"
    * Figure out where to place the tooltip
    * based on d3 mouse event.
    */
-  function updatePosition(event) {
+  function updatePositionCard(event) {
     var xOffset = 20;
     var yOffset = 10;
 
-    var ttw = tt.style('width');
-    var tth = tt.style('height');
+    var ttw = card.style('width');
+    var tth = card.style('height');
 
     var wscrY = window.scrollY;
     var wscrX = window.scrollX;
@@ -69,17 +62,17 @@ function floatingCard(cardId) {  // tirei ", width"
                 curY - tth - yOffset * 2 : curY + yOffset;
 
     if (tttop < wscrY + yOffset) {
-      tttop = curY + yOffset;
+        tttop = curY + yOffset;
     }
 
-    tt
-      .style('top', tttop + 'px')
-      .style('left', ttleft + 'px');
+    card
+      .style('top', 70 + '%')
+      .style('left', 25 + '%');
   }
 
   return {
     showCard: showCard,
     hideCard: hideCard,
-    updatePosition: updatePosition
+    updatePositionCard: updatePositionCard
   };
 }

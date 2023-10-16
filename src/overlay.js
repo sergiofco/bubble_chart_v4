@@ -33,14 +33,12 @@ function openNavServicos() {
 }
 
 
-function openNavBuscaUO() {
-  document.getElementById("mySideNavBuscaUO").style.width = "100%";
-  document.getElementById("mySideNavBuscaUO").style.display = "flex";
+function openNavComoVer() {
+  document.getElementById("ComoVer").style.display = "flex";
 }
 
-function openNavRegiao() {
-  document.getElementById("mySideNavRegiao").style.width = "100%";
-  document.getElementById("mySideNavRegiao").style.display = "flex";
+function openNavComoVerBusca() {
+  document.getElementById("ComoVerBusca").style.display = "flex";
 }
 
 function on() {
@@ -78,16 +76,13 @@ function closeNavServicos() {
   document.getElementById("mySideNavServicos").style.display = "none";
 }
 
-function closeNavBuscaUO() {
-  document.getElementById("mySideNavBuscaUO").style.width = "0";
-  document.getElementById("mySideNavBuscaUO").style.display = "none";
+function closeNavComoVer() {
+  document.getElementById("ComoVer").style.display = "none";
 }
 
-function closeNavRegiao() {
-  document.getElementById("mySideNavRegiao").style.width = "0";
-  document.getElementById("mySideNavRegiao").style.display = "none";
+function closeNavComoVerBusca() {
+  document.getElementById("ComoVerBusca").style.display = "none";
 }
-
 
 function off() {
   document.getElementById("overlay").style.width = "0";

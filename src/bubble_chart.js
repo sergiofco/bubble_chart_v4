@@ -8,11 +8,11 @@
  */
 
 // Load the data.
-//  d3.csv('data/2809-servicos.csv', display);
 d3.csv('data/semdfe-1006-uau.csv', display);
 
  function bubbleChart() {
  
+  closeNavComoVerBusca();  
 // Janela e centro
    var widthTotal = window.innerWidth * 1;
    var heightTotal = window.innerHeight * 1;
@@ -21,9 +21,8 @@ d3.csv('data/semdfe-1006-uau.csv', display);
    var height = heightTotal*0.90+heightTotal*0.08;
  
 // tooltip for mouseover functionality
-   var tooltip = floatingTooltip('gates_tooltip', 360);
-
-//   var card = floatingCard('Ativ_Escolhida');
+   var tooltip = floatingTooltip('tooltip', 360);
+   var card = floatingCard('card', 600);
  
 // cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
@@ -43,8 +42,8 @@ d3.csv('data/semdfe-1006-uau.csv', display);
    const pos2H = posCH;
    const pos3H = (posCH + 3*posH);
  
-   var datavis = "agenda";
-   var datavisMem = "agenda";
+   var datavis = "geral";
+   var datavisMem = "geral";
    
  // Variáveis de Filtro
    var buscaId = '';
@@ -59,6 +58,7 @@ d3.csv('data/semdfe-1006-uau.csv', display);
    var acessivelId = 0;
    var onlineId = 0;
  
+   var buscaMem = '';
    var regiaoMem = 'capital';
    var formatoMem = '100';
    var publicoMem = 'todos';
@@ -79,7 +79,7 @@ d3.csv('data/semdfe-1006-uau.csv', display);
    var new_span = document.createElement('span');
    var novo_span = document.createElement('span');
    var escolhido = "ações na capital e grande são paulo nesta semana e na próxima";
-   var atual = "agenda";
+   var atual = "geral";
  
  
    // Posição central pelo proximidade da ação
@@ -230,13 +230,13 @@ var DataDoDia = {
    66: pos1H+posH, // Vila Mariana
  
    91: pos2H+posH/2, // Campo LImpo
-  49: pos2H+posH/2, // 14 Bis
+   49: pos2H+posH/2, // 14 Bis
    94: pos2H+posH/2, // Bom Retiro
    57: pos2H+posH/2, // Ipiranga
    53: pos2H+posH/2, // Santana
-  70: pos3H, // Santo Amaro
+   70: pos3H, // Santo Amaro
    64: pos2H+posH/2, // Carmo
-  60: pos3H, // Casa Verde
+   60: pos3H, // Casa Verde
  
    59: pos2H+2*posH+posH/2, // Cinesesc
    89: pos2H+2*posH+posH/2, // CPF
@@ -273,16 +273,16 @@ var DataDoDia = {
    89: {x: posCW-corrigeW, y:pos2H+posH+posH/2}, // CPF
    61: {x: posCW+2*posW-corrigeW, y:pos2H+posH+posH/2}, // Florencio
    
-  55: {x: posCW-6*posW-posW/4-corrigeW, y:pos3H-posH}, // Interlagos
+   55: {x: posCW-6*posW-posW/4-corrigeW, y:pos3H-posH}, // Interlagos
    73: {x: posCW-posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Guarulhos
    72: {x: posCW-posCW/4-corrigeW, y:pos3H+posH-posH/4}, // Mogi das Cruzes
    95: {x: posCW-corrigeW, y:pos3H+posH-posH/4}, // Osasco
    67: {x: posCW+posCW/4-corrigeW, y:pos3H+posH-posH/4}, // São Caetano
    88: {x: posCW+posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Santo André
-  56: {x: posCW+6*posW+posW/4-corrigeW, y:pos3H-posH}, // Itaquera
-   // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
-  49: {x: posCW-2*posW-corrigeW, y:pos2H-posH/2}, // 14 Bis
-  60: {x: posCW+4*posW+posW/4-corrigeW, y:pos3H-posH}, // Casa Verde
+   56: {x: posCW+6*posW+posW/4-corrigeW, y:pos3H-posH}, // Itaquera
+// 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
+   49: {x: posCW-2*posW-corrigeW, y:pos2H-posH/2}, // 14 Bis
+   60: {x: posCW+4*posW+posW/4-corrigeW, y:pos3H-posH}, // Casa Verde
 
    
    // interior
@@ -573,13 +573,13 @@ var DataDoDia = {
     // const total = bubbles.size();
      
  // Set initial layout to single group.
-     var datavisMem = "agenda";
-     var atual = "agenda";
-     var temporalId = "agora";
-     var regiaoId = "capital";
+    //  var datavisMem = "agenda";
+    //  var atual = "agenda";
+    //  var temporalId = "agora";
+    //  var regiaoId = "capital";
 
      groupBubbles(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-       acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavisMem);
+                  acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
   };
  
    /*
@@ -642,7 +642,7 @@ var DataDoDia = {
  
  // Função que atualiza as exibições -- exceto Busca
  function groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                       acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem) {
+                       acessivelMem,onlineMem,uoMem,categoriaMem,atual,datavisMem,buscaMem,escolhido) {
  
                         console.log('-------- começo do groupb --------');
                         console.log('formatoMem: ' + formatoMem);
@@ -652,11 +652,67 @@ var DataDoDia = {
                         console.log('uoId: ' + uoId);
                         console.log('----------------fim---------------');
                    
-          showsemanaTitles();
-  //        closeNavBuscaUO();
+          if (atual == "verUO-I" || atual == "interior") {
+              var regiaoMem = "interior" 
+              var op = document.getElementById('capital');
+                  op.classList.remove('active');
+                  hidesemanaTitles();
+                  hideunidadeTitles();
+                  showunidadeTitlesInt();
+                  document.getElementById("capital").checked = false; 
+                  document.getElementById("interior").checked = true; 
+                  openNavInterior();
+                  closeNavGdeSP();
+                  closeNavCapital();
+
+                  var uoId = 100;
+                  var tiraUO = document.querySelector("#unidades");
+                      tiraUO.querySelector("form").reset();
+            
+                      arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+                                 65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+                                 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+                                 89, 91, 92, 93, 94, 95, 96, 49, 60];
+             
+                     for(var i=0; i < arr_uos.length; i++) { 
+                         document.getElementById("uo"+arr_uos[i]).checked = false; 
+                      }
+           
+
+
+            } else if (atual == "verUO-C" || atual == "capital") {
+              var regiaoMem = "capital" 
+              var op = document.getElementById('interior');
+                  op.classList.remove('active');
+              hidesemanaTitles();
+              hideunidadeTitles();
+              showunidadeTitles();
+              document.getElementById("interior").checked = false; 
+              document.getElementById("capital").checked = true; 
+              closeNavInterior();
+              openNavGdeSP();
+              openNavCapital();
+
+              var uoId = 100;
+              var tiraUO = document.querySelector("#unidades");
+                  tiraUO.querySelector("form").reset();
+        
+                  arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+                             65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+                             78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+                             89, 91, 92, 93, 94, 95, 96, 49, 60];
+         
+                 for(var i=0; i < arr_uos.length; i++) { 
+                     document.getElementById("uo"+arr_uos[i]).checked = false; 
+                  }
+       
+            }
+
+  // showsemanaTitles();
+  // closeNavBuscaUO();
   // document.getElementById("mySideNavBuscaUO").style.visibility = "hidden";
 
-          hidesemanaTitles();
+  //          hidesemanaTitles();
 
 // Transições 
           bubbles.transition().duration(4000);
@@ -768,11 +824,8 @@ if (datavisMem != "formatos") {
  
  
      // Define formato da visualização    
-   if (datavisMem == "unidades" || atual == "regiao") {
+   if (datavisMem == "unidades" || atual == "regiao" || atual == "verUO-C" || atual == "verUO-I") {
        // por Unidades
-       hidesemanaTitles();
-       hideunidadeTitles();
-       showunidadeTitles();
        simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
        simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
  //      simulation.alpha(1).restart();
@@ -1008,6 +1061,8 @@ if (atual == "limpar") {
    closeNavInterior();
    openNavGdeSP();
    openNavCapital();
+   buscaId = "undefined";
+   buscaMem = "undefined";
 
    arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
               65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
@@ -1223,31 +1278,27 @@ if (atual != "regiao") {
  
    function buscaBubbles(buscaId,datavisMem,regiaoId) {
 
-    console.log('buscaMem no buscacubbles: ' + buscaId)
+    console.log('buscaId no buscacubbles: ' + buscaId)
     console.log('datavisMem no buscacubbles: ' + datavisMem)
     console.log('regiaoId no buscacubbles: ' + regiaoId)
 
 
-      if (datavisMem == "verUO-C") {
+      if (datavisMem == "verUO-CB") {
          regiaoMem = "capital";
-         datavisMem = "verUO";
          StrenghtBusca = 0.26;
-       } else if (datavisMem == "verUO-I") {
+       } else if (datavisMem == "verUO-IB") {
          regiaoMem = "interior";
-         datavisMem = "verUO";
          StrenghtBusca = 0.26;
-       } else if (datavisMem == "verAgenda") {
-        datavisMem = "verAgenda";
+       } else if (datavisMem == "verAgendaB") {
+        datavisMem = "verAgendaB";
         StrenghtBusca = 0.26;
       } else  {  StrenghtBusca = 0.1; }
 
        forceStrength = 0.05;
  
      if (datavisMem == "geral" || atual == "limpar") {
-//         var regiaoMem = "capital";
-    //     groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-    //                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
          simulation.stop();
+         buscaMem = "undefined";
      }
  
             closeNavCategorias()
@@ -1255,7 +1306,7 @@ if (atual != "regiao") {
             hidesemanaTitles();
             hideformatoTitles();
  
-            if (buscaId == '' ) { 
+            if (buscaId == '') { 
                 novo_span.innerText = "";
                 display_filtro.appendChild(novo_span);
                 new_span.innerText = "";
@@ -1285,7 +1336,7 @@ if (atual != "regiao") {
  // contador da busca textual
  // tot = bubbles.size();
  
-  if (datavisMem == 'verUO-C' || datavisMem == 'verUO-I') {
+  if (datavisMem == 'verUO-CB' || datavisMem == 'verUO-IB') {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
 
       bubbles.transition()
@@ -1319,7 +1370,7 @@ if (atual != "regiao") {
           simulation.force('x', d3.forceX().strength(forceStrength).x(nodeunidadeXPos));
           simulation.force('y', d3.forceY().strength(forceStrength).y(nodeunidadeYPos));
  
-    } else if (datavisMem == 'verAgenda') {
+    } else if (datavisMem == 'verAgendaB') {
 
       Filtrados = function(d) { return (d.busca.toLowerCase().includes(buscaId))};
 
@@ -1394,58 +1445,18 @@ if (atual != "regiao") {
  // inseri por minha conta para reiniciar
       simulation.alpha(1).restart();
 
-     if (datavisMem == "verUO-C") {
+     if (datavisMem == "verUO-CB") {
          showunidadeTitles();
-        } else if (datavisMem == "verUO-I") {
+        } else if (datavisMem == "verUO-IB") {
          showunidadeTitlesInt();
-        } else if (datavisMem == "verAgenda") {
+        } else if (datavisMem == "verAgendaB") {
          showsemanaTitles();
         }
   
 //    openNavBuscaUO();
 //    document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
 
-function setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId) {
-  d3.select('#comoVer')
-    .selectAll('.buttonVer')
-    .on('click', function () {
-      // Remove active class from all buttons
-      d3.selectAll('.buttonVer').classed('active', false);
-      // Find the button just clicked
-      var buttonVer= d3.select(this);
-
-      // Set it as the active button
-      buttonVer.classed('active', true);
-
-// Get the id of the button
-      var ComoVer = buttonVer.attr('id');
-          document.getElementById('buscatextual').focus();
-          console.log('buscaMem no botao: ' + buscaId);
-
-    if (ComoVer == "verAgenda") {
-        var datavis = "agenda"; 
-        var atual = "verAgenda"
-      } else {
-        var datavis = "unidades"; 
-        var atual = datavisMem;
-      }
-
-      foco();
-
-    if (buscaId != '') {
-        buscaBubbles(buscaId,atual,regiaoId,buscaId);
-
-    }  else {
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
-    }
-
-    });
 }
-setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
-
-
-
- }
  
  
  /*
@@ -1560,36 +1571,18 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
  function BubbleZoom(d) {
   console.log('esta ação: ' + d.id);
  
-  document.getElementById('addSlide').click = true; 
+  const fechar = d3.select(".clicada name")
+                   .on("click", hideCardChama(d));
 
-  window.addEventListener('load',function(){
-    var glider = new Glider(document.getElementById('glider-add'), {
-      slidesToShow: 3,
-      duration: .6,
-      dots: '#add-dots',
-      arrows: {
-        prev: '#glider-prev-add',
-        next: '#glider-next-add'
-      }
-    });
-    
-    document.getElementById('addSlide').addEventListener('click',function(){
-      var ele = document.getElementById('add').cloneNode(true);
-      ele.id = '';
-      ele.querySelector('h1').textContent = glider.slides.length + 1;
-      glider.addItem(ele);
-      try{
-        ga('send','event','Add/Remove Item', 'Add')
-      } catch(ex){}
-    });
+  var contentCard = '<span class="buttonVer">1ª linha </span>' +
+                    '<span class="name"><b>[<a href="#" onclick=' + hideCardChama(d) + '>fechar</a>]</b></span><br><br>' +
+                    '<span class="name"><b>NOME: </b></span>' +
+                    '<span class="name"><b>' + d.name + '</b></span>';
 
-  })
+      card.showCard(contentCard, d3.event);
 
-
-  var textContent = '<span class="name"></span>' +
-  '<span class="name"><b>NOME</b></span>' +
-  '<span class="name"><b>' + online + '</b></span>';
-
+ // hideCardChama(d);
+                        
   }   
  
  // Exibe o detalhamento com o MOuseOver
@@ -1598,8 +1591,9 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
      d3.select(this)
        .transition()
        .duration(200)
-       .attr('stroke', 'red')
-       .attr('r', d.radius+25);
+       .attr('stroke', 'black')
+       .attr('stroke-width', 5)
+       .attr('r', d.radius+5);
  
  // tratamento de variáveis para exibição
     const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
@@ -1657,15 +1651,24 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
      d3.select(this)
        .transition()
        .duration(200)
+       .attr('stroke-width', '1')
        .attr('stroke', function (d) { return (d.online == 1)
         ? "gold" : (d.ingresso == 1) 
         ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
        .attr('r', d.radius);
 
-
      tooltip.hideTooltip();
    }
  
+// Oculta o Card
+function hideCardChama(d) {
+  // reset outline
+
+  card.hideCard(d);
+}
+
+
+
  // link para a busca do site do Sesc
  var url = 'http://sescsp.org.br';
  var link = document.querySelector("#escape");
@@ -1693,9 +1696,10 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
             
 
 
-//   if (temporalId == "buscac" || temporalId == "buscai" || atual == "buscaa" || buscaId != '') {
-     if ((atual == "verUO-C" || atual == "verUO-I" ||atual == "verAgenda") && buscaId != '') {
-        console.log('-------- passou na BUSCABUB  --------');
+     if (atual == "verUO-CB" || atual == "verUO-IB" ||atual == "verAgendaB") {
+        console.log('-------- foi pra BUSCABUB com  --------');
+        console.log(buscaId);
+        console.log('-----------------------------------');
 
         buscaBubbles(buscaId,atual,regiaoId,buscaId);
        };
@@ -1749,7 +1753,7 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
      datavisMem = datavis; 
    };
 
-   if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; };
+   if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; buscaMem = "undefined"; };
    if (atual == "regiao") { datavisMem = "unidades"; };
    if (formatoMem == 7) { datavisMem = "unidades"; };
 
@@ -1757,15 +1761,13 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
    console.log('formatoId: ' + formatoId);
    console.log('atual: ' + atual);
    console.log('datavis: ' + datavis);
-   console.log('excolhido: ' + escolhido);
+   console.log('escolhido: ' + escolhido);
    console.log('uoId: ' + uoId);
    console.log('----------------fim---------------');
 
 
-
-
       groupBubbles(formatoMem,regiaoMem,temporalMem,publicoMem,vendaMem,gratisMem,
-                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,escolhido,datavisMem);
+                  acessivelMem,onlineMem,uoMem,categoriaMem,atual,datavisMem,buscaMem,escolhido);
    };
  
  
@@ -1788,6 +1790,9 @@ setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,ace
      buscaId = this.value; 
 
      var buscaMem = this.value;
+
+     closeNavComoVer();
+     openNavComoVerBusca();
 
 // Zera filtros anteriores
 var op = document.getElementById('verUO-C');
@@ -1851,11 +1856,57 @@ var tiraSer = document.querySelector("#mySideNavServicos");
 
     //////////////////////////////////////////////     
 
-// buscaBubbles(buscaId,datavisMem,regiaoBuscaId);
-buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
-   
-};
+// Configura os botões utilizados pelo usuário para escolher a visualização
+
+function setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId) {
+  d3.select('#ComoVerBusca')
+    .selectAll('.buttonVerB')
+    .on('click', function () {
+      // Remove active class from all buttons
+      d3.selectAll('.buttonVerB').classed('active', false);
+      // Find the button just clicked
+      var buttonVer= d3.select(this);
+
+      // Set it as the active button
+      buttonVer.classed('active', true);
+
+// Get the id of the button
+      var ComoVer = buttonVer.attr('id');
+
+    if (ComoVer == "verAgendaB") {
+        var datavisMem = "verAgendaB"; 
+      } else if (ComoVer == "verUO-CB") {
+        var datavisMem = ComoVer; 
+        var regiaoMem = "capital";
+      } else {
+        var datavisMem = ComoVer; 
+        var regiaoMem = "interior";
+      }
+      var atual = ComoVer;
+
+      foco();
+      console.log('botões como ver ----------------------');
+      console.log('datavisMem: ' + datavisMem);
+      console.log('regiaoMem: ' + regiaoMem);
+      console.log('buscaId: ' + buscaId);
+
+//      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+//                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
+
+buscaBubbles(buscaId,datavisMem,regiaoMem,buscaMem);
+
+
+    });
 }
+
+setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
+
+buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
+
+};
+
+}
+
  // Inicia a visualização
  var myBubbleChart = bubbleChart();
  
@@ -1892,7 +1943,49 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
  }
  
  // Configura os botões utilizados pelo usuário para escolher a visualização
- function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+
+ function setupButtonsComoVer(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId) {
+    d3.select('#ComoVer')
+      .selectAll('.buttonVer')
+      .on('click', function () {
+        // Remove active class from all buttons
+        d3.selectAll('.buttonVer').classed('active', false);
+        // Find the button just clicked
+        var buttonVer= d3.select(this);
+  
+        // Set it as the active button
+        buttonVer.classed('active', true);
+  
+  // Get the id of the button
+        var ComoVer = buttonVer.attr('id');
+  
+      if (ComoVer == "verAgenda") {
+          var datavis = "agenda"; 
+        } else if (ComoVer == "verUO-C") {
+          var datavis = "unidades"; 
+          var regiaoMem = "capital";
+        } else {
+          var datavis = "unidades"; 
+          var regiaoMem = "interior";
+        }
+        var atual = ComoVer;
+  
+        foco();
+        console.log('botões como ver ----------------------');
+        console.log('atual: ' + atual);
+        console.log('regiaoMem: ' + regiaoId);
+        console.log('buscaId: ' + buscaId);
+  
+        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                     acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
+  
+      });
+  }
+ 
+  setupButtonsComoVer();
+  
+ function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                       acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#toolbar')
      .selectAll('.button')
      .on('click', function () {
@@ -1918,7 +2011,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var tiraSer = document.querySelector("#mySideNavServicos");
            tiraSer.querySelector("form").reset();
 
-       var buscaMem = null;
+       var buscaMem = "undefined";
  
              categoriaMem = '99';
              categoriaId = '99';
@@ -1930,13 +2023,19 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
                   var op = document.getElementById('ca'+arr[i]);
                       op.classList.remove('active');
              } 
- 
+             document.getElementById('buscatextual').value='';
+             var buscaId = '';
+                 closeNavComoVerBusca();
+                 openNavComoVer();
+         
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaMem);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonTudo(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                          acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#zera')
      .selectAll('.buttonTudo')
      .on('click', function () {
@@ -1950,9 +2049,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
  
        // Get the id of the button
        var formatoId = buttonTudo.attr('id').substring(2);
-       var atual = "limpar";
-       var datavis = "geral";
- 
+
  // reestabelece variáveis para limpar filtros para o padrão      
        var regiaoId = 'capital';
        var formatoId = '100';
@@ -1964,14 +2061,24 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var vendaId = 0;
        var acessivelId = 0;
        var onlineId = 0;
+       document.getElementById('buscatextual').value='';
+       var buscaId = '';
+       var atual = "limpar";
+       var datavis = "geral";
+
 //       var win = window.open('vazio.html', 'portal');
- 
+
+        closeNavComoVerBusca();
+        openNavComoVer();
+
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroCategorias(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                       acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#mySideNavCategoria')
      .selectAll('.buttonCat')
      .on('click', function () {
@@ -1988,14 +2095,20 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var escolhido = button.attr('value');
            var atual = "categoria";
 //           var datavis = "unidades";
- 
+document.getElementById('buscatextual').value='';
+var buscaId = '';
+    closeNavComoVerBusca();
+    openNavComoVer();
+
            foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
 
- function setupButtonsFiltroServicos(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroServicos(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                     acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
   d3.select('#mySideNavServicos')
     .selectAll('.buttonSer')
     .on('click', function () {
@@ -2012,14 +2125,20 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
       var escolhido = button.attr('value');
           var atual = "servicos";
    //       var datavis = "unidades";
+   document.getElementById('buscatextual').value='';
+   var buscaId = '';
+       closeNavComoVerBusca();
+       openNavComoVer();
 
           foco();
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                  acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
     });
 }
 
 
- function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroTemporal(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                     acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#temporal')
      .selectAll('.temporal')
      .on('click', function () {
@@ -2039,11 +2158,13 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
      //  var datavis = "agenda";
  
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonsFiltroRegiao(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroRegiao(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
  
    d3.select('#regiao')
      .selectAll('.regiao')
@@ -2074,7 +2195,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
               document.getElementById("uo"+arr_uos[i]).checked = false; 
            }
 
-        var atual = "regiao";
+        var atual = regiaoId;
         var datavis = "unidades";
 
         var LimpaBusca = document.querySelector("#busca");
@@ -2082,11 +2203,13 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
      
 
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonsFiltroPublico(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroPublico(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#publico')
      .selectAll('.publico')
      .on('click', function () {
@@ -2104,11 +2227,13 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var atual = "publico";
  
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroVenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                  acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
   
        var venda = document.querySelector('#venda');
            venda.addEventListener('change', function(element) {
@@ -2121,12 +2246,14 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
      var atual = "venda";
  
      foco()
-     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                 acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  
  }
  
- function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroGratis(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
   
      var gratis = document.querySelector('#gratis');
          gratis.addEventListener('change', function(element) {
@@ -2137,11 +2264,13 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
      }
      var atual = "gratis";
      foco()
-     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                 acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroAcessivel(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                      acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
  
      var acessivel = document.querySelector('#acessivel');
            acessivel.addEventListener('change', function(element) {
@@ -2154,11 +2283,13 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
      var atual = "acessibilidade";
  
      foco()
-     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+     myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                 acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
- function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis) {
+ function setupButtonsFiltroOnline(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
        var online = document.querySelector('#online');
          online.addEventListener('change', function(element) {
            if (online.checked == true) { 
@@ -2172,11 +2303,13 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var atual = "online";
  
        foco()
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
 
-function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,datavis,buscaId) {
+function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#unidades')
      .selectAll('.uo')
      .on('click', function () {
@@ -2193,10 +2326,6 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
        var escolhido = uo.attr('value');
        var atual = "unidade";
        var datavis = "formatos";
- 
-//       var formatoId = '100';
-//       var categoriaId = '99';
- 
        var LimpaBusca = document.querySelector("#busca");
            LimpaBusca.querySelector("form").reset();
 
@@ -2238,31 +2367,31 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
        
 
        foco();
-       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis);
+       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
- 
      
  
- function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
-  var datavisMem = "unidades";
-  var atual = "verUO";
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,
-                                  vendaId,gratisId,acessivelId,onlineId,
-                                  uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
- } 
+//  function VizPorUO(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
+//   var datavisMem = "unidades";
+//   var atual = "verUO";
+//       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,
+//                                   vendaId,gratisId,acessivelId,onlineId,
+//                                   uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
+//  } 
 
- function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
+//  function VizPorAgenda(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,escolhido,datavis,buscaId) {
 
-  var atual = "verAgenda";
-  var datavisMem = "agenda";
+//   var atual = "verAgenda";
+//   var datavisMem = "agenda";
 
-  console.log('VizPorAgenda: ' + formatoId + '---' + regiaoId)
+//   console.log('VizPorAgenda: ' + formatoId + '---' + regiaoId)
 
-      myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,
-                                  vendaId,gratisId,acessivelId,onlineId,
-                                  uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
- } 
+//       myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,
+//                                   vendaId,gratisId,acessivelId,onlineId,
+//                                   uoId,categoriaId,atual,escolhido,datavisMem,buscaId);
+//  } 
 
  function foco() {
      // document.getElementById('buscatextual').focus();
@@ -2282,6 +2411,6 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
   setupButtonsFiltroAcessivel();
   setupButtonsFiltroOnline();
   setupButtonsFiltroUnidades();
-  VizPorUO();
-  VizPorAgenda();
+  // VizPorUO();
+  // VizPorAgenda();
   
