@@ -375,7 +375,7 @@ a, h1, a:visited, a:active {
   -moz-border-radius:5px;
 	border-radius: 5px;
   border: 2px solid #000;
-  background: #f6f5f1;
+  background: #EEEEEE;
 	opacity: 0.75;
   color: black;
 	padding: 10px;
@@ -386,6 +386,30 @@ a, h1, a:visited, a:active {
 
 .clicada .title {
 	font-size: 15px;
+}
+
+.finds {
+  background: #DE7802;
+  position: flex;
+  min-width: 70px;
+  top: 0.4%;
+  color: black;
+  padding: 5px 10px;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  border: 1px solid #f6f5f1;
+  font-weight: bold;
+}
+
+.labuta {
+  background: steelblue;
+  color: white;
+  position: flex;
+  min-width: 70px;
+  top: 0.4%;
+  padding: 5px 10px;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  border: 1px solid #f6f5f1;
+  font-weight: bold;
 }
 
 .clicada .name {

@@ -11,6 +11,7 @@ function floatingCard(cardId,width) {
                .append('div')
                .attr('class', 'clicada')
                .attr('id', cardId);
+//               .on('click', hideCard);
 //               .style('pointer-events', 'none');
 
 //  Set a width if it is provided.
@@ -22,10 +23,10 @@ function floatingCard(cardId,width) {
   hideCard();
 
   function showCard(contentCard, event) {
-    card.style('opacity', 0.75)
+    card.style('opacity', 0.8)
         .html(contentCard);
 
-    updatePositionCard(event);
+//    updatePositionCard(event);
   }
 
   /*
@@ -39,40 +40,40 @@ function floatingCard(cardId,width) {
    * Figure out where to place the tooltip
    * based on d3 mouse event.
    */
-  function updatePositionCard(event) {
-    var xOffset = 20;
-    var yOffset = 10;
+  // function updatePositionCard(event) {
+  //   var xOffset = 20;
+  //   var yOffset = 10;
 
-    var ttw = card.style('width');
-    var tth = card.style('height');
+  //   var ttw = card.style('width');
+  //   var tth = card.style('height');
 
-    var wscrY = window.scrollY;
-    var wscrX = window.scrollX;
+  //   var wscrY = window.scrollY;
+  //   var wscrX = window.scrollX;
 
-    var curX = (document.all) ? event.clientX + wscrX : event.pageX;
-    var curY = (document.all) ? event.clientY + wscrY : event.pageY;
-    var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > window.innerWidth) ?
-                 curX - ttw - xOffset * 2 : curX + xOffset;
+  //   var curX = (document.all) ? event.clientX + wscrX : event.pageX;
+  //   var curY = (document.all) ? event.clientY + wscrY : event.pageY;
+  //   var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > window.innerWidth) ?
+  //                curX - ttw - xOffset * 2 : curX + xOffset;
 
-    if (ttleft < wscrX + xOffset) {
-      ttleft = wscrX + xOffset;
-    }
+  //   if (ttleft < wscrX + xOffset) {
+  //     ttleft = wscrX + xOffset;
+  //   }
 
-    var tttop = ((curY - wscrY + yOffset * 2 + tth) > window.innerHeight) ?
-                curY - tth - yOffset * 2 : curY + yOffset;
+  //   var tttop = ((curY - wscrY + yOffset * 2 + tth) > window.innerHeight) ?
+  //               curY - tth - yOffset * 2 : curY + yOffset;
 
-    if (tttop < wscrY + yOffset) {
-        tttop = curY + yOffset;
-    }
+  //   if (tttop < wscrY + yOffset) {
+  //       tttop = curY + yOffset;
+  //   }
 
-    card
-      .style('top', 70 + '%')
-      .style('left', 25 + '%');
-  }
+  //   card
+  //     .style('top', 70 + '%')
+  //     .style('left', 25 + '%');
+  // }
 
   return {
     showCard: showCard,
-    hideCard: hideCard,
-    updatePositionCard: updatePositionCard
+//    updatePositionCard: updatePositionCard,
+    hideCard: hideCard
   };
 }

@@ -22,7 +22,7 @@ d3.csv('data/semdfe-1006-uau.csv', display);
  
 // tooltip for mouseover functionality
    var tooltip = floatingTooltip('tooltip', 360);
-   var card = floatingCard('card', 600);
+   var card = floatingCard('cartao', 600);
  
 // cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
@@ -1571,15 +1571,69 @@ if (atual != "regiao") {
  function BubbleZoom(d) {
   console.log('esta ação: ' + d.id);
  
-  const fechar = d3.select(".clicada name")
-                   .on("click", hideCardChama(d));
+  //const fechar = d3.select(".clicada name")
+    //               .on("click", hideCardChama);
 
-  var contentCard = '<span class="buttonVer">1ª linha </span>' +
-                    '<span class="name"><b>[<a href="#" onclick=' + hideCardChama(d) + '>fechar</a>]</b></span><br><br>' +
-                    '<span class="name"><b>NOME: </b></span>' +
-                    '<span class="name"><b>' + d.name + '</b></span>';
+// tratamento de variáveis para exibição
+const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
+const formataData = d3.timeFormat("%d.%m.%Y");
+ 
+ if (d.exibirdatas == "de-ate") {
+   var exibedata = 'De ' + formataData(StrToData(d.datainicial)) + ' até ' + formataData(StrToData(d.datafinal));
+ } else {
+   var exibedata = formataData(StrToData(d.data))  + ' ' + d.hora ;
+ }
+ 
+ if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
+    var Corclass = "finds";
+ } else if (d.dia_da_semana == "sempre") {
+    var Corclass = "buttonVer";
+ } else {
+    var Corclass = "labuta";
+ }
+
+
+ if (d.online == 1) {
+   var online = 'ação online<br>';
+ } else {var online = ''}
+ 
+ if (d.tem == 1) {
+   var tem_acessivel = d.dispositivo + '<br><br>';
+ } else {var tem_acessivel = ''}
+ 
+ if (d.publico == 'outros') {
+   var publico = '';
+ } else {var publico = d.publico}
+ 
+ if (d.ingresso == 1) {
+   var ingresso = 'ingressos esgotados/inscrições encerradas';
+ } else if (d.cod_formato == 1) { 
+        var ingresso = 'ingressos à venda' 
+       } else { var ingresso = 'inscrições abertas' }
+ 
+ if (d.gratis == 1) {
+   var gratis = 'grátis';
+ } else {var gratis = ''}
+ 
+  var contentCard = '<span class="name"></span>' +
+                    '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
+                '<span class="name"><b>' + tem_acessivel + '</b></span>' +
+               '<span class="name"><b>' + online + '</b></span>' +
+               '<span class="value"><b>' + exibedata + '</b></span><br>' +
+                       '<span class="value">' + d.projeto + '</span><br/>' +
+                       '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
+               '<span class="value">' + d.name2 + '</span><br/>' +
+               '<span class="value"><br><b>' + d.categoria + '</b></span><br/>' +
+               '<span class="value">' + 'sinopse' + ' | ' + 
+               d.value + ' lugares/vagas</span>.' +
+               '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
+               '<span class="value"><b>' + publico + '</b></span><br>' +
+               '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
 
       card.showCard(contentCard, d3.event);
+
+      document.getElementById('card').addEventListener('click',hideCardChama);
+
 
  // hideCardChama(d);
                         
@@ -1627,7 +1681,7 @@ if (atual != "regiao") {
        var gratis = 'grátis';
      } else {var gratis = ''}
      
-     var content = '<span class="name"></span>' +
+     var contentssss = '<span class="name"></span>' +
                    '<span class="name"><b>' + tem_acessivel + '</b></span>' +
                    '<span class="name"><b>' + online + '</b></span>' +
                    '<span class="value"><b>' + exibedata + '</b></span><br>' +
@@ -1640,9 +1694,16 @@ if (atual != "regiao") {
                    '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                    '<span class="value"><b>' + publico + '</b></span><br>' +
                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
- 
+
+                   var content = '<span class="buttonVer">1ª linha </span>' +
+                   '<span class="name"><b>[<a href="#" onclick=' + hideCardChama() + '>fechar</a>]</b></span><br><br>' +
+                   '<span class="name"><b>NOME: </b></span>' +
+                   '<span class="name"><b>' + d.name + '</b></span>';
+                                   
+
      tooltip.showTooltip(content, d3.event);
    }
+
  
  
  // Oculta o detalhamento
@@ -1961,6 +2022,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
   
       if (ComoVer == "verAgenda") {
           var datavis = "agenda"; 
+          var regiaoMem = regiaoId;
         } else if (ComoVer == "verUO-C") {
           var datavis = "unidades"; 
           var regiaoMem = "capital";
@@ -1976,7 +2038,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
         console.log('regiaoMem: ' + regiaoId);
         console.log('buscaId: ' + buscaId);
   
-        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
+        myBubbleChart.toggleDisplay(formatoId,regiaoMem,temporalId,publicoId,vendaId,gratisId,
                                      acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
   
       });
