@@ -404,7 +404,6 @@ var DataDoDia = {
  // @v4 Force starts up automatically, which we don't want as there aren't any nodes yet.
       simulation.stop();
    
- 
  // Define as cores
    var fillColor = d3.scaleOrdinal()
          .domain(['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom','sempre'])

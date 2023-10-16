@@ -22,14 +22,14 @@ body {
 .container {
   margin: 0 auto;
   border: 0px solid var(--clr-dark);
-  justify-content: start;
-  align-content: start;
+  justify-content: top;
+  align-content: top;
 }
 
-.topo, .topo2, .topo3, .corpo, .esquerda, .direita, .calhau, .card  {
+.topo, .topo1, .topo2, .topo3, .corpo, .esquerda, .direita {
   font-weight: 700;
   color: var(--clr-dark);
-  border: 0px solid var(--clr-accent);
+  border: 0px solid var(--clr-dark);
 }
 
 /* ALterações */
@@ -37,49 +37,69 @@ body {
 .container {
   display: grid;
   grid-template-columns: 200px, 4fr, 140px;
-  grid-template-rows: 60px, 60px, 60px, 60px, 1fr, -1;
+  grid-template-rows: 60px, 60px, 60px, 60px, 1fr;
+  justify-content: top ;
+  align-items: top;
 }
 
 .topo {
   grid-area: 1 / 1 / 1 / 4;
   display:flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content:space-between;
   z-index: 999;
   padding: 10px;
   padding-left: 30px;
   padding-right: 30px;
   color: var(--clr-light);
   background-color: var(--clr-topo);
+  height: 60px;
 }
 
-.topo2 {
+.topo1 {
   grid-area: 2 / 1 / 2 / 4;
   z-index: 999;
-  padding-top: 8px;
-  padding-bottom: 4px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  vertical-align: top;
+  height: 60px;
+}
+
+.adireita {
+  z-index: 999;
+  display:flex;
+  flex-direction: row;
+  justify-content: right;
+  vertical-align: top;
+}
+
+
+.topo2 {
+  grid-area: 3 / 1 / 3 / 4;
+  z-index: 999;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  vertical-align: top;
+  height: 60px;
 }
 
 .topo3 {
-  grid-area: 3 / 1 / 3 / 4;
+  grid-area: 4 / 1 / 4 / 4;
   z-index: 999;
+  vertical-align: top;
+  height: 60px;
 }
 
 .corpo {
   padding: 10px;
-  grid-area: 4 / 1 / 4 / 4;
+  grid-area: 5 / 1 / 5 / 4;
+  vertical-align: top;
+  height: 1fr;
 }
 
-
-.calhau {
-  grid-area: 5 / 1 / 5 / 1;
-}
-
-.card {
-  grid-area: 6 / 1 / 6 / 1;
-  padding-left: 40px;
-  padding-right: 10px;
-}
 
 .esquerda {
   grid-area: 4 / 1 / 4 / 1;

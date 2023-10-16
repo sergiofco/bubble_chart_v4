@@ -22,43 +22,43 @@
 <div class="container">
 <!-- Espaço da visualização de dados-->
 <nav class="topo">
-
- <div><img alt="sesc" src='img/logo-sesc.png' height="42px"></div>
- <div class="topo"><br></div>
-
-<!-- Altera formato de exibição -->
-   <div id="ComoVer" class="botoesComoVer">
-    <form>
-      <input type="button" id="verAgenda" class="buttonVer" value="ver agenda da semana" width="120px" height="32px"></input>
-      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="na capital" src="img/mapa_capital.png" width="40px" height="42px">
-      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="no estado" src="img/mapa_estado.png" width="40px" height="34px">
-      </form>
-    </div>		
-
-<!-- Altera formato de exibição do resultado de busca-->
-    <div id="ComoVerBusca" class="botoesComoVer">
-      <form>
-        <input type="button" id="verAgendaB" class="buttonVerB" value="ver agenda da semana" width="120px" height="32px"></input>
-        <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="capital" src="img/mapa_capital.png" width="40px" height="42px">
-        <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="estado" src="img/mapa_estado.png" width="40px" height="34px">
-      </form>
-    </div>		
-      
-    <div id="zera"  class="topo">
+  <div><img alt="sesc" src='img/logo-sesc.png' height="42px"></div>
+  <topo class="adireita">
+    <div id="zera">
       <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpa filtros" width="100px"></input>
     </div>		
-       
-    <div  class="topo">
-      <input type="button" onclick="on()" class="ajuda" value="Ajuda" width="60px"></input>
-    </div>
 
     <div id="busca" class="g-search">
      <form>
        <input class="g-search" id="buscatextual" name="buscatextual" type="text"  placeholder=" busca pelo nome da atividade, artista ou profissional&hellip;">
      </form>
     </div>
-  
+
+    <div>
+      <input type="button" onclick="on()" class="ajuda" value="Ajuda" width="60px"></input>
+    </div>
+  </topo>
 </nav>
+
+<div class="topo1">
+<!-- Altera formato de exibição -->
+<div id="ComoVer" class="botoesComoVer">
+  <form>
+    <input type="button" id="verAgenda" class="buttonVer" value="ver agenda da semana" width="120px" height="32px"></input>
+    <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="na capital" src="img/mapa_capital.png" width="40px" height="42px">
+    <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="no estado" src="img/mapa_estado.png" width="40px" height="34px">
+    </form>
+  </div>		
+
+<!-- Altera formato de exibição do resultado de busca-->
+  <div id="ComoVerBusca" class="botoesComoVer">
+    <form>
+      <input type="button" id="verAgendaB" class="buttonVerB" value="ver agenda da semana" width="120px" height="32px"></input>
+      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="capital" src="img/mapa_capital.png" width="40px" height="42px">
+      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="estado" src="img/mapa_estado.png" width="40px" height="34px">
+    </form>
+  </div>		
+</div>
 
  <div class="topo2">
   <div id="toolbar" class="toolbar">
@@ -108,39 +108,15 @@
 </div>
 
 <div class="corpo">
-   <div class="contador" id="contador"></div><br>
+   <div class="contador" id="contador"></div>
+   <br>
    <div class="EmExibicao">
         <span id="EmExibicao" class="EmExibicao"></span>
    </div>
 
-    <div class="calhau">
+   <div class="calhau">
     <img src="img/p.png" width="1px" height="400px" alt="calhau">
-  </div>
-
-  <!-- Cards -->
-<!-- <div class="card">
-  <div id="add"><h1></h1></div>
-    <div data-name="Add/Remove Items" class="glider-contain multiple">
-       <div>
-         <div>
-          <div class="glider" id="glider-add">
-            <div>
-              <table>
-                <tr><td align="right"><h2><a id="removeSlide">x</a></h2></td></tr>
-                <tr><td>
-                Ao clicar em uma atividade/bolha, você vê mais informações aqui.
-                </td></tr>
-              </table>
-            </div>
-          </div>
-         </div>
-       </div>
-     <button role="button" aria-label="Previous" class="glider-prev" id="glider-prev-add"> < </button>
-     <button role="button" aria-label="Next" class="glider-next" id="glider-next-add"> > </button>
-    <div id="add-dots"></div>
    </div>
- </div> -->
- 
 </div>
 
 <div class="esquerda">
@@ -418,8 +394,9 @@
   </div>
 </div>
 
-  <div class="datavis" id="vis">
-  </div>
+<div class="datavis" id="vis">
+</div>
+
 </div>
 
 <nav id="overlay" class="overlay">
