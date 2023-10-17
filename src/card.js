@@ -22,8 +22,19 @@ function floatingCard(cardId,width) {
   // Initially it is hidden.
   hideCard();
 
-  function showCard(contentCard, event) {
-    card.style('opacity', 0.8)
+  function showCard(d,contentCard, event) {
+
+    if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
+      var Cor = "#DE7802";
+   } else if (d.dia_da_semana == "sempre") {
+      var Cor = "#BBAB8B";
+   } else {
+      var Cor = "#0097ad";
+   }
+
+    card.style('opacity', 1)
+        .style('z-index', 999)
+        .style('border-color', Cor)
         .html(contentCard);
 
 //    updatePositionCard(event);
@@ -33,7 +44,8 @@ function floatingCard(cardId,width) {
    * Hide the tooltip div.
    */
   function hideCard() {
-    card.style('opacity', 0.0);
+    card.style('opacity', 0.0)
+        .style('z-index', -999);
   }
 
   /*

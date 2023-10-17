@@ -91,6 +91,13 @@ d3.csv('data/semdfe-1006-uau.csv', display);
      sempre: { y: pos3H+1*posH/2-corrigeH}
    };
 
+   var agoraOUproxima = {
+    agora: { y: 0},
+//  depois: { y: posCH-corrigeH},
+    proxima: { y: 250}
+  };
+
+
    var periodoDoDiaCenters = {
     manhã: { y: -posH*0.75},
     tarde: { y: -posH*0.3},
@@ -123,18 +130,18 @@ d3.csv('data/semdfe-1006-uau.csv', display);
 
 // Data do Dia   
 var DataDoDia = {
-  seg: { agora: "02/10", proxima: "09/10", depois: "09/10"},
-  ter: { agora: "03/10", proxima: "10/10", depois: "10/10"},
-  qua: { agora: "04/10", proxima: "11/10", depois: "11/10"},
-  qui: { agora: "05/10", proxima: "12/10", depois: "12/10"},
-  sex: { agora: "06/10", proxima: "13/10", depois: "13/10"},
-  sáb: { agora: "07/10", proxima: "14/10", depois: "14/10"},
-  dom: { agora: "08/10", proxima: "15/10", depois: "15/10"},
+  seg: { agora: "16/10", proxima: "23/10", depois: "30/10"},
+  ter: { agora: "17/10", proxima: "24/10", depois: "31/10"},
+  qua: { agora: "18/10", proxima: "25/10", depois: "01/11"},
+  qui: { agora: "19/10", proxima: "26/10", depois: "02/11"},
+  sex: { agora: "20/10", proxima: "27/10", depois: "03/11"},
+  sáb: { agora: "21/10", proxima: "28/10", depois: "04/11"},
+  dom: { agora: "22/10", proxima: "29/10", depois: "05/11"},
   sempre: { agora: " ", proxima: " ", depois: " "},
 };
 
  // Centro das posições da vista por semana ---------------------------------------------------------------------------
-   var semanaCenters = {
+var semanaCenters = {
      seg: { x: posCW-6*posW, y: height / 2 },
      ter: { x: posCW-4*posW, y: height / 2 },
      qua: { x: posCW-2*posW, y: height / 2 },
@@ -143,7 +150,7 @@ var DataDoDia = {
      sáb: { x: posCW+4*posW, y: height / 2 },
      dom: { x: posCW+6*posW, y: height / 2 },
      sempre: { x: posCW, y: pos3H+4*posH/2-corrigeH }
-   };
+};
  
  // Centro dos cabeçalhos da visão por formato
  var formatosTitleX = {
@@ -605,6 +612,11 @@ var DataDoDia = {
      return periodoCenters[d.filtra_data].y + (periodoDoDiaCenters[d.turno].y);
    }
  
+  function nodeperiodoPosBusca(d) {
+     return periodoCenters[d.filtra_data].y + (periodoDoDiaCenters[d.turno].y) + (agoraOUproxima[d.filtra_dataF].y);
+   }
+ 
+
    function nodeformatoXPos(d) {
      return formatoCenters[d.cod_formato].x + semanaCenters[d.dia_da_semana].x/10;
    }
@@ -788,11 +800,11 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
        var circulo = heightTotal; 
        var forceStrength = 0.12;
-       var forceStrengthRadial = 0.3; 
+       var forceStrengthRadial = 0.8; 
      } else {
-       var circulo = heightTotal*0.90;
+       var circulo = heightTotal*0.95;
        var forceStrength = 0.12;
-       var forceStrengthRadial = 0.3; 
+       var forceStrengthRadial = 0.8; 
      }
 
 // Força radial para afastar as ações não filtradas
@@ -962,7 +974,7 @@ simulation.alpha(0.6).restart();
    if (atual == "formato") {fe = escolhido};
    if (atual == "formato") {fc = ''};
    if (atual == "unidade") {fuo = escolhido};
-   if (atual == "regiao") {fuo = ''};
+   if (atual == "regiao" || atual == "capital" || atual == "interior") {fuo = ''};
  
    if (fuo != '') {
      var fonde = ' no Sesc ' + fuo  } else if (regiaoMem == 'capital') {
@@ -1282,6 +1294,8 @@ if (atual != "regiao") {
     console.log('datavisMem no buscacubbles: ' + datavisMem)
     console.log('regiaoId no buscacubbles: ' + regiaoId)
 
+    hideCardChama();
+
 
       if (datavisMem == "verUO-CB") {
          regiaoMem = "capital";
@@ -1394,7 +1408,7 @@ if (atual != "regiao") {
           return !(d.busca.toLowerCase().includes(buscaId)); 
           }));
           simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
-          simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
+          simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPosBusca));
 
           if (filtrado < 20) {
           simulation.force('collision', isolate(collisionForce, function(d) { 
@@ -1450,7 +1464,7 @@ if (atual != "regiao") {
         } else if (datavisMem == "verUO-IB") {
          showunidadeTitlesInt();
         } else if (datavisMem == "verAgendaB") {
-         showsemanaTitles();
+          showsemanaTitlesBusca();
         }
   
 //    openNavBuscaUO();
@@ -1498,6 +1512,28 @@ if (atual != "regiao") {
                         } 
                         });
     }
+
+    function showsemanaTitlesBusca() {
+      var semanasData = d3.keys(semanasTitleX);
+      var semanas = svg.selectAll('.dia_da_semana')
+                       .data(semanasData);
+  
+          semanas.enter().append('text')
+                 .attr('class', 'dia_da_semana')
+                 .attr('x', function (d) { return semanasTitleX[d]; })
+                 .attr('y', function (d) { return semanasTitleY[d]+50; })
+                 .attr('fill', function(d) { return fillColor(d); })
+                 .attr('text-anchor', 'middle')
+                 .text(function(d) { return DataDoDia[d].agora; });
+
+          semanas.enter().append('text')
+                 .attr('class', 'dia_da_semana')
+                 .attr('x', function (d) { return semanasTitleX[d]; })
+                 .attr('y', function (d) { return semanasTitleY[d]+300; })
+                 .attr('fill', function(d) { return fillColor(d); })
+                 .attr('text-anchor', 'middle')
+                 .text(function(d) { return DataDoDia[d].proxima; });
+     }
 
  /*
  * Mostra cabeçalhos de formatos
@@ -1587,11 +1623,10 @@ const formataData = d3.timeFormat("%d.%m.%Y");
  if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
     var Corclass = "finds";
  } else if (d.dia_da_semana == "sempre") {
-    var Corclass = "buttonVer";
+    var Corclass = "buttonCat";
  } else {
     var Corclass = "labuta";
  }
-
 
  if (d.online == 1) {
    var online = 'ação online<br>';
@@ -1617,9 +1652,7 @@ const formataData = d3.timeFormat("%d.%m.%Y");
  
   var contentCard = '<span class="name"></span>' +
                     '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
-                '<span class="name"><b>' + tem_acessivel + '</b></span>' +
-               '<span class="name"><b>' + online + '</b></span>' +
-               '<span class="value"><b>' + exibedata + '</b></span><br>' +
+                    '<span class="value"> | <b>' + exibedata + '</b></span><br><br>' +
                        '<span class="value">' + d.projeto + '</span><br/>' +
                        '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
                '<span class="value">' + d.name2 + '</span><br/>' +
@@ -1628,16 +1661,17 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                d.value + ' lugares/vagas</span>.' +
                '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                '<span class="value"><b>' + publico + '</b></span><br>' +
+               '<span class="name"><b>' + tem_acessivel + '</b></span>' +
+               '<span class="name"><b>' + online + '</b></span><br>' +
                '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
 
-      card.showCard(contentCard, d3.event);
+      card.showCard(d,contentCard, d3.event);
 
-      document.getElementById('card').addEventListener('click',hideCardChama);
+     
+    document.getElementById('card').addEventListener('click',hideCardChama);
 
-
- // hideCardChama(d);
-                        
-  }   
+                       
+}   
  
  // Exibe o detalhamento com o MOuseOver
    function showDetail(d) {
@@ -1649,6 +1683,15 @@ const formataData = d3.timeFormat("%d.%m.%Y");
        .attr('stroke-width', 5)
        .attr('r', d.radius+5);
  
+       if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
+        var Corclass = "finds";
+         } else if (d.dia_da_semana == "sempre") {
+        var Corclass = "buttonCat";
+         } else {
+        var Corclass = "labuta";
+     }
+   
+
  // tratamento de variáveis para exibição
     const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
     const formataData = d3.timeFormat("%d.%m.%Y");
@@ -1695,10 +1738,11 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                    '<span class="value"><b>' + publico + '</b></span><br>' +
                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
 
-                   var content = '<span class="buttonVer">1ª linha </span>' +
-                   '<span class="name"><b>[<a href="#" onclick=' + hideCardChama() + '>fechar</a>]</b></span><br><br>' +
-                   '<span class="name"><b>NOME: </b></span>' +
-                   '<span class="name"><b>' + d.name + '</b></span>';
+                   var content = '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
+                   '<span class="value"><b> | ' + exibedata + '</b></span><br><br>' +
+                   '<span class="name"><b>' + d.name + '</b></span><br>' + 
+                   '<span>' + d.name2 + '</span>' +
+                   '<span><br><br><i>clique para mais informações</i></span>';
                                    
 
      tooltip.showTooltip(content, d3.event);
@@ -1745,7 +1789,7 @@ function hideCardChama(d) {
    chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) 
                                    {
-
+                                      hideCardChama();
                                     console.log('-------- começo do chart.toggle  --------');
                                     console.log('formatoId: ' + formatoId);
                                     console.log('atual: ' + atual);
@@ -2270,7 +2314,6 @@ var buscaId = '';
 
         var LimpaBusca = document.querySelector("#busca");
             LimpaBusca.querySelector("form").reset();
-     
 
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,

@@ -373,14 +373,15 @@ a, h1, a:visited, a:active {
 	left: 25%;
   -moz-border-radius:5px;
 	border-radius: 5px;
-  border: 2px solid #000;
-  background: #EEEEEE;
+  border: 5px solid;
+  border-color: #BBAB8B;
+  background: #FFFFFF;
 	opacity: 0.75;
   color: black;
-	padding: 10px;
+	padding: 15px;
 	width: 50%;
 	font-size: 14px;
-	z-index: 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
+  z-index: -1;
 }
 
 .clicada .title {
@@ -392,7 +393,7 @@ a, h1, a:visited, a:active {
   position: flex;
   min-width: 70px;
   top: 0.4%;
-  color: black;
+  color: white;
   padding: 5px 10px;
   font-size: clamp(0.5em, 1em + 1vw, 1em);
   border: 1px solid #f6f5f1;
@@ -400,7 +401,7 @@ a, h1, a:visited, a:active {
 }
 
 .labuta {
-  background: steelblue;
+  background: #0097ad;
   color: white;
   position: flex;
   min-width: 70px;
@@ -412,7 +413,6 @@ a, h1, a:visited, a:active {
 }
 
 .clicada .name {
-  font-weight:bold;
   font-size: 14px;
 
 }
@@ -908,8 +908,8 @@ border: 0;
 
 .help-cores {
   position: fixed;
-  top: 52%;
-  right: 59%;
+  top: 40%;
+  right: 60%;
   font-family: Ubuntu;
   font-style: italic;
   font-size: small;
@@ -918,8 +918,8 @@ border: 0;
 
 .help-pos {
   position: fixed;
-  top: 80%;
-  right: 59%;
+  top: 65%;
+  right: 60%;
   font-family: Ubuntu;
   font-style: italic;
   font-size: small;
