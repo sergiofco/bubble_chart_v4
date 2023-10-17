@@ -15,7 +15,7 @@ d3.csv('data/semdfe-1006-uau.csv', display);
   closeNavComoVerBusca();  
 // Janela e centro
    var widthTotal = window.innerWidth * 1;
-   var heightTotal = window.innerHeight * 1;
+   var heightTotal = window.innerHeight * 0.95;
  
    var width = widthTotal*0.75+widthTotal*0.14;
    var height = heightTotal*0.90+heightTotal*0.08;
@@ -42,8 +42,8 @@ d3.csv('data/semdfe-1006-uau.csv', display);
    const pos2H = posCH;
    const pos3H = (posCH + 3*posH);
  
-   var datavis = "geral";
-   var datavisMem = "geral";
+   var datavis = "verAgenda";
+   var datavisMem = "verAgenda";
    
  // Variáveis de Filtro
    var buscaId = '';
@@ -801,6 +801,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
                         .x(widthTotal/2)
                         .y(heightTotal/2)
                         .strength(forceStrengthRadial);
+                        
 
                         
 if (datavisMem != "formatos") {
@@ -859,7 +860,7 @@ if (datavisMem != "formatos") {
              simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
    //          simulation.alpha(1).restart();
  
-             } else if (datavisMem == "agenda") {
+             } else if (datavisMem == "agenda" || datavisMem == "verAgenda" ) {
                 // por Agenda
                 hidesemanaTitles();
                 showsemanaTitles();
@@ -1122,7 +1123,7 @@ if (atual == "limpar") {
  // tira as opções zeradas em PUBLICO
  
  if (atual != "publico") {
-   var arr = ['crianças','jovens','idosos'];
+   var arr = ['crianças'];
    for(var i=0; i < arr.length; i++) { 
  
      document.getElementById(arr[i]).disabled = false; 
@@ -1815,7 +1816,11 @@ function hideCardChama(d) {
 
    if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; buscaMem = "undefined"; };
    if (atual == "regiao") { datavisMem = "unidades"; };
-   if (formatoMem == 7) { datavisMem = "unidades"; };
+   if (formatoMem == 7) { 
+       hidesemanaTitles(); 
+       datavisMem = "unidades"; 
+       if (regiaoMem == "interior") { showunidadeTitlesInt(); } else { showunidadeTitles();}
+    };
 
    console.log('-------- fim do chart.toggle  --------');
    console.log('formatoId: ' + formatoId);
@@ -2127,10 +2132,14 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var atual = "limpar";
        var datavis = "geral";
 
-//       var win = window.open('vazio.html', 'portal');
+    //   var win = window.open('vazio.html', 'portal');
 
         closeNavComoVerBusca();
         openNavComoVer();
+        closeNavGdeSP();
+        closeNavCapital();
+        closeNavInterior();
+
 
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,

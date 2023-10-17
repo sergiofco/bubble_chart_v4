@@ -68,7 +68,7 @@ a, h1, a:visited, a:active {
   padding: 2px 2px;
   width: 100%;
   height: 100%;
-  z-index: 12;
+  z-index: 1000;
   color: #FFFFFF;
 }
 
@@ -81,7 +81,7 @@ a, h1, a:visited, a:active {
   justify-content: center;
   vertical-align: top;
   padding: 1px 1px;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .containerServicos {
@@ -94,7 +94,7 @@ a, h1, a:visited, a:active {
   vertical-align: top;
   text-align: center;
   padding: 1px;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .contador {
@@ -105,7 +105,7 @@ a, h1, a:visited, a:active {
   font-size: 45px;
   text-align: center;
   line-height: 20px;
-  padding: 3px;
+  padding: 8px;
   margin: 1.5px;
   font-family: Montserrat;
 }
@@ -217,7 +217,7 @@ a, h1, a:visited, a:active {
 
 .button {
   min-width: 65px;
-  background: lightgray;
+  background: #555555;
   padding: 5px 10px;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 1em);
   cursor: pointer;
@@ -226,12 +226,12 @@ a, h1, a:visited, a:active {
   text-decoration: none;
   border-radius: 3%;
   font-weight: bold;
-  color:#000000;
+  color:#FFFFFF;
 
 }
 
 .button:hover {
-  background: #AA6C39;
+  background: goldenrod;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -260,12 +260,13 @@ a, h1, a:visited, a:active {
 
 .buttonCat {
   min-width: 70px;
-  background: #f6f5f1;
+  background: #cccccc;
+  color: #000000;
   padding: 5px 12px;
   cursor: pointer;
   text-align: center;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 1em);
-  border: 2px solid #797874;
+  border: 2px solid #aaaaaa;
   text-decoration: none;
   border-radius: 5%;
   font-weight: bold;
@@ -274,7 +275,7 @@ a, h1, a:visited, a:active {
 
 
 .buttonCat:hover {
-  background: #AA6C39;
+  background: goldenrod;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -288,12 +289,13 @@ a, h1, a:visited, a:active {
 
 .buttonSer {
   min-width: 70px;
-  background: #f6f5f1;
+  background: #cccccc;
+  color: #000000;
   padding: 5px 12px;
   cursor: pointer;
   text-align: center;
   font-size: 11px;
-  border: 2px solid #797874;
+  border: 2px solid #aaaaaa;
   text-decoration: none;
   border-radius: 5%;
   font-weight: bold;
@@ -302,7 +304,7 @@ a, h1, a:visited, a:active {
 
 
 .buttonSer:hover {
-  background: #AA6C39;
+  background: goldenrod;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -314,12 +316,10 @@ a, h1, a:visited, a:active {
 }
 
 
-
 #vis {
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
-  z-index: 9;  
 }
 
 
@@ -1123,7 +1123,7 @@ visibility: visible;
   justify-content: left;
   align-items: left;
   padding: 0px;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .containerPublico {
@@ -1409,7 +1409,6 @@ label span:before {
   position: flex;
   color:#FFFFFF;
   top: 1.5%;
-  color: #FFFFFF;
   padding: 6px;
   margin: 1.5px;
   font-family: Montserrat;
@@ -1430,7 +1429,7 @@ label span:before {
   cursor: pointer;
   text-align: right;
   vertical-align: center;
-  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  font-size: clamp(0.5em, 1em + 1vw, 1.1em);
   border: 2px solid #f6f5f1;
   text-decoration: none;
   border-radius: 3%;
@@ -1451,15 +1450,15 @@ label span:before {
 
 .buttonVerB, .buttonVer {
   position: flex;
-  background: #f3c429;
+  background: #FFFFFF;
   min-width: 70px;
-  color: #000000;
+  color: #222222;
   top: 0.4%;
   padding: 5px 20px;
   cursor: pointer;
   vertical-align: top;
   font-size: clamp(0.5em, 1em + 1vw, 1em);
-  border: 2px solid #f6f5f1;
+  border: 2px solid #222222;
   border-radius: 3%;
   font-weight: bold;
   z-index: 999999999999999999999999999999999999999999999999999999999999999999999999;
@@ -1496,15 +1495,15 @@ label span:before {
   min-width: 60px;
   max-width: 80px;
   height: 32px;
-  background: black;
-  color: #FFFFFF;
+  background: gold;
+  color: #000000;
   top: 0.4%;
-  padding: 5px 5px;
+  padding: 5px 20px;
   cursor: pointer;
   text-align: center;
   vertical-align: center;
   font-size: clamp(0.5em, 1em + 1vw, 1em);
-  border: 2px solid #f6f5f1;
+  border: 2px solid gold;
   text-decoration: none;
   border-radius: 3%;
   font-weight: bold;
