@@ -8,7 +8,7 @@
  */
 
 // Load the data.
-d3.csv('data/semdfe-1006-uau.csv', display);
+d3.csv('data/semdfe-1018-uau.csv', display);
 
  function bubbleChart() {
  
@@ -42,8 +42,8 @@ d3.csv('data/semdfe-1006-uau.csv', display);
    const pos2H = posCH;
    const pos3H = (posCH + 3*posH);
  
-   var datavis = "verAgenda";
-   var datavisMem = "verAgenda";
+   var datavis = "geral";
+   var datavisMem = "geral";
    
  // Variáveis de Filtro
    var buscaId = '';
@@ -475,7 +475,8 @@ var semanaCenters = {
          data: d.data_sessao,
          hora: d.hora,
          turno: d.turno,
- //        sinopse: d.sinopse,
+         ingressos: d.ingressos,
+         sinopse: d.sinopse,
          x: posCW, // Math.random() * 900,  // inicia centralizado
          y: posCH// Math.random() * 800 // para iniciar centralizado
  
@@ -793,12 +794,12 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
 //////////////////////////////////////////
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
        var circulo = heightTotal; 
-       var forceStrength = 0.12;
-       var forceStrengthRadial = 0.8; 
+       var forceStrength = 0.15;
+       var forceStrengthRadial = 1.2; 
      } else {
-       var circulo = heightTotal*0.95;
-       var forceStrength = 0.12;
-       var forceStrengthRadial = 0.8; 
+       var circulo = heightTotal;
+       var forceStrength = 0.15;
+       var forceStrengthRadial = 1.2; 
      }
 
 // Força radial para afastar as ações não filtradas
@@ -1659,26 +1660,25 @@ const formataData = d3.timeFormat("%d.%m.%Y");
  if (d.ingresso == 1) {
    var ingresso = 'ingressos esgotados/inscrições encerradas';
  } else if (d.cod_formato == 1) { 
-        var ingresso = 'ingressos à venda' 
+        var ingresso = d.ingressos;  
        } else { var ingresso = 'inscrições abertas' }
  
  if (d.gratis == 1) {
    var gratis = 'grátis';
  } else {var gratis = ''}
  
-  var contentCard = '<span class="name"><img src="img/' + d.destaque + '.png" width="200" padding="5px" align="right"><br></span>' +
+  var contentCard = '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-left:10px" align="right"><br></span>' +
                     '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
                     '<span class="value"> | <b>' + exibedata + '</b></span><br><br>' +
-                    '<span class="value"><br><b>' + d.categoria + '</b></span><br/>' +
+                    '<span class="value"><b>' + d.categoria + '</b></span><br/>' +
                     '<span class="value">' + d.projeto + '</span><br/>' +
                     '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
                     '<span class="value">' + d.name2 + '</span><br/>' +
-                    '<span class="value">' + 'sinopse' + ' | ' + 
+                    '<span class="value">' + d.sinopse + '</span>' +
                     d.value + ' lugares/vagas</span>.' +
                     '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
-                    '<span class="value"><b>' + publico + '</b></span><br>' +
-                    '<span class="name"><b>' + tem_acessivel + '</b></span>' +
-                    '<span class="name"><b>' + online + '</b></span><br>' +
+                    '<span class="value"><b>' + publico + '</b></span>  ' +
+                    '<span class="name"><b>' + tem_acessivel + '</b>  </span>' + '<span class="name"> | <b>' + online + '</b></span><br>' +
                     '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
 
       card.showCard(d,contentCard, d3.event);
@@ -1751,10 +1751,10 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                    '<span class="value">' + 'sinopse' + ' | ' + 
                    d.value + ' lugares/vagas</span>.' +
                    '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
-                   '<span class="value"><b>' + publico + '</b></span><br>' +
-                   '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
+                   '<span class="value"><b>' + publico + '</b></span><br>';
 
-                   var content = '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
+                   var content = '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/><br>' + 
+                   '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
                    '<span class="value"><b> | ' + exibedata + '</b></span><br><br>' +
                    '<span class="name"><b>' + d.name + '</b></span><br>' + 
                    '<span>' + d.name2 + '</span>' +
@@ -1805,22 +1805,22 @@ function hideCardChama(d) {
    chart.toggleDisplay = function (formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) 
                                    {
-                                      hideCardChama();
+         hideCardChama();
                                     console.log('-------- começo do chart.toggle  --------');
                                     console.log('formatoId: ' + formatoId);
                                     console.log('atual: ' + atual);
                                     console.log('datavis: ' + datavis);
-                                    console.log('excolhido: ' + escolhido);
+                                    console.log('datavisMem: ' + datavisMem);
+                                    console.log('escolhido: ' + escolhido);
                                     console.log('uoId: ' + uoId);
                                     console.log('buscaId: ' + buscaId);
-                                    console.log('----------------fim---------------');
+                                    console.log('---------------- fim --------------------');
             
-
 
      if (atual == "verUO-CB" || atual == "verUO-IB" ||atual == "verAgendaB") {
         console.log('-------- foi pra BUSCABUB com  --------');
         console.log(buscaId);
-        console.log('-----------------------------------');
+        console.log('---------------------------------------');
 
         buscaBubbles(buscaId,atual,regiaoId,buscaId);
        };
@@ -1876,6 +1876,11 @@ function hideCardChama(d) {
 
    if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; buscaMem = "undefined"; };
    if (atual == "regiao") { datavisMem = "unidades"; };
+
+  //  if ((datavisMem != "agenda") && (atual == "formato")) {
+  //       var datavisMem = 'unidades';
+  //   };
+
    if (formatoMem == 7) { 
        hidesemanaTitles(); 
        datavisMem = "unidades"; 
@@ -1886,6 +1891,7 @@ function hideCardChama(d) {
    console.log('formatoId: ' + formatoId);
    console.log('atual: ' + atual);
    console.log('datavis: ' + datavis);
+   console.log('datavisMem: ' + datavisMem);
    console.log('escolhido: ' + escolhido);
    console.log('uoId: ' + uoId);
    console.log('----------------fim---------------');
@@ -2088,7 +2094,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
   setupButtonsComoVer();
   
  function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                       acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
+                       acessivelId,onlineId,uoId,categoriaId,atual,datavisMem,buscaId,escolhido) {
    d3.select('#toolbar')
      .selectAll('.button')
      .on('click', function () {
@@ -2099,6 +2105,8 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
  
        // Set it as the active button
        button.classed('active', true);
+
+       console.log('atual antes de receber a info de formato: ' + atual)
  
        // Get the id of the button
        var formatoId = button.attr('id').substring(2);
@@ -2114,8 +2122,6 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var tiraSer = document.querySelector("#mySideNavServicos");
            tiraSer.querySelector("form").reset();
 
-       var buscaMem = "undefined";
- 
              categoriaMem = '99';
              categoriaId = '99';
  
@@ -2133,7 +2139,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
          
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavisMem,buscaId,escolhido);
      });
  }
  

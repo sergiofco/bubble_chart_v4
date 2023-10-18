@@ -48,23 +48,6 @@
   </nav>
 
   <div class="topo1">
-<!-- Altera formato de exibição -->
-<div id="ComoVer" class="botoesComoVer">
-  <form>
-    <input type="button" id="verAgenda" class="buttonVer" value="ver agenda da semana" width="120px" height="32px"></input>
-    <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="na capital" src="img/mapa_capital.png" width="40px" height="42px">
-    <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="no estado" src="img/mapa_estado.png" width="40px" height="34px">
-    </form>
-  </div>
-
-<!-- Altera formato de exibição do resultado de busca-->
-  <div id="ComoVerBusca" class="botoesComoVer">
-    <form>
-      <input type="button" id="verAgendaB" class="buttonVerB" value="ver agenda da semana" width="120px" height="32px"></input>
-      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="capital" src="img/mapa_capital.png" width="40px" height="42px">
-      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="estado" src="img/mapa_estado.png" width="40px" height="34px">
-    </form>
-  </div>
   <div class="topo2">
     <div id="toolbar" class="toolbar">
       <form>
@@ -112,8 +95,29 @@
     </div>
   
     <div class="contador" id="contador"></div>
-    <div class="EmExibicao" id="EmExibicao"></div><br>
+    <div class="EmExibicao" id="EmExibicao"></div>
   </div>
+
+<!-- Altera formato de exibição -->
+<div id="ComoVer" class="botoesComoVer">
+  <form>
+    <input type="button" id="verAgenda" class="buttonVer" value="ver agenda da semana" width="120px" height="32px"></input>
+    <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="ver sescs na capital" src="img/mapa_capital.png" width="40px" height="42px">
+    <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="ver sescs no interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
+    </form>
+  </div>
+
+<!-- Altera formato de exibição do resultado de busca-->
+  <div id="ComoVerBusca" class="botoesComoVer">
+    <form>
+      <input type="button" id="verAgendaB" class="buttonVerB" value="ver agenda da semana" width="120px" height="32px"></input>
+      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="capital" src="img/mapa_capital.png" width="40px" height="42px">
+      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="estado" src="img/mapa_estado.png" width="40px" height="34px">
+    </form>
+  </div>
+  
+
+
  </div>
 
  <div class="datavis" id="vis"></div>
@@ -391,6 +395,9 @@
 
 </div>
 
+<!-- <div class="ajudaInicial"><img src="img/comece-aqui.png" width="70" height="71"><br>Comece<br>aqui!</div> -->
+
+
 <nav id="overlay" class="overlay">
   <a href="#" onclick="off()" title="volta">
   <!-- AJUDA -->
@@ -406,7 +413,7 @@
       <img alt="oque" src='img/help_comover_oque.png' width="776"><br><br>
       Cada ponto é uma atividade realizada pelo Sesc SP.<br>
       Utilize os filtros para encontrar a sua!<br>
-      As informações básicas da atividade podem ser<br>vistas passando o mouse sobre os pontos.<br><br><br>
+      As informações básicas da atividade podem ser<br>vistas com um clique sobre os pontos.<br><br><br>
       <img src='img/viz_cores.png' width="300"></img><br><br>
       <img src='img/viz_pos.png' width="300"></img><br><br>
     </div>
