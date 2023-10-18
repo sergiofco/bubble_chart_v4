@@ -22,7 +22,7 @@ d3.csv('data/semdfe-1006-uau.csv', display);
  
 // tooltip for mouseover functionality
    var tooltip = floatingTooltip('tooltip', 360);
-   var card = floatingCard('cartao', 600);
+   var card = floatingCard('cartao', 450);
  
 // cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
@@ -718,12 +718,6 @@ var semanaCenters = {
                   }
        
             }
-
-  // showsemanaTitles();
-  // closeNavBuscaUO();
-  // document.getElementById("mySideNavBuscaUO").style.visibility = "hidden";
-
-  //          hidesemanaTitles();
 
 // Transições 
           bubbles.transition().duration(4000);
@@ -1607,8 +1601,30 @@ if (atual != "regiao") {
  function BubbleZoom(d) {
   console.log('esta ação: ' + d.id);
  
-  //const fechar = d3.select(".clicada name")
-    //               .on("click", hideCardChama);
+//////////////////////  Busca Sinopse e foto
+  var filters = {
+     'id': d.id
+   };
+
+ d3.csv("data/semdfe-1006-uau.csv", function(csv) {
+  csv = csv.filter(function(row) {
+      // run through all the filters, returning a boolean
+      return  ['id','nome','destaque'].reduce(function(pass, column) {
+          return pass && (
+              // pass if no filter is set
+              !filters[column] ||
+                  // pass if the row's value is equal to the filter
+                  // (i.e. the filter is set to a string)
+                  row[column] === filters[column] ||
+                  // pass if the row's value is in an array of filter values
+                  filters[column].indexOf(row[column]) >= 0
+              );
+      }, true);
+  })
+  console.log(csv.length, csv);
+});
+/////////////////////////////////////////////////////////////////////////////////
+
 
 // tratamento de variáveis para exibição
 const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
@@ -1650,20 +1666,20 @@ const formataData = d3.timeFormat("%d.%m.%Y");
    var gratis = 'grátis';
  } else {var gratis = ''}
  
-  var contentCard = '<span class="name"></span>' +
+  var contentCard = '<span class="name"><img src="img/' + d.destaque + '.png" width="200" padding="5px" align="right"><br></span>' +
                     '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
                     '<span class="value"> | <b>' + exibedata + '</b></span><br><br>' +
-                       '<span class="value">' + d.projeto + '</span><br/>' +
-                       '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
-               '<span class="value">' + d.name2 + '</span><br/>' +
-               '<span class="value"><br><b>' + d.categoria + '</b></span><br/>' +
-               '<span class="value">' + 'sinopse' + ' | ' + 
-               d.value + ' lugares/vagas</span>.' +
-               '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
-               '<span class="value"><b>' + publico + '</b></span><br>' +
-               '<span class="name"><b>' + tem_acessivel + '</b></span>' +
-               '<span class="name"><b>' + online + '</b></span><br>' +
-               '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
+                    '<span class="value"><br><b>' + d.categoria + '</b></span><br/>' +
+                    '<span class="value">' + d.projeto + '</span><br/>' +
+                    '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
+                    '<span class="value">' + d.name2 + '</span><br/>' +
+                    '<span class="value">' + 'sinopse' + ' | ' + 
+                    d.value + ' lugares/vagas</span>.' +
+                    '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
+                    '<span class="value"><b>' + publico + '</b></span><br>' +
+                    '<span class="name"><b>' + tem_acessivel + '</b></span>' +
+                    '<span class="name"><b>' + online + '</b></span><br>' +
+                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
 
       card.showCard(d,contentCard, d3.event);
 
@@ -2024,29 +2040,6 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
    if (error) {
      console.log(error);
    }
-
-//    var filters = {
-//     'tempoF': 'agora,proxima'
-//   };
-
-// data = data.filter(function(row) {
-// // run through all the filters, returning a boolean
-// return ['id','lugares','cod_formato','formato','cod_categoria','categoria','cod_uo','unidade','regiao','gratis','ingresso','publico','projeto','nome','complemento','exibirdatas','tempo','tempoF','dia_da_semana','weekday','hora','destaque','data_sessao','datainicial','datafinal','tem','dispositivo','online','turno']
-// .reduce(function(pass, column) {
-// return pass && (
-//         // pass if no filter is set
-//     !filters[column] ||
-//         // pass if the row's value is equal to the filter
-//         // (i.e. the filter is set to a string)
-//     row[column] === filters[column] ||
-//         // pass if the row's value is in an array of filter values
-//     filters[column].indexOf(row[column]) >= 0
-// );
-// }, true);
-// });
-
-// console.log(data.length, data);
-// //////////////////////
 
    myBubbleChart('#vis', data);
  }
