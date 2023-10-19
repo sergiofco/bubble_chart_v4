@@ -476,7 +476,7 @@ var semanaCenters = {
          hora: d.hora,
          turno: d.turno,
          ingressos: d.ingressos,
-         sinopse: d.sinopse,
+//         sinopse: d.sinopse,
          x: posCW, // Math.random() * 900,  // inicia centralizado
          y: posCH// Math.random() * 800 // para iniciar centralizado
  
@@ -1290,6 +1290,11 @@ if (atual != "regiao") {
     console.log('regiaoId no buscacubbles: ' + regiaoId)
 
     hideCardChama();
+    document.getElementById("ingressos").style.display = "none";
+    document.getElementById("temporal").style.display = "none";
+    document.getElementById("publico").style.display = "none";
+    document.getElementById("unidades").style.display = "none";
+    document.getElementById(`regiao`).style.display = "none";
 
 
       if (datavisMem == "verUO-CB") {
@@ -1600,17 +1605,16 @@ if (atual != "regiao") {
  
  // ao clicar na bolha
  function BubbleZoom(d) {
-  console.log('esta ação: ' + d.id);
  
 //////////////////////  Busca Sinopse e foto
   var filters = {
      'id': d.id
    };
 
- d3.csv("data/semdfe-1006-uau.csv", function(csv) {
+dataSino = d3.csv("data/semdfe-1018-uau.csv", function(csv) {
   csv = csv.filter(function(row) {
       // run through all the filters, returning a boolean
-      return  ['id','nome','destaque'].reduce(function(pass, column) {
+      return  ['id','nome','sinopse','foto'].reduce(function(pass, column) {
           return pass && (
               // pass if no filter is set
               !filters[column] ||
@@ -1622,10 +1626,15 @@ if (atual != "regiao") {
               );
       }, true);
   })
-  console.log(csv.length, csv);
+  console.log(csv.length, csv[0].sinopse);
+
+  var sinopse = csv[0].sinopse;
+  var foto = csv[0].foto;
+
 });
 /////////////////////////////////////////////////////////////////////////////////
 
+var sinopse = "sinopse";
 
 // tratamento de variáveis para exibição
 const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
@@ -1674,7 +1683,7 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                     '<span class="value">' + d.projeto + '</span><br/>' +
                     '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
                     '<span class="value">' + d.name2 + '</span><br/>' +
-                    '<span class="value">' + d.sinopse + '</span>' +
+                    '<span class="value">' + sinopse + '</span>' +
                     d.value + ' lugares/vagas</span>.' +
                     '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                     '<span class="value"><b>' + publico + '</b></span>  ' +
@@ -1908,10 +1917,7 @@ function hideCardChama(d) {
   //	Monitora a digitação da pesquisa textual
   function keyuped() {
    // Find Text 
-   if (d3.event.keyCode === 13) {
-     buscaId = this.value; 
-     }
- 
+    
    if (d3.event.keyCode === 27) {
        window.location.reload(true);
      this.value = ""
@@ -2136,7 +2142,12 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
              var buscaId = '';
                  closeNavComoVerBusca();
                  openNavComoVer();
-         
+
+                 document.getElementById("ingressos").style.display = "flex";
+                 document.getElementById("temporal").style.display = "flex";
+                 document.getElementById("publico").style.display = "flex";
+                 document.getElementById(`regiao`).style.display = "flex";
+                          
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                    acessivelId,onlineId,uoId,categoriaId,atual,datavisMem,buscaId,escolhido);
@@ -2183,6 +2194,11 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
         closeNavCapital();
         closeNavInterior();
 
+        document.getElementById("ingressos").style.display = "flex";
+        document.getElementById("temporal").style.display = "flex";
+        document.getElementById("publico").style.display = "flex";
+        document.getElementById(`regiao`).style.display = "flex";
+    
 
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
