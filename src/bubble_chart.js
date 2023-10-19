@@ -829,7 +829,7 @@ if (datavisMem != "formatos") {
  // .alpha(1).restart();
 };
  
- 
+
      // Define formato da visualização    
    if (datavisMem == "unidades" || atual == "regiao" || atual == "verUO-C" || atual == "verUO-I") {
        // por Unidades
@@ -1007,6 +1007,20 @@ simulation.alpha(0.6).restart();
      display_filtro.appendChild(novo_span);
  };
  
+// Checked Região e temporalidade
+if (regiaoMem == "capital") {
+  document.getElementById(`capital`).checked = true;
+}
+if (regiaoMem == "interior") {
+  document.getElementById(`interior`).checked = true;
+}
+if (temporalMem == "agora") {
+  document.getElementById(`agora`).checked = true;
+}
+if (temporalMem == "proxima") {
+  document.getElementById(`proxima`).checked = true;
+}
+
    filtroExibido(escolhido);
  
    if (atual == "formato" || atual == "limpar") {
@@ -1299,16 +1313,20 @@ if (atual != "regiao") {
 
       if (datavisMem == "verUO-CB") {
          regiaoMem = "capital";
-         StrenghtBusca = 0.26;
+         StrenghtBusca = 0.5;
+         document.getElementById("unidades").style.display = "flex";
+
        } else if (datavisMem == "verUO-IB") {
          regiaoMem = "interior";
-         StrenghtBusca = 0.26;
+         StrenghtBusca = 0.5;
+         document.getElementById("unidades").style.display = "flex";
+
        } else if (datavisMem == "verAgendaB") {
         datavisMem = "verAgendaB";
-        StrenghtBusca = 0.26;
-      } else  {  StrenghtBusca = 0.1; }
+        StrenghtBusca = 0.5;
+      } else  {  StrenghtBusca = 0.2; }
 
-       forceStrength = 0.05;
+       forceStrength = 0.1;
  
      if (datavisMem == "geral" || atual == "limpar") {
          simulation.stop();
@@ -1340,7 +1358,7 @@ if (atual != "regiao") {
  // Força para expelir não filtradas  
  var radialForceBusca = 
  d3.forceRadial()
-   .radius(heightTotal*0.90)
+   .radius(heightTotal)
    .x(widthTotal/2)
    .y(heightTotal/2)
    .strength(StrenghtBusca);
@@ -2021,6 +2039,8 @@ function setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaI
       }
       var atual = ComoVer;
 
+      document.getElementById(`unidades`).style.display = "flex";
+
       foco();
       console.log('botões como ver ----------------------');
       console.log('datavisMem: ' + datavisMem);
@@ -2310,6 +2330,8 @@ var buscaId = '';
  // Get the id of the button
        var regiaoId = regiao.attr('id');
  
+       document.getElementById(`unidades`).style.display = "flex";
+
  // Zera as unidades
        var uoId = 100;
        var tiraUO = document.querySelector("#unidades");

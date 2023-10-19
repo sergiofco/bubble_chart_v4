@@ -1163,7 +1163,7 @@ visibility: visible;
   left: 0%;
   bottom: 0;
   height: 75px;
-  width: 135px;
+  width: 190px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1177,7 +1177,7 @@ visibility: visible;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Show by default */
   top: 35%;
-  left: -45px;
+  left: -5px;
   height: height;
   width: 150px;
   justify-content: left;
@@ -1193,7 +1193,7 @@ visibility: visible;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Show by default */
   top: 6.5%;
-  left: 6%;
+  left: 7%;
   height: height;
   width: 150px;
   justify-content: center;
@@ -1208,7 +1208,7 @@ visibility: visible;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Hidden by default */
   top: 7.5%;
-  left: 5%;
+  left: 7%;
   height: height;
   width: 150px;
   justify-content: center;
@@ -1529,7 +1529,7 @@ label span:before {
   color: f6f5f1;
   font-size: 11px;
   display: none; /* Hidden by default */
-  width: 120px;
+  width: 200px;
   justify-content: left;
   align-items: center;
   padding: 5px;
