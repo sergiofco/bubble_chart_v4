@@ -102,8 +102,8 @@
 <div id="ComoVer" class="botoesComoVer">
   <form>
     <input type="button" id="verAgenda" class="buttonVer" value="ver agenda da semana" width="120px" height="32px"></input>
-    <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="ver nos SESCs da capital" src="img/mapa_capital.png" width="40px" height="42px">
-    <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="ver nos SESCs do interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
+    <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo" src="img/mapa_capital.png" width="40px" height="42px">
+    <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
     </form>
   </div>
 
@@ -111,8 +111,8 @@
   <div id="ComoVerBusca" class="botoesComoVer">
     <form>
       <input type="button" id="verAgendaB" class="buttonVerB" value="ver agenda da semana" width="120px" height="32px"></input>
-      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="ver nos SESCs da capital" src="img/mapa_capital.png" width="40px" height="42px">
-      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="ver nos SESCs do interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
+      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="unidades da Grande São Paulo" src="img/mapa_capital.png" width="40px" height="42px">
+      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="unidades do interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
     </form>
   </div>
   
@@ -128,11 +128,11 @@
       <form>
         <label>
           <input type="radio" class="regiao" id="capital" value="Grande São Paulo" name="radio"/ checked>
-          <span onclick="closeNavInterior(),openNavCapital(),openNavGdeSP()">Grande São Paulo</span>
+          <span onclick="closeNavInterior(),openNavCapital(),openNavGdeSP()">Unidades na Grande São Paulo</span>
         </label>
         <label>
           <input type="radio" class="regiao" id="interior" value="Interior e Litoral" name="radio"/>
-          <span onclick="closeNavCapital(),openNavInterior(),closeNavGdeSP()">Interior e Litoral</span>
+          <span onclick="closeNavCapital(),openNavInterior(),closeNavGdeSP()">Unidades no Interior e Litoral</span>
         </label>
       </form>
     </div>
