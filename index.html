@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <title>sesc sp infovis</title>
   <meta name="description" content="Bubble Chart with D3v4">
-  <meta name="author" content="Sérgio Seabra / Mike Bostock / Jim">
+  <meta name="author" content="Mike Bostock (d3.js) / Jim Vallandingham (bubble chart basis) / Sérgio Seabra (et all)">
   
 <!--css -->
-  <link rel="stylesheet" href="css/bubble_chart.css">
-  <link rel="stylesheet" href="css/orasbolas.css">
-  <!-- <link rel="stylesheet" href="css/minimo.css"> -->
- 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/bubble_chart.css">
+<link rel="stylesheet" href="css/orasbolas.css">
+
 <!--js -->
 <script type="text/javascript">
   (function(c,l,a,r,i,t,y){
@@ -19,10 +19,8 @@
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   })(window, document, "clarity", "script", "gf6ce8l6dn");
 </script>
-
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <!-- <script src="src/glider.min.js"></script> -->
-  <script src="src/overlay.js"></script>
+ <script src="https://d3js.org/d3.v4.min.js"></script>
+ <script src="src/overlay.js"></script>
 </head>
 
 <body>
@@ -32,17 +30,17 @@
   <div><img alt="sesc" src='img/logo-sesc.png' height="42px"></div>
   <topo class="adireita">
     <div id="zera">
-      <input type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo" value="limpar filtros" width="100px"></input>
+      <button type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo"><i class="fa fa-undo"></i>&nbsp;&nbsp;limpar filtros</button>
     </div>		
 
     <div id="busca" class="g-search">
      <form>
-       <input class="g-search" id="buscatextual" name="buscatextual" type="text"  placeholder=" busca pelo nome da atividade, artista ou profissional&hellip;" onkeydown="return (event.keyCode!=13);">
+      <input class="g-search empty" id="buscatextual" name="buscatextual" type="text"  placeholder="&#xF002; busca pelo nome da atividade, artista ou profissional&hellip;" onkeydown="return (event.keyCode!=13);">
      </form>
     </div>
 
     <div>
-      <input type="button" onclick="on()" class="ajuda" value="Ajuda" width="60px"></input>
+      <button type="button" onclick="on()" class="ajuda" value="Ajuda"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;Ajuda&nbsp;&nbsp;<i class="fa fa-question-circle"></i></button>
     </div>
   </topo>
   </nav>
@@ -101,18 +99,20 @@
 <!-- Altera formato de exibição -->
 <div id="ComoVer" class="botoesComoVer">
   <form>
-    <input type="button" id="verAgenda" class="buttonVer" value="ver agenda da semana" width="120px" height="32px"></input>
-    <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo" src="img/mapa_capital.png" width="40px" height="42px">
-    <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
+    <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button>
+    <button title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgenda" class="buttonVer"><i class="fa fa-calendar"></i>&nbsp;&nbsp;ver nos dias da semana&nbsp;&nbsp;</button>
+    <button title="Exibe lista com as ações filtradas" type="button" id="verLista" class="buttonVer"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button>
+    <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
     </form>
   </div>
 
 <!-- Altera formato de exibição do resultado de busca-->
   <div id="ComoVerBusca" class="botoesComoVer">
     <form>
-      <input type="button" id="verAgendaB" class="buttonVerB" value="ver agenda da semana" width="120px" height="32px"></input>
-      <input title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="unidades da Grande São Paulo" src="img/mapa_capital.png" width="40px" height="42px">
-      <input title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="unidades do interior/litoral" src="img/mapa_estado.png" width="40px" height="34px">
+      <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button>
+      <button title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgendaB" class="buttonVerB"><i class="fa fa-calendario"></i>&nbsp;&nbsp;ver nos dias da semana</button>
+      <button title="Exibe lista com as ações filtradas" type="button" id="verListaB" class="buttonVerB"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button>
+      <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
     </form>
   </div>
   
@@ -369,7 +369,47 @@
            
     <div id="ingressos" class="containerIngressos">
       <form>
-      <label>
+
+        <div class="switch-holder">
+          <div class="switch-toggle">
+              <input type="checkbox" id="acessivel">
+              <label for="acessivel"></label>
+          </div>
+          <div class="switch-label">
+              <i class="fa fa-universal-access"></i>
+              <span>dispositivo de<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;acessibilidade</span>
+          </div>
+      </div>
+      <div class="switch-holder">
+        <div class="switch-toggle">
+           <input type="checkbox" id="gratis">
+           <label for="gratis"></label>
+        </div>
+        <div class="switch-label">
+           <i class="fa fa-star"></i><span>grátis</span>
+        </div>
+      </div>
+      <div class="switch-holder">
+        <div class="switch-toggle">
+           <input type="checkbox" id="online">
+           <label for="online"></label>
+        </div>
+        <div class="switch-label">
+           <i class="fa fa-desktop"></i><i class="fa fa-mobile"></i><span>online</span>
+        </div>
+      </div>
+      <div class="switch-holder">
+          <div class="switch-toggle">
+              <input type="checkbox" id="venda">
+              <label for="venda"></label>
+          </div>
+          <div class="switch-label">
+              <i class="fa fa-ticket"></i></i><span>ingressos à venda<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vagas abertas</span>
+
+          </div>
+      </div>
+      <!-- <label>
+        ANTIGO
         <input type="checkbox" class="acessivel" id="acessivel" name="checkbox"/>
         <span>dispositivo de<br>acessibilidade</span>
       </label>
@@ -384,19 +424,33 @@
       <label>
         <input type="checkbox" class="venda" id="venda" name="checkbox"/>
         <span>ingressos à venda<br>vagas abertas</span>
-      </label>
+      </label> -->
       </form>
     </div>
-  
-  
   </div>
 
-  <div id="card"></div>
+<div class="prafora">
+    <iframe src="vazio.html" name="portal" width="100%" frameBorder="0"></iframe>
+</div> 
+
+<div id="card"></div>
+
+<!-- <div id="lista" class="lista">
+  <table>
+   <thead class="thead-dark">
+     <tr>
+       <th scope="col"></th>
+       <th scope="col"></th>
+       <th scope="col"></th>
+       <th scope="col"></th>
+     </tr>
+   </thead>
+   <tbody id="tableBody"> 
+   </tbody>
+ </table>
+</div> -->
 
 </div>
-
-<!-- <div class="ajudaInicial"><img src="img/comece-aqui.png" width="70" height="71"><br>Comece<br>aqui!</div> -->
-
 
 <nav id="overlay" class="overlay">
   <a href="#" onclick="off()" title="volta">
@@ -445,9 +499,10 @@
                   dia da semana e a hora da atividade:<br>
                   De cima para baixo, da manhã até à noite.<br>
               </div>
-  <div class= "help-pos">Em todas os visuais, as atividades<br>
-               são dispostas de segunda (mais à esquerda)<br> 
-               a domingo (mais à direita).<br>
+  <div class= "help-pos">Em todas os visuais,<br>
+                         as atividades são dispostas de<br>
+                         segunda (mais à esquerda)<br> 
+                         a domingo (mais à direita).<br>
               </div>
   
   <div class="escape"></div>
@@ -456,10 +511,15 @@
   </a>
   </nav>
 
+<!-- <div class="ajudaInicial"><img src="img/comece-aqui.png" width="70" height="71"><br>Comece<br>aqui!</div> -->
+
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+ <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
  <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4"></script>
  <script src="src/tooltip.js"></script>
  <script src="src/card.js"></script>
+ <script src="src/lista.js"></script>
  <script src="src/bubble_chart.js"></script>
 </body>
 </html>

@@ -22,7 +22,8 @@ d3.csv('data/semdfe-1018-uau.csv', display);
  
 // tooltip for mouseover functionality
    var tooltip = floatingTooltip('tooltip', 360);
-   var card = floatingCard('cartao', 450);
+   var card = floatingCard('cartao', 230);
+   var listaFiltrada = floatingLista('lista', 500);
  
 // cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
@@ -43,7 +44,8 @@ d3.csv('data/semdfe-1018-uau.csv', display);
    const pos3H = (posCH + 3*posH);
  
    var datavis = "geral";
-   var datavisMem = "geral";
+   window.datavisMem = "geral";
+   window.lista = "";
    
  // Variáveis de Filtro
    var buscaId = '';
@@ -565,12 +567,18 @@ var semanaCenters = {
        .attr('stroke-width', 1)
 
        .on('mouseover', showDetail)
-       .on('click', BubbleZoom)
-       .on('mouseout', hideDetail);
- 
+       .on('mouseout', hideDetail)
+       .on('click', BubbleZoom);
+
+      //  d3.select('#vis')
+      //    .call(d3.brush()                 // Add the brush feature using the d3.brush function
+      //         .extent( [ [0,0], [500,600] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+      //         .on("start brush", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+      //       );
+
      // @v4 Merge the original empty selection and the enter selection
      bubbles = bubbles.merge(bubblesE);
- 
+
      // Set the simulation's nodes to our newly created nodes array.
      // @v4 Once we set the nodes, the simulation will start running automatically!
      simulation.nodes(nodes);
@@ -596,6 +604,22 @@ var semanaCenters = {
     * based on the current x and y values of their bound node data.
     * These x and y values are modified by the force simulation.
     */
+
+   function updateChart() {
+
+    // Get the selection coordinate
+    extent = d3.event.selection   // looks like [ [12,11], [132,178]]
+  
+    // Is the circle in the selection?
+    isBrushed = extent[0][0] <= bubbles.attr("cx") && extent[1][0] >= bubbles.attr("cx") && // Check X coordinate
+                extent[0][1] <= bubbles.attr("cy") && extent[1][1] >= bubbles.attr("cy")  // And Y coordinate
+  
+    // Circle is green if in the selection, pink otherwise
+    bubbles.classed("buttonVer", isBrushed)
+  }
+  
+
+
    function ticked() {
      bubbles
        .attr('cx', function (d) { return d.x; })
@@ -793,13 +817,13 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
 //
 //////////////////////////////////////////
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
-       var circulo = heightTotal; 
-       var forceStrength = 0.15;
-       var forceStrengthRadial = 1.2; 
+       var circulo = heightTotal+heightTotal*0.20; 
+       var forceStrength = 0.12;
+       var forceStrengthRadial = 0.36; 
      } else {
-       var circulo = heightTotal;
-       var forceStrength = 0.15;
-       var forceStrengthRadial = 1.2; 
+       var circulo = heightTotal+heightTotal*0.20;
+       var forceStrength = 0.12;
+       var forceStrengthRadial = 0.36; 
      }
 
 // Força radial para afastar as ações não filtradas
@@ -809,7 +833,6 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
                         .y(heightTotal/2)
                         .strength(forceStrengthRadial);
                         
-
                         
 if (datavisMem != "formatos") {
  // 	envia para as bordas as ações que não estão filtradas
@@ -957,7 +980,13 @@ simulation.alpha(0.6).restart();
  contador(filtrado);
  
  // texto amigável do que está sendo filtrado no momento
-  function filtroExibido(escolhido){
+ window.temporaLista = temporalMem;
+ window.formatoLista = formatoMem;
+ window.regiaoLista = regiaoMem;
+ window.publicoLista = publicoMem;
+ window.uoLista = uoMem;
+
+ function filtroExibido(escolhido){
     while (display_filtro.hasChildNodes()) {
            display_filtro.removeChild(display_filtro.lastChild);
            }
@@ -969,8 +998,11 @@ simulation.alpha(0.6).restart();
    if (atual == "formato") {fe = escolhido};
    if (atual == "formato") {fc = ''};
    if (atual == "unidade") {fuo = escolhido};
-   if (atual == "regiao" || atual == "capital" || atual == "interior") {fuo = ''};
+   if (atual == "regiao" || atual == "capital" || atual == "interior" || atual == "limpar") {fuo = ''};
  
+   console.log('fuo');
+   console.log(fuo);
+
    if (fuo != '') {
      var fonde = ' no Sesc ' + fuo  } else if (regiaoMem == 'capital') {
      var fonde = ' na Grande São Paulo' } else { fonde = ' no Interior e Litoral'};
@@ -1021,8 +1053,6 @@ if (temporalMem == "proxima") {
   document.getElementById(`proxima`).checked = true;
 }
 
-   filtroExibido(escolhido);
- 
    if (atual == "formato" || atual == "limpar") {
      var op = document.getElementById('ca');
          op.classList.add('active');
@@ -1068,6 +1098,8 @@ if (temporalMem == "proxima") {
           } 
     }
 }
+
+filtroExibido(escolhido);
 
 if (atual == "limpar") {
    document.getElementById("agora").checked = true; 
@@ -1304,6 +1336,8 @@ if (atual != "regiao") {
     console.log('regiaoId no buscacubbles: ' + regiaoId)
 
     hideCardChama();
+    hideListaChama();
+
     document.getElementById("ingressos").style.display = "none";
     document.getElementById("temporal").style.display = "none";
     document.getElementById("publico").style.display = "none";
@@ -1324,7 +1358,7 @@ if (atual != "regiao") {
        } else if (datavisMem == "verAgendaB") {
         datavisMem = "verAgendaB";
         StrenghtBusca = 0.5;
-      } else  {  StrenghtBusca = 0.2; }
+      } else  {  StrenghtBusca = 0.5; }
 
        forceStrength = 0.1;
  
@@ -1451,7 +1485,7 @@ if (atual != "regiao") {
                 ? '#555555' : (d.online == 1)
                 ? "gold" : (d.ingresso == 1) 
                 ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 1})
+              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
               .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
                 ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
@@ -1459,8 +1493,10 @@ if (atual != "regiao") {
      simulation.force("r", isolate(radialForceBusca, function(d) { 
           return !(d.busca.toLowerCase().includes(buscaId)); 
           }));
-          simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
-          simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
+//          simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
+//          simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
+            simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
+            simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPosBusca));
 
           if (filtrado < 20) {
           simulation.force('collision', isolate(collisionForce, function(d) { 
@@ -1469,7 +1505,7 @@ if (atual != "regiao") {
               simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }));
             }
 
-          hideunidadeTitles();
+          showsemanaTitlesBusca();
   }
 
   contador(filtrado);
@@ -1513,8 +1549,11 @@ if (atual != "regiao") {
      var semanasData = d3.keys(semanasTitleX);
      var semanas = svg.selectAll('.dia_da_semana')
                       .data(semanasData);
- 
-         semanas.enter().append('text')
+
+     window.datavisMemLista = datavisMem;
+
+         semanas.enter()
+                .append('text')
                 .attr('class', 'dia_da_semana')
                 .attr('x', function (d) { return semanasTitleX[d]; })
                 .attr('y', function (d) { return semanasTitleY[d]; })
@@ -1528,13 +1567,16 @@ if (atual != "regiao") {
                         } else {
                           return (d) + " " + DataDoDia[d].depois;
                         } 
-                        });
+                        })
+                .on('click',ListaTabela);
     }
 
     function showsemanaTitlesBusca() {
       var semanasData = d3.keys(semanasTitleX);
       var semanas = svg.selectAll('.dia_da_semana')
                        .data(semanasData);
+
+          window.datavisMemLista = datavisMem;
   
           semanas.enter().append('text')
                  .attr('class', 'dia_da_semana')
@@ -1542,7 +1584,9 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+50; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].agora; });
+                 .text(function(d) { return DataDoDia[d].agora; })
+                 .on('click',ListaTabela);
+
 
           semanas.enter().append('text')
                  .attr('class', 'dia_da_semana')
@@ -1550,7 +1594,9 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+300; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].proxima; });
+                 .text(function(d) { return DataDoDia[d].proxima; })
+                 .on('click',ListaTabela);
+
      }
 
  /*
@@ -1561,14 +1607,17 @@ if (atual != "regiao") {
      var formatosData = d3.keys(formatosTitleX);
      var formatos = svg.selectAll('.dia_da_semana')
        .data(formatosData);
- 
+
+     window.datavisMemLista = datavisMem;
+       
      formatos.enter().append('text')
        .attr('class', 'dia_da_semana')
        .attr('x', function (d) { return formatosTitleX[d]; })
        .attr('y', function (d) { return formatosTitleY[d]; })
        .attr('text-anchor', 'middle')
-       .text(function (d) { return fillformatos(d); });
-   }
+       .text(function (d) { return fillformatos(d); })
+       .on('click',ListaTabela);
+      }
  
  /*
  * Mostra cabeçalhos de unidades
@@ -1576,6 +1625,11 @@ if (atual != "regiao") {
    
  function showunidadeTitles() {
  
+  console.log('datavisMem ' + datavisMem);
+
+  window.datavisMemLista = datavisMem;
+
+
    if (regiaoMem == 'capital') {
  
        var unidadesData = d3.keys(unidadesTitleXCap);
@@ -1585,7 +1639,8 @@ if (atual != "regiao") {
          .attr('x', function (d) { return unidadesTitleXCap[d]; })
          .attr('y', function (d) { return unidadesTitleYCap[d]; })
          .attr('text-anchor', 'middle')
-         .text(function (d) { return fillunidadesCap(d); });
+         .text(function (d) { return fillunidadesCap(d); })
+         .on('click',ListaTabela);
  
        } else {
  
@@ -1596,30 +1651,33 @@ if (atual != "regiao") {
          .attr('x', function (d) { return unidadesTitleXInt[d]; })
          .attr('y', function (d) { return unidadesTitleYInt[d]; })
          .attr('text-anchor', 'middle')
-         .text(function (d) { return fillunidadesInt(d); });
-       }
+         .text(function (d) { return fillunidadesInt(d); })
+         .on('click',ListaTabela);
+        }
  
  }
  
    
  function showunidadeTitlesInt() {
 
+  window.datavisMemLista = datavisMem;
+
   var unidadesData = d3.keys(unidadesTitleXInt);
       var unidades = svg.selectAll('.dia_da_semana').data(unidadesData);
-      unidades.enter().append('text')
-        .attr('class', 'dia_da_semana')
-        .attr('x', function (d) { return unidadesTitleXInt[d]; })
-        .attr('y', function (d) { return unidadesTitleYInt[d]; })
-        .attr('text-anchor', 'middle')
-        .text(function (d) { return fillunidadesInt(d); });
-  }
+          unidades.enter().append('text')
+                  .attr('class', 'dia_da_semana')
+                  .attr('x', function (d) { return unidadesTitleXInt[d]; })
+                  .attr('y', function (d) { return unidadesTitleYInt[d]; })
+                  .attr('text-anchor', 'middle')
+                  .text(function (d) { return fillunidadesInt(d); })
+                  .on('click',ListaTabela);
+                }
 
 
  // Busca textual
  const searchInput = d3.select(".g-search input")
  .on("keyup", keyuped)
  foco();
- 
  
  // ao clicar na bolha
  function BubbleZoom(d) {
@@ -1630,9 +1688,9 @@ if (atual != "regiao") {
    };
 
 dataSino = d3.csv("data/semdfe-1018-uau.csv", function(csv) {
-  csv = csv.filter(function(row) {
+  window.csv = csv.filter(function(row) {
       // run through all the filters, returning a boolean
-      return  ['id','nome','sinopse','foto'].reduce(function(pass, column) {
+      return  ['id','nome','sinopse'].reduce(function(pass, column) {
           return pass && (
               // pass if no filter is set
               !filters[column] ||
@@ -1644,15 +1702,14 @@ dataSino = d3.csv("data/semdfe-1018-uau.csv", function(csv) {
               );
       }, true);
   })
-  console.log(csv.length, csv[0].sinopse);
+  console.log(window.csv.length, window.csv[0].sinopse);
 
-  var sinopse = csv[0].sinopse;
-  var foto = csv[0].foto;
-
-});
+  
+})
 /////////////////////////////////////////////////////////////////////////////////
 
-var sinopse = "sinopse";
+var sinopse = window.csv[0].sinopse;
+// var foto = window.csv[0].foto;
 
 // tratamento de variáveis para exibição
 const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
@@ -1694,28 +1751,146 @@ const formataData = d3.timeFormat("%d.%m.%Y");
    var gratis = 'grátis';
  } else {var gratis = ''}
  
-  var contentCard = '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-left:10px" align="right"><br></span>' +
-                    '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
-                    '<span class="value"> | <b>' + exibedata + '</b></span><br><br>' +
+  var contentCard = '<i class="fa fa-window-close"></i>' +
+                    '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-left:10px" align="center"><br><br></span>' +
+                    '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span> | ' + d.formato + '<br><br>' +
+                    '<span class="value"><b>' + exibedata + '</b></span><br><br>' +
                     '<span class="value"><b>' + d.categoria + '</b></span><br/>' +
                     '<span class="value">' + d.projeto + '</span><br/>' +
-                    '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
+                    '<span class="name"><a href="#" onclick="' +linkSite(d) +'"><b>' + d.name + '</b></a><br></span>' +
                     '<span class="value">' + d.name2 + '</span><br/>' +
                     '<span class="value">' + sinopse + '</span>' +
                     d.value + ' lugares/vagas</span>.' +
                     '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                     '<span class="value"><b>' + publico + '</b></span>  ' +
                     '<span class="name"><b>' + tem_acessivel + '</b>  </span>' + '<span class="name"> | <b>' + online + '</b></span><br>' +
-                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/>';
+                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b><br>';
 
       card.showCard(d,contentCard, d3.event);
 
-     
+
     document.getElementById('card').addEventListener('click',hideCardChama);
 
                        
 }   
  
+function ListaTabela(d,clicado) {
+ 
+  window.alert('exibe lista de ações filtradas na parte inferior da pagina com unidade, dia da semana, data e nome da cada uma das atividades'); 
+  window.lista = "";  
+
+//   var contentLista = '<h1>exibe lista de ações filtradas</h1>';
+
+//   listaFiltrada.showLista(contentLista, d3.event)
+
+//   console.log('atual? ' + window.datavisMemLista);
+
+//   document.getElementById('#lista').addEventListener('click',hideListaChama);
+
+//   console.log(Filtrados);
+
+//   switch(window.datavisMemLista) {
+
+//       case 'agenda':
+//         nomeColuna = 'weekday';
+//       case 'unidades':
+//         nomeColuna = 'cod_uo';
+//       case 'formatos':
+//         nomeColuna = 'cod_formato';
+// //        break;
+//       // default:
+//       //   console.log(`Sorry, we are out of ${expr}.`);
+//   }
+
+// console.log(clicado);
+
+// ////////////////////// Filtra para a Lista
+
+//  d3.csv("data/semdfe-1018-uau.csv", function(csv) {
+//    csv = csv.filter(function(row) {
+//        return row['regiao'] == 'capital' || row['regiao'] == 'interior';
+//    })
+//    console.log(csv);
+//  });
+
+
+// d3.csv("data/semdfe-1018-uau.csv", function(listinha) {
+//     listinha = listinha.filter(function(row) {
+//         return row['weekday'] == 4;
+// //              row['cod_formato'] == window.formatoLista &&
+// //              row['cod_uo'] == window.uoLista &&
+// //                row['regiao'] == window.regiaoLista &&
+// //                row['tempoF'] == window.temporaLista
+//     })
+
+//     console.log(listinha.size());
+
+ // tratamento de variáveis para exibição
+//  const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
+//  const formataData = d3.timeFormat("%d.%m.%Y");
+  
+//   if (d.exibirdatas == "de-ate") {
+//     var exibedata = 'De ' + formataData(StrToData(listinha.datainicial)) + ' até ' + formataData(StrToData(listinha.datafinal));
+//   } else {
+//     var exibedata = formataData(StrToData(listinha.data_sessao))  + ' ' + listinha.hora ;
+//   }
+  
+//   if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
+//      var Corclass = "finds";
+//   } else if (d.dia_da_semana == "sempre") {
+//      var Corclass = "buttonCat";
+//   } else {
+//      var Corclass = "labuta";
+//   }
+ 
+//   if (d.online == 1) {
+//     var online = 'ação online<br>';
+//   } else {var online = ''}
+  
+//   if (d.tem == 1) {
+//     var tem_acessivel = d.dispositivo + '<br><br>';
+//   } else {var tem_acessivel = ''}
+  
+//   if (d.publico == 'outros') {
+//     var publico = '';
+//   } else {var publico = d.publico}
+  
+//   if (d.ingresso == 1) {
+//     var ingresso = 'ingressos esgotados/inscrições encerradas';
+//   } else if (d.cod_formato == 1) { 
+//          var ingresso = d.ingressos;  
+//         } else { var ingresso = 'inscrições abertas' }
+  
+//   if (d.gratis == 1) {
+//     var gratis = 'grátis';
+//   } else {var gratis = ''}
+  
+    //  document.getElementById('tableBody').addEventListener('click',ApagaLista);
+ 
+    //  function ApagaLista() {
+    //           document.getElementById('tableBody').style.opacity = '0';
+    //  }
+
+// Monta a tabela    
+//     const tableData = csv.map(value => {
+//       return (
+//         `<tr>
+//            <td>${value.unidade}</td>
+//            <td class=${Corclass}>${value.dia_da_semana}</td>
+//            <td>${exibedata}</td>
+//            <td>${value.nome}</td>
+//         </tr>`
+//       );
+//     }).join('');
+    
+// // Exibe a tabela    
+//    const tableBody = document.querySelector("#tableBody");
+//          tableBody.innerHTML = tableData;
+
+  /////////////////////////////////////////////////////////////////////////////////
+}   
+   
+
  // Exibe o detalhamento com o MOuseOver
    function showDetail(d) {
      // change outline to indicate hover state.
@@ -1772,7 +1947,7 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                    '<span class="name"><b>' + online + '</b></span>' +
                    '<span class="value"><b>' + exibedata + '</b></span><br>' +
                            '<span class="value">' + d.projeto + '</span><br/>' +
-                           '<span class="name"><a href="https://www.sescsp.org.br/?s=' + d.nome + '" target="_blank"><b>' + d.name + '</b></a><br></span>' +
+                           '<span class="name"><a href="#" target="portal"><b>' + d.name + '</b></a><br></span>' +
                    '<span class="value">' + d.name2 + '</span><br/>' +
                    '<span class="value"><br><b>' + d.categoria + '</b></span><br/>' +
                    '<span class="value">' + 'sinopse' + ' | ' + 
@@ -1815,15 +1990,18 @@ function hideCardChama(d) {
   card.hideCard(d);
 }
 
+// Oculta a lista
+function hideListaChama() {
+  // reset outline
+
+  listaFiltrada.hideLista();
+}
 
 
  // link para a busca do site do Sesc
- var url = 'http://sescsp.org.br';
- var link = document.querySelector("#escape");
- 
  function linkSite(d) {
-     var win = window.open('https://www.sescsp.org.br/?s='+d.nome, 'portal');
-     win.focus();
+    //  var win = window.open('https://www.bing.com/search?q=site%3Asescsp.org.br+'+d.name, 'portal');
+    //  win.focus();
  }
  
    /*
@@ -1833,6 +2011,18 @@ function hideCardChama(d) {
                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) 
                                    {
          hideCardChama();
+         hideListaChama();
+
+         // vai pra lista
+         var contentLista = '<h1>exibe lista de ações filtradas</h1>';
+
+         if (window.lista == "exibir") { 
+             listaFiltrada.showLista(contentLista, d3.event); 
+             window.alert('exibe lista de ações filtradas na parte inferior da pagina com unidade, dia da semana, data e nome da cada uma das atividades'); 
+             window.lista = "";  
+             stop();          
+            };
+
                                     console.log('-------- começo do chart.toggle  --------');
                                     console.log('formatoId: ' + formatoId);
                                     console.log('atual: ' + atual);
@@ -1861,10 +2051,6 @@ function hideCardChama(d) {
      formatoMem = formatoId; 
    };
  
-  //  if (formatoId == "100") {
-  //    datavisMem = "geral"; 
-  //  };
-
    if (regiaoId != null) {
        regiaoMem = regiaoId;
     };
@@ -1901,7 +2087,7 @@ function hideCardChama(d) {
      datavisMem = datavis; 
    };
 
-   if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; buscaMem = "undefined"; };
+   if (atual == "limpar" || escolhido == "geral") { datavisMem = "geral"; };
    if (atual == "regiao") { datavisMem = "unidades"; };
 
   //  if ((datavisMem != "agenda") && (atual == "formato")) {
@@ -2033,6 +2219,8 @@ function setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaI
       } else if (ComoVer == "verUO-CB") {
         var datavisMem = ComoVer; 
         var regiaoMem = "capital";
+      } else if (ComoVer == "verLista") {
+        window.alert('Lista!')
       } else {
         var datavisMem = ComoVer; 
         var regiaoMem = "interior";
@@ -2099,6 +2287,8 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
         } else if (ComoVer == "verUO-C") {
           var datavis = "unidades"; 
           var regiaoMem = "capital";
+        } else if (ComoVer == "verLista") {
+          window.lista = "exibir";
         } else {
           var datavis = "unidades"; 
           var regiaoMem = "interior";
@@ -2120,7 +2310,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
   setupButtonsComoVer();
   
  function setupButtons(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                       acessivelId,onlineId,uoId,categoriaId,atual,datavisMem,buscaId,escolhido) {
+                       acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) {
    d3.select('#toolbar')
      .selectAll('.button')
      .on('click', function () {
@@ -2139,6 +2329,8 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var atual = "formato";
        var escolhido = button.attr('value');
  
+       if (window.datavisMem == "geral") { var datavis = 'agenda';}
+
        var LimpaBusca = document.querySelector("#busca");
            LimpaBusca.querySelector("form").reset();
 
@@ -2150,6 +2342,11 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
 
              categoriaMem = '99';
              categoriaId = '99';
+
+             document.getElementById("publico").style.display = "flex";
+             document.getElementById("ingressos").style.display = "flex";
+             document.getElementById("ComoVer").style.display = "flex";
+    
  
    //      var datavis = "unidades";
  
@@ -2170,7 +2367,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
                           
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
-                                   acessivelId,onlineId,uoId,categoriaId,atual,datavisMem,buscaId,escolhido);
+                                   acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
      });
  }
  
@@ -2214,10 +2411,11 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
         closeNavCapital();
         closeNavInterior();
 
-        document.getElementById("ingressos").style.display = "flex";
         document.getElementById("temporal").style.display = "flex";
-        document.getElementById("publico").style.display = "flex";
         document.getElementById(`regiao`).style.display = "flex";
+        document.getElementById("publico").style.display = "flex";
+        document.getElementById("ingressos").style.display = "flex";
+        document.getElementById("ComoVer").style.display = "flex";
     
 
        foco();
@@ -2351,6 +2549,9 @@ var buscaId = '';
 
         var LimpaBusca = document.querySelector("#busca");
             LimpaBusca.querySelector("form").reset();
+
+            document.getElementById("ComoVer").style.display = "flex";
+
 
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,

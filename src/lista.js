@@ -4,38 +4,42 @@
  * Most styling is expected to come from CSS
  * so check out bubble_chart.css for more details.
  */
-function floatingCard(cardId,width) {  
+function floatingLista(listaId,width) {  
   // Local variable to hold tooltip div for
   // manipulation in other functions.
-  var card = d3.select('#card')
+  var lista = d3.select('#lista')
                .append('div')
-               .attr('class', 'detalhe')
-               .attr('id', cardId);
-//               .on('click', hideCard);
-//               .style('pointer-events', 'none');
+               .attr('class', 'lista')
+               .attr('id', listaId);
+//               .on('click', hideLista)
+  //             .style('pointer-events', 'none');
 
 //  Set a width if it is provided.
   if (width) {
-    card.style('width', width);
+    lista.style('width', width);
   }
 
   // Initially it is hidden.
-  hideCard();
+  hideLista();
 
-  function showCard(d,contentCard, event) {
+  console.log('passou na lista.js')
 
-    if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
-      var Cor = "#DE7802";
-   } else if (d.dia_da_semana == "sempre") {
-      var Cor = "#BBAB8B";
-   } else {
-      var Cor = "#0097ad";
-   }
+  function showLista(contentLista, event) {
 
-    card.style('opacity', 1)
+  //   if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
+  //     var Cor = "#DE7802";
+  //  } else if (d.dia_da_semana == "sempre") {
+  //     var Cor = "#BBAB8B";
+  //  } else {
+  //     var Cor = "#0097ad";
+  //  }
+
+  contentLista = '<h1>AQui</h1>';
+
+    lista.style('opacity', 1)
         .style('z-index', 999)
-        .style('border-color', Cor)
-        .html(contentCard);
+        .style('border-color', '#000000')
+        .html(contentLista);
 
 //    updatePositionCard(event);
   }
@@ -43,9 +47,13 @@ function floatingCard(cardId,width) {
   /*
    * Hide the tooltip div.
    */
-  function hideCard() {
-    card.style('opacity', 0.0)
-        .style('z-index', -999);
+  function hideLista() {
+
+    console.log('passou na lista.js hideLista')
+
+    lista.style('opacity', 0)
+         .style('z-index', -999)
+         .style('display', 'none');
   }
 
   /*
@@ -84,8 +92,8 @@ function floatingCard(cardId,width) {
   // }
 
   return {
-    showCard: showCard,
+    showLista: showLista,
 //    updatePositionCard: updatePositionCard,
-    hideCard: hideCard
+    hideLista: hideLista
   };
 }

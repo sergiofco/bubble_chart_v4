@@ -367,26 +367,44 @@ a, h1, a:visited, a:active {
 }
 
 
-.clicada {
+.detalhe {
 	position: fixed;
-	top: 65%;
-	left: 25%;
+	top: 22%;
+	right: 11%;
   -moz-border-radius:5px;
 	border-radius: 5px;
   border: 5px solid;
   border-color: #BBAB8B;
   background: #FFFFFF;
-	opacity: 0.75;
+  color: black;
+	padding: 4px;
+	width: 230px;
+	font-size: 14px;
+  z-index: -1;
+}
+
+.detalhe .title {
+	font-size: 15px;
+}
+
+.lista {
+	position: fixed;
+  display: flex;
+	top: 65%;
+	left: 25%;
+  -moz-border-radius:5px;
+	border-radius: 5px;
+  border: 1px solid;
+  border-color: #000000;
+  background: #FFFFFF;
   color: black;
 	padding: 15px;
 	width: 50%;
 	font-size: 14px;
   z-index: -1;
+  
 }
 
-.clicada .title {
-	font-size: 15px;
-}
 
 .finds {
   background: #DE7802;
@@ -412,7 +430,7 @@ a, h1, a:visited, a:active {
   font-weight: bold;
 }
 
-.clicada .name {
+.detalhe .name {
   font-size: 14px;
 
 }
@@ -1066,9 +1084,10 @@ visibility: visible;
 }
 
 .g-search input {
-  width: 400px;
+  font-family: FontAwesome;
+  width: 430px;
   height: 30px;
-  font: 14px sans-serif;
+  font: 16px sans-serif;
   font-weight: bold;
   border: solid 2px #820000;
   border-radius: 4px;
@@ -1078,7 +1097,15 @@ visibility: visible;
   vertical-align: top;
   background-color: #FFFFFF;
   height: 34px;
+}
 
+input.empty {
+font-family: FontAwesome;
+font-weight: bold;
+font: 16px;
+padding: 5px;
+border:1px solid #111;
+border-radius:4px;
 }
 
 .g-search .g-search-clear {
@@ -1140,13 +1167,14 @@ visibility: visible;
   align-items: left;
   padding: 0px;
   z-index: 10;
+  display: none;
 }
 
 
 .containerIngressos {
   position: fixed;
   top: 55%;
-  left: 90%;
+  left: 89.3%;
   bottom: 0;
   height: 150px;
   width: 160px;
@@ -1155,6 +1183,7 @@ visibility: visible;
   align-items: left;
   padding: 0px;
   z-index: 10;
+  display: none;
 }
 
 .containerRadioRegiao {
@@ -1241,7 +1270,7 @@ visibility: visible;
 
 .dia_da_semana {
   display: flex;
-  width: 50px;
+  width: 80px;
   height: 25px;
   font-weight: bold;
   font-size: clamp(0.75em, 0.8em + 0.8vw, 1.3em);;
@@ -1253,6 +1282,15 @@ visibility: visible;
   font-family: quando;
   vertical-align: center;
   z-index: -9999;
+  cursor:pointer;
+
+}
+
+.dia_da_semana:hover {
+background-color: goldenrod;
+color: black;
+font-weight: bolder;
+
 }
 
 .unidade_tit {
@@ -1421,13 +1459,13 @@ label span:before {
 
 .buttonTudo {
   position: flex;
-  min-width: 120px;
+  min-width: 140px;
   max-width: 180px;
   height: 32px;
   background: #efefef;
   color: #000000;
   top: 0.4%;
-  padding: 5px 20px;
+  padding: 5px 15px;
   cursor: pointer;
   text-align: right;
   vertical-align: center;
@@ -1453,20 +1491,22 @@ label span:before {
 .buttonVerB, .buttonVer {
   position: flex;
   background: #FFFFFF;
-  min-width: 70px;
+  min-width: 100px;
   color: #222222;
   top: 0.4%;
-  padding: 5px 20px;
+  padding: 6px 12px;
   cursor: pointer;
-  vertical-align: top;
   font-size: clamp(0.5em, 1em + 1vw, 1em);
   border: 2px solid #222222;
   border-radius: 3%;
   font-weight: bold;
+  display: table-cell;
+  vertical-align: middle;
   z-index: 999999999999999999999999999999999999999999999999999999999999999999999999;
 }
 
 .botoesComoVer {
+  display: none;
   position: flex;
   min-width: 70px;
   color: #000000;
@@ -1494,17 +1534,17 @@ label span:before {
 
 .ajuda {
   position: flex;
-  min-width: 60px;
-  max-width: 80px;
+  min-width: 100px;
+  max-width: 150px;
   height: 32px;
   background: gold;
   color: #000000;
   top: 0.4%;
-  padding: 5px 20px;
+  padding: 5px 15px;
   cursor: pointer;
   text-align: center;
   vertical-align: center;
-  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  font-size: clamp(0.5em, 1em + 1vw, 1.2em);
   border: 2px solid gold;
   text-decoration: none;
   border-radius: 3%;
@@ -1548,4 +1588,75 @@ label span:before {
 .buttonBuscaUO.active {
   background: goldenrod;
 }
+
+
+/* on off com ícones */
+.switch-holder {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  align-items: top;
+}
+
+.switch-label {
+  width: 130px;
+}
+
+.switch-label i {
+  margin-right: 5px;
+}
+
+.switch-toggle {
+  height: 20px;
+}
+
+.switch-toggle input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  z-index: -2;
+}
+
+.switch-toggle input[type="checkbox"] + label {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  border-radius: 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.switch-toggle input[type="checkbox"] + label::before {
+  position: absolute;
+  content: ' ';
+  font-size: 13px;
+  text-align: top;
+  line-height: 22px;
+  top: 0px;
+  left: 8px;
+  width: 21px;
+  height: 21px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: -3px -3px 5px rgba(255,255,255,.5),
+              3px 3px 5px rgba(0,0,0, .25);
+  transition: .3s ease-in-out;
+}
+
+.switch-toggle input[type="checkbox"]:checked + label::before {
+  right: 10%;
+  content: ' ';
+  color: #fff;
+  background-color: darkred;
+}
+
+
+
+
+
+
 

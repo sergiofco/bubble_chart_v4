@@ -23,7 +23,7 @@ body {
   margin: 0 auto;
   border: 0px solid var(--clr-dark);
   display: grid;
-  grid-template-columns: 60px,130px,1fr;
+  grid-template-columns: 60px,130px,800px,1fr;
   justify-content: top;
   align-content: top;
 }
@@ -93,6 +93,14 @@ body {
   grid-area: 2 / 1 / 2 / 3;
   vertical-align: top;
   align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.prafora {
+  grid-area: 4 / 1 / 5 / 3;
+  vertical-align: top;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
