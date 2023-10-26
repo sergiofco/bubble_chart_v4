@@ -407,7 +407,7 @@ var semanaCenters = {
      .force('x', d3.forceX(posCW).strength(forceStrength).x(posCW))
      .force('y', d3.forceY(posCH).strength(forceStrength).y(posCH)) // (nodeperiodoPos))
      .force('charge', d3.forceManyBody().strength(charge))
-     .force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
+ //    .force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
      .on('tick', ticked);
  
  // @v4 Force starts up automatically, which we don't want as there aren't any nodes yet.
@@ -479,9 +479,11 @@ var semanaCenters = {
          turno: d.turno,
          ingressos: d.ingressos,
 //         sinopse: d.sinopse,
-         x: posCW, // Math.random() * 900,  // inicia centralizado
-         y: posCH// Math.random() * 800 // para iniciar centralizado
- 
+//         x: posCW, // Math.random() * 900,  // inicia centralizado
+//         y: posCH// Math.random() * 800 // para iniciar centralizado
+        x: posCW+Math.random()*10, 
+        y: posCH+Math.random()*10
+
        };
      });
  
@@ -509,13 +511,13 @@ var semanaCenters = {
      svg = d3.select(selector)
              .append('svg')
              .attr('width', widthTotal)
-             .attr('height', heightTotal)
-             .append('g')
-             .attr("transform","translate(" + 0 + "," + 0 + ")");
+             .attr('height', heightTotal);
+  //           .append('g')
+  //           .attr("transform","translate(" + 0 + "," + 0 + ")");
  
      // associa os dados dos nós aos elementos DOM que os representará na visualização.
      bubbles = svg.selectAll('.bubble')
-       .data(nodes, function (d) { return d.id; });
+                  .data(nodes, function (d) { return d.id; });
  
  // 	Variável/tag crida para receber as fotos dos destaques - Não entendi plenamente como funciona
    var defs = svg.append("defs");
@@ -686,6 +688,7 @@ var semanaCenters = {
                         console.log('datavisMem: ' + datavisMem);
                         console.log('uoMem: ' + uoMem);
                         console.log('uoId: ' + uoId);
+                        console.log('regiaoMem: ' + regiaoMem);
                         console.log('----------------fim---------------');
                    
           if (atual == "verUO-I" || atual == "interior") {
@@ -809,7 +812,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
 //   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-   ) ? 1 : 1});
+   ) ? 1 : 3});
  
 /////////////////////////////////////////
 //
@@ -977,6 +980,7 @@ simulation.alpha(0.6).restart();
 );})
 
  filtrado = filtroAplicado.size();
+ window.filtroParaLista = filtroAplicado;
  contador(filtrado);
  
  // texto amigável do que está sendo filtrado no momento
@@ -1030,7 +1034,7 @@ simulation.alpha(0.6).restart();
    if (formatoMem == '7') {fe = ' atividades de lazer '};
    if (formatoMem == '100') {fe = ' atividades'};
          // filtrado + ' ' + 
-        
+      
      novo_span.innerText = fe + fo + fg + fc + fonde + fq + fp + fa + fi;
 
     if (filtrado == 0) {
@@ -1552,14 +1556,15 @@ if (atual != "regiao") {
 
      window.datavisMemLista = datavisMem;
 
-         semanas.enter()
-                .append('text')
-                .attr('class', 'dia_da_semana')
-                .attr('x', function (d) { return semanasTitleX[d]; })
-                .attr('y', function (d) { return semanasTitleY[d]; })
-                .attr('fill', function(d) { return fillColor(d); })
-                .attr('text-anchor', 'middle')
-                .text(function (d) { 
+     semanas.enter()
+                 .append('g')
+                 .append('text')
+                  .attr('class', 'dia_da_semana')
+                  .attr('x', function (d) { return semanasTitleX[d]; })
+                  .attr('y', function (d) { return semanasTitleY[d]; })
+                  .attr('fill', function(d) { return fillColor(d); })
+                  .attr('text-anchor', 'middle')
+                  .text(function (d) { 
                       if (temporalMem == "agora") {
                           return (d) + " " + DataDoDia[d].agora; 
                          } else if (temporalMem == "proxima") {
@@ -1568,7 +1573,7 @@ if (atual != "regiao") {
                           return (d) + " " + DataDoDia[d].depois;
                         } 
                         })
-                .on('click',ListaTabela);
+                   .on('click',showListaTabela);
     }
 
     function showsemanaTitlesBusca() {
@@ -1585,7 +1590,7 @@ if (atual != "regiao") {
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
                  .text(function(d) { return DataDoDia[d].agora; })
-                 .on('click',ListaTabela);
+                 .on('click',showListaTabela);
 
 
           semanas.enter().append('text')
@@ -1595,7 +1600,7 @@ if (atual != "regiao") {
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
                  .text(function(d) { return DataDoDia[d].proxima; })
-                 .on('click',ListaTabela);
+                 .on('click',showListaTabela);
 
      }
 
@@ -1616,7 +1621,7 @@ if (atual != "regiao") {
        .attr('y', function (d) { return formatosTitleY[d]; })
        .attr('text-anchor', 'middle')
        .text(function (d) { return fillformatos(d); })
-       .on('click',ListaTabela);
+       .on('click',showListaTabela);
       }
  
  /*
@@ -1640,7 +1645,7 @@ if (atual != "regiao") {
          .attr('y', function (d) { return unidadesTitleYCap[d]; })
          .attr('text-anchor', 'middle')
          .text(function (d) { return fillunidadesCap(d); })
-         .on('click',ListaTabela);
+         .on('click',showListaTabela);
  
        } else {
  
@@ -1652,7 +1657,7 @@ if (atual != "regiao") {
          .attr('y', function (d) { return unidadesTitleYInt[d]; })
          .attr('text-anchor', 'middle')
          .text(function (d) { return fillunidadesInt(d); })
-         .on('click',ListaTabela);
+         .on('click',showListaTabela);
         }
  
  }
@@ -1670,7 +1675,7 @@ if (atual != "regiao") {
                   .attr('y', function (d) { return unidadesTitleYInt[d]; })
                   .attr('text-anchor', 'middle')
                   .text(function (d) { return fillunidadesInt(d); })
-                  .on('click',ListaTabela);
+                  .on('click',showListaTabela);
                 }
 
 
@@ -1773,7 +1778,82 @@ const formataData = d3.timeFormat("%d.%m.%Y");
 
                        
 }   
- 
+
+function showListaTabela(d) {
+
+  // d3.select(this)
+  // .transition()
+  // .duration(200)
+  // .attr('stroke', 'gold')
+  // .attr('stroke-width', 1)
+  // .attr('r', d.radius+5);
+
+
+  console.log(d);
+  console.log(uoMem);
+  console.log(formatoMem);
+  console.log(window.datavisMemLista);
+
+
+  if (window.datavisMemLista == "agenda") {
+      filtrinho = 'dia_da_semana';
+      filtro01 = 'cod_formato';
+      filtraUm = formatoMem;
+
+    } else if (window.datavisMemLista == "unidades") {
+      filtrinho = 'cod_uo';
+      filtro01 = 'cod_formato';
+      filtraUm = formatoMem;
+
+    } else if (window.datavisMemLista == "formatos") {
+      filtrinho = 'cod_formato';
+      filtro01 = 'cod_uo';
+      filtraUm = uoMem;
+    }
+
+    console.log(filtrinho);
+  
+
+   d3.csv("data/semdfe-1018-uau.csv", function(csv) {
+    csv = csv.filter(function(row) {
+
+        return row[filtrinho] == d &&
+               row['tempoF'] == temporalMem &&
+               row['regiao'] == regiaoMem &&
+               row[filtro01] == filtraUm;
+               
+    })
+
+    
+  const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
+  const formataData = d3.timeFormat("%d.%m.%Y");
+    
+// Monta a tabela    
+    const tableData = csv.map(value => {
+      return (
+        `<tr>
+           <td class="listinha">${value.unidade}</td>
+           <td class="finds">${value.dia_da_semana}</td>
+           <td class="listinha">${formataData(value.data_sessao)}</td>
+           <td class="listinha">${value.nome}</td>
+           <td class="listinha">${value.formato}</td>
+        </tr>`
+      );
+    }).join('');
+    
+// Exibe a tabela    
+   const tableBody = document.querySelector("#tableBody");
+         tableBody.innerHTML = tableData;
+  
+    
+  });
+
+  document.getElementById('#lista').addEventListener('click',hideListaChama);
+
+
+}
+
+
 function ListaTabela(d,clicado) {
  
   window.alert('exibe lista de ações filtradas na parte inferior da pagina com unidade, dia da semana, data e nome da cada uma das atividades'); 
@@ -1974,7 +2054,7 @@ function ListaTabela(d,clicado) {
      d3.select(this)
        .transition()
        .duration(200)
-       .attr('stroke-width', '1')
+       .attr('stroke-width', '3')
        .attr('stroke', function (d) { return (d.online == 1)
         ? "gold" : (d.ingresso == 1) 
         ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
@@ -2030,6 +2110,7 @@ function hideListaChama() {
                                     console.log('datavisMem: ' + datavisMem);
                                     console.log('escolhido: ' + escolhido);
                                     console.log('uoId: ' + uoId);
+                                    console.log('regiaoId: ' + regiaoId);
                                     console.log('buscaId: ' + buscaId);
                                     console.log('---------------- fim --------------------');
             
@@ -2107,6 +2188,7 @@ function hideListaChama() {
    console.log('datavisMem: ' + datavisMem);
    console.log('escolhido: ' + escolhido);
    console.log('uoId: ' + uoId);
+   console.log('regiaoId: ' + regiaoId);
    console.log('----------------fim---------------');
 
 
@@ -2645,7 +2727,7 @@ var buscaId = '';
          online.addEventListener('change', function(element) {
            if (online.checked == true) { 
               var onlineId = 1;
-              var regiaoId = 'todos';
+//              var regiaoId = 'todos';
  
              } else {
         var onlineId = 0;

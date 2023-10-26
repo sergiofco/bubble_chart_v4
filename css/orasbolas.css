@@ -16,7 +16,7 @@ body {
   color: var(--clr-dark);
   background-color: var(--clr-light);
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: visible;
 }
 
 .container {

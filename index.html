@@ -21,6 +21,7 @@
 </script>
  <script src="https://d3js.org/d3.v4.min.js"></script>
  <script src="src/overlay.js"></script>
+ <script src="src/lista.js"></script>
 </head>
 
 <body>
@@ -40,7 +41,7 @@
     </div>
 
     <div>
-      <button type="button" onclick="on()" class="ajuda" value="Ajuda"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;Ajuda&nbsp;&nbsp;<i class="fa fa-question-circle"></i></button>
+      <button type="button" onclick="on()" class="ajuda" value="Ajuda"><i class="fa fa-question-circle"></i>&nbsp;&nbsp;Ajuda</button>
     </div>
   </topo>
   </nav>
@@ -429,13 +430,13 @@
     </div>
   </div>
 
-<div class="prafora">
+<!-- <div class="prafora">
     <iframe src="vazio.html" name="portal" width="100%" frameBorder="0"></iframe>
-</div> 
+</div>  -->
 
 <div id="card"></div>
 
-<!-- <div id="lista" class="lista">
+<div id="lista" class="lista">
   <table>
    <thead class="thead-dark">
      <tr>
@@ -443,12 +444,13 @@
        <th scope="col"></th>
        <th scope="col"></th>
        <th scope="col"></th>
+       <th scope="col" align="right"><a href="#" onclick="hideListaChama()">[x]</a></th>
      </tr>
    </thead>
    <tbody id="tableBody"> 
    </tbody>
  </table>
-</div> -->
+</div>
 
 </div>
 
@@ -519,7 +521,6 @@
  <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4"></script>
  <script src="src/tooltip.js"></script>
  <script src="src/card.js"></script>
- <script src="src/lista.js"></script>
  <script src="src/bubble_chart.js"></script>
 </body>
 </html>
