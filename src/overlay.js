@@ -89,3 +89,9 @@ function off() {
   document.getElementById("overlay").style.display = "none";
   document.getElementById("overlay").style.visibility = "hidden";
 }
+
+function closeLista() {
+  document.getElementById("lista").style.width = "0";
+  document.getElementById("lista").style.display = "none";
+  document.getElementById("lista").style.visibility = "hidden";
+}

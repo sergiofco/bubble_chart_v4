@@ -1788,7 +1788,6 @@ function showListaTabela(d) {
   // .attr('stroke-width', 1)
   // .attr('r', d.radius+5);
 
-
   console.log(d);
   console.log(uoMem);
   console.log(formatoMem);
@@ -1831,24 +1830,29 @@ function showListaTabela(d) {
 // Monta a tabela    
     const tableData = csv.map(value => {
       return (
-        `<tr>
-           <td class="listinha">${value.unidade}</td>
+        ldata = formataData(StrToData(value.data_sessao)),
+      `<tr>
+           <td class="listinha" align="right">${value.unidade}</td>
            <td class="finds">${value.dia_da_semana}</td>
-           <td class="listinha">${formataData(value.data_sessao)}</td>
+           <td class="listinha">${ldata}</td>
+           <td class="listinha">${value.hora}</td>
            <td class="listinha">${value.nome}</td>
-           <td class="listinha">${value.formato}</td>
+           <td class="listinha">${value.dispositivo}</td>
         </tr>`
-      );
+      );  
+      ;
     }).join('');
-    
+
 // Exibe a tabela    
    const tableBody = document.querySelector("#tableBody");
          tableBody.innerHTML = tableData;
   
+         listaFiltrada.showLista(tableBody, d3.event);
+
+  document.getElementById('#lista').addEventListener('click',hideListaChama);
     
   });
 
-  document.getElementById('#lista').addEventListener('click',hideListaChama);
 
 
 }

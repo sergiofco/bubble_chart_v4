@@ -7,11 +7,11 @@
 function floatingLista(listaId,width) {  
   // Local variable to hold tooltip div for
   // manipulation in other functions.
-  var lista = d3.select('#lista')
+  var lista = d3.select('body')
                .append('div')
                .attr('class', 'lista')
-               .attr('id', listaId);
-//               .on('click', hideLista)
+               .attr('id', "lista")
+               .on('click', hideLista);
   //             .style('pointer-events', 'none');
 
 //  Set a width if it is provided.
@@ -33,8 +33,6 @@ function floatingLista(listaId,width) {
   //  } else {
   //     var Cor = "#0097ad";
   //  }
-
-  contentLista = '<h1>AQui</h1>';
 
     lista.style('opacity', 1)
         .style('z-index', 999)

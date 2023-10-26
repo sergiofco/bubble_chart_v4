@@ -344,7 +344,7 @@ a, h1, a:visited, a:active {
 	border-radius: 5px;
   border: 2px solid #000;
   background: #f6f5f1;
-	opacity: .9;
+	opacity: .8;
   color: black;
 	padding: 10px;
 	width: 360px;
@@ -359,7 +359,6 @@ a, h1, a:visited, a:active {
 .tooltip .name {
   font-weight:bold;
   font-size: 14px;
-
 }
 
 .footer {
@@ -389,8 +388,7 @@ a, h1, a:visited, a:active {
 
 .lista {
 	position: fixed;
-  display: flex;
-	top: 65%;
+  top: 65%;
 	left: 25%;
   -moz-border-radius:5px;
 	border-radius: 5px;
@@ -398,12 +396,15 @@ a, h1, a:visited, a:active {
   border-color: #000000;
   background: #FFFFFF;
   color: black;
-	padding: 15px;
+  padding: 5px;
+	padding-left: 12px;
+	padding-right: 12px;
 	width: 50%;
 	height: 200px;
 	font-size: 14px;
-  z-index: 999;
+  z-index: 9999;
   overflow-y: scroll;
+  scroll-behavior: scroll;
 }
 
 .listinha {
@@ -418,7 +419,8 @@ a, h1, a:visited, a:active {
 .finds {
   background: #DE7802;
   position: flex;
-  min-width: 70px;
+  align-items: center;
+  min-width: 40px;
   top: 0.4%;
   color: white;
   padding: 5px 10px;

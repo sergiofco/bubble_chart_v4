@@ -7,11 +7,11 @@
 function floatingCard(cardId,width) {  
   // Local variable to hold tooltip div for
   // manipulation in other functions.
-  var card = d3.select('#card')
+  var card = d3.select('body')
                .append('div')
                .attr('class', 'detalhe')
-               .attr('id', cardId);
-//               .on('click', hideCard);
+               .attr('id', cardId)
+               .on('click', hideCard);
 //               .style('pointer-events', 'none');
 
 //  Set a width if it is provided.

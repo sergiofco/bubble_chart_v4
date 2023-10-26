@@ -21,7 +21,6 @@
 </script>
  <script src="https://d3js.org/d3.v4.min.js"></script>
  <script src="src/overlay.js"></script>
- <script src="src/lista.js"></script>
 </head>
 
 <body>
@@ -102,7 +101,7 @@
   <form>
     <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button>
     <button title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgenda" class="buttonVer"><i class="fa fa-calendar"></i>&nbsp;&nbsp;ver nos dias da semana&nbsp;&nbsp;</button>
-    <button title="Exibe lista com as ações filtradas" type="button" id="verLista" class="buttonVer"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button>
+    <!-- <button title="Exibe lista com as ações filtradas" type="button" id="verLista" class="buttonVer"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button> -->
     <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
     </form>
   </div>
@@ -112,7 +111,7 @@
     <form>
       <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button>
       <button title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgendaB" class="buttonVerB"><i class="fa fa-calendario"></i>&nbsp;&nbsp;ver nos dias da semana</button>
-      <button title="Exibe lista com as ações filtradas" type="button" id="verListaB" class="buttonVerB"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button>
+      <!-- <button title="Exibe lista com as ações filtradas" type="button" id="verListaB" class="buttonVerB"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button> -->
       <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
     </form>
   </div>
@@ -409,23 +408,6 @@
 
           </div>
       </div>
-      <!-- <label>
-        ANTIGO
-        <input type="checkbox" class="acessivel" id="acessivel" name="checkbox"/>
-        <span>dispositivo de<br>acessibilidade</span>
-      </label>
-      <label>
-        <input type="checkbox" class="online" id="online" name="checkbox"/>
-        <span>ação online</span><br>
-      </label>
-      <label>
-        <input type="checkbox" class="gratis" id="gratis" name="checkbox"/>
-        <span>grátis</span><br>
-      </label>
-      <label>
-        <input type="checkbox" class="venda" id="venda" name="checkbox"/>
-        <span>ingressos à venda<br>vagas abertas</span>
-      </label> -->
       </form>
     </div>
   </div>
@@ -444,7 +426,8 @@
        <th scope="col"></th>
        <th scope="col"></th>
        <th scope="col"></th>
-       <th scope="col" align="right"><a href="#" onclick="hideListaChama()">[x]</a></th>
+       <th scope="col"></th>
+       <th scope="col" align="right"><i class="fa fa-window-close"></i></th>
      </tr>
    </thead>
    <tbody id="tableBody"> 
@@ -521,6 +504,7 @@
  <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4"></script>
  <script src="src/tooltip.js"></script>
  <script src="src/card.js"></script>
+ <script src="src/lista.js"></script>
  <script src="src/bubble_chart.js"></script>
 </body>
 </html>
