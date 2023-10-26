@@ -10,7 +10,7 @@ function floatingLista(listaId,width) {
   var lista = d3.select('body')
                .append('div')
                .attr('class', 'lista')
-               .attr('id', "lista")
+               .attr('id', "listaId")
                .on('click', hideLista);
   //             .style('pointer-events', 'none');
 

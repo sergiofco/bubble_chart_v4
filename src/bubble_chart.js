@@ -23,7 +23,7 @@ d3.csv('data/semdfe-1018-uau.csv', display);
 // tooltip for mouseover functionality
    var tooltip = floatingTooltip('tooltip', 360);
    var card = floatingCard('cartao', 230);
-   var listaFiltrada = floatingLista('lista', 500);
+   var listaFiltrada = floatingLista('lista_de_acoes', 500);
  
 // cores para dias da semana e finais de semana
    const corAzul = '#0097ad' // #20B2AA';	// '#3B8191' - azul escuro;
@@ -1681,10 +1681,10 @@ if (atual != "regiao") {
 
  // Busca textual
  const searchInput = d3.select(".g-search input")
- .on("keyup", keyuped)
- foco();
+                       .on("keyup", keyuped)
+                    foco();
  
- // ao clicar na bolha
+ // ao clicar na bolha exibe o cartão
  function BubbleZoom(d) {
  
 //////////////////////  Busca Sinopse e foto
@@ -1756,13 +1756,13 @@ const formataData = d3.timeFormat("%d.%m.%Y");
    var gratis = 'grátis';
  } else {var gratis = ''}
  
-  var contentCard = '<i class="fa fa-window-close"></i>' +
-                    '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-left:10px" align="center"><br><br></span>' +
+  var contentCard = '<table><tr><td align="right"><i class="fa fa-window-close"></i></td></tr></table>' +
                     '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span> | ' + d.formato + '<br><br>' +
                     '<span class="value"><b>' + exibedata + '</b></span><br><br>' +
                     '<span class="value"><b>' + d.categoria + '</b></span><br/>' +
                     '<span class="value">' + d.projeto + '</span><br/>' +
                     '<span class="name"><a href="#" onclick="' +linkSite(d) +'"><b>' + d.name + '</b></a><br></span>' +
+                    '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-right:10px" align="center"><br></span>' +
                     '<span class="value">' + d.name2 + '</span><br/>' +
                     '<span class="value">' + sinopse + '</span>' +
                     d.value + ' lugares/vagas</span>.' +
@@ -1782,16 +1782,21 @@ const formataData = d3.timeFormat("%d.%m.%Y");
 function showListaTabela(d) {
 
   // d3.select(this)
-  // .transition()
-  // .duration(200)
   // .attr('stroke', 'gold')
   // .attr('stroke-width', 1)
   // .attr('r', d.radius+5);
 
-  console.log(d);
-  console.log(uoMem);
-  console.log(formatoMem);
-  console.log(window.datavisMemLista);
+  if (publicoMem == "todos") {
+      filtraPublico = 'todos';
+    } else if (publicoMem == "crianças") {
+      filtraPublico = 'outros';
+    }
+
+    if (categoriaMem == "99") {
+      filtraCategoria = '99';
+    } else {
+      filtraCategoria = categoriaMem;
+    }
 
 
   if (window.datavisMemLista == "agenda") {
@@ -1819,11 +1824,12 @@ function showListaTabela(d) {
         return row[filtrinho] == d &&
                row['tempoF'] == temporalMem &&
                row['regiao'] == regiaoMem &&
+               row['publico'] != filtraPublico &&
+              !(row['cod_categoria'] != categoriaMem && categoriaMem != "99") &&
                row[filtro01] == filtraUm;
                
     })
 
-    
   const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
   const formataData = d3.timeFormat("%d.%m.%Y");
     
@@ -1831,16 +1837,24 @@ function showListaTabela(d) {
     const tableData = csv.map(value => {
       return (
         ldata = formataData(StrToData(value.data_sessao)),
+        (value.dia_da_semana == "dom" || value.dia_da_semana == "sáb") ? corClass = "finds" : corClass = "labuta",
+        (value.gratis == 1) ? Egratis = "fa fa-star" : Egratis = "listinha",
+        (value.online == 1) ? Eonline = "fa fa-desktop" : Eonline = "",
+        (value.tem == 1) ? Eacess = "fa fa-universal-access" : Eacess = "",
+        (value.ingresso == 0) ? Evenda = "fa fa-ticket" : Evenda = "",
       `<tr>
            <td class="listinha" align="right">${value.unidade}</td>
-           <td class="finds">${value.dia_da_semana}</td>
-           <td class="listinha">${ldata}</td>
-           <td class="listinha">${value.hora}</td>
+           <td class="listinha"><i class="${Eacess}"></i></td>
+           <td class="listinha"><i class="${Egratis}"></i></td>
+           <td class="listinha"><i class="${Eonline}"></i></td>
+           <td class="listinha"><i class="${Evenda}"></i></td>
+           <td class="${corClass}2">${ldata}</td>
+           <td class="${corClass}">${value.dia_da_semana}</td>
+           <td class="${corClass}2">${value.hora}</td>
            <td class="listinha">${value.nome}</td>
-           <td class="listinha">${value.dispositivo}</td>
+           <td class="listinha">${value.ingressos} ${value.dispositivo}</td>
         </tr>`
       );  
-      ;
     }).join('');
 
 // Exibe a tabela    
@@ -1858,125 +1872,8 @@ function showListaTabela(d) {
 }
 
 
-function ListaTabela(d,clicado) {
- 
-  window.alert('exibe lista de ações filtradas na parte inferior da pagina com unidade, dia da semana, data e nome da cada uma das atividades'); 
-  window.lista = "";  
-
-//   var contentLista = '<h1>exibe lista de ações filtradas</h1>';
-
-//   listaFiltrada.showLista(contentLista, d3.event)
-
-//   console.log('atual? ' + window.datavisMemLista);
-
-//   document.getElementById('#lista').addEventListener('click',hideListaChama);
-
-//   console.log(Filtrados);
-
-//   switch(window.datavisMemLista) {
-
-//       case 'agenda':
-//         nomeColuna = 'weekday';
-//       case 'unidades':
-//         nomeColuna = 'cod_uo';
-//       case 'formatos':
-//         nomeColuna = 'cod_formato';
-// //        break;
-//       // default:
-//       //   console.log(`Sorry, we are out of ${expr}.`);
-//   }
-
-// console.log(clicado);
-
-// ////////////////////// Filtra para a Lista
-
-//  d3.csv("data/semdfe-1018-uau.csv", function(csv) {
-//    csv = csv.filter(function(row) {
-//        return row['regiao'] == 'capital' || row['regiao'] == 'interior';
-//    })
-//    console.log(csv);
-//  });
-
-
-// d3.csv("data/semdfe-1018-uau.csv", function(listinha) {
-//     listinha = listinha.filter(function(row) {
-//         return row['weekday'] == 4;
-// //              row['cod_formato'] == window.formatoLista &&
-// //              row['cod_uo'] == window.uoLista &&
-// //                row['regiao'] == window.regiaoLista &&
-// //                row['tempoF'] == window.temporaLista
-//     })
-
-//     console.log(listinha.size());
-
- // tratamento de variáveis para exibição
-//  const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
-//  const formataData = d3.timeFormat("%d.%m.%Y");
-  
-//   if (d.exibirdatas == "de-ate") {
-//     var exibedata = 'De ' + formataData(StrToData(listinha.datainicial)) + ' até ' + formataData(StrToData(listinha.datafinal));
-//   } else {
-//     var exibedata = formataData(StrToData(listinha.data_sessao))  + ' ' + listinha.hora ;
-//   }
-  
-//   if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
-//      var Corclass = "finds";
-//   } else if (d.dia_da_semana == "sempre") {
-//      var Corclass = "buttonCat";
-//   } else {
-//      var Corclass = "labuta";
-//   }
- 
-//   if (d.online == 1) {
-//     var online = 'ação online<br>';
-//   } else {var online = ''}
-  
-//   if (d.tem == 1) {
-//     var tem_acessivel = d.dispositivo + '<br><br>';
-//   } else {var tem_acessivel = ''}
-  
-//   if (d.publico == 'outros') {
-//     var publico = '';
-//   } else {var publico = d.publico}
-  
-//   if (d.ingresso == 1) {
-//     var ingresso = 'ingressos esgotados/inscrições encerradas';
-//   } else if (d.cod_formato == 1) { 
-//          var ingresso = d.ingressos;  
-//         } else { var ingresso = 'inscrições abertas' }
-  
-//   if (d.gratis == 1) {
-//     var gratis = 'grátis';
-//   } else {var gratis = ''}
-  
-    //  document.getElementById('tableBody').addEventListener('click',ApagaLista);
- 
-    //  function ApagaLista() {
-    //           document.getElementById('tableBody').style.opacity = '0';
-    //  }
-
-// Monta a tabela    
-//     const tableData = csv.map(value => {
-//       return (
-//         `<tr>
-//            <td>${value.unidade}</td>
-//            <td class=${Corclass}>${value.dia_da_semana}</td>
-//            <td>${exibedata}</td>
-//            <td>${value.nome}</td>
-//         </tr>`
-//       );
-//     }).join('');
-    
-// // Exibe a tabela    
-//    const tableBody = document.querySelector("#tableBody");
-//          tableBody.innerHTML = tableData;
-
-  /////////////////////////////////////////////////////////////////////////////////
-}   
-   
-
- // Exibe o detalhamento com o MOuseOver
-   function showDetail(d) {
+// Exibe o detalhamento com o MOuseOver
+function showDetail(d) {
      // change outline to indicate hover state.
      d3.select(this)
        .transition()
@@ -2026,7 +1923,7 @@ function ListaTabela(d,clicado) {
        var gratis = 'grátis';
      } else {var gratis = ''}
      
-     var contentssss = '<span class="name"></span>' +
+     var contentsssss = '<span class="name"></span>' +
                    '<span class="name"><b>' + tem_acessivel + '</b></span>' +
                    '<span class="name"><b>' + online + '</b></span>' +
                    '<span class="value"><b>' + exibedata + '</b></span><br>' +
@@ -2039,7 +1936,7 @@ function ListaTabela(d,clicado) {
                    '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                    '<span class="value"><b>' + publico + '</b></span><br>';
 
-                   var content = '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/><br>' + 
+     var content = '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b> | ' + d.formato + '</span><br/><br>' + 
                    '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span>' +
                    '<span class="value"><b> | ' + exibedata + '</b></span><br><br>' +
                    '<span class="name"><b>' + d.name + '</b></span><br>' + 
@@ -2050,9 +1947,7 @@ function ListaTabela(d,clicado) {
      tooltip.showTooltip(content, d3.event);
    }
 
- 
- 
- // Oculta o detalhamento
+// Oculta o detalhamento
    function hideDetail(d) {
      // reset outline
      d3.select(this)
@@ -2069,16 +1964,12 @@ function ListaTabela(d,clicado) {
  
 // Oculta o Card
 function hideCardChama(d) {
-  // reset outline
-
   card.hideCard(d);
 }
 
 // Oculta a lista
-function hideListaChama() {
-  // reset outline
-
-  listaFiltrada.hideLista();
+function hideListaChama(d) {
+  listaFiltrada.hideLista(d);
 }
 
 
@@ -2098,14 +1989,14 @@ function hideListaChama() {
          hideListaChama();
 
          // vai pra lista
-         var contentLista = '<h1>exibe lista de ações filtradas</h1>';
+        //  var contentLista = '<h1>exibe lista de ações filtradas</h1>';
 
-         if (window.lista == "exibir") { 
-             listaFiltrada.showLista(contentLista, d3.event); 
-             window.alert('exibe lista de ações filtradas na parte inferior da pagina com unidade, dia da semana, data e nome da cada uma das atividades'); 
-             window.lista = "";  
-             stop();          
-            };
+        //  if (window.lista == "exibir") { 
+        //      listaFiltrada.showLista(contentLista, d3.event); 
+        //      window.alert('exibe lista de ações filtradas na parte inferior da pagina com unidade, dia da semana, data e nome da cada uma das atividades'); 
+        //      window.lista = "";  
+        //      stop();          
+        //     };
 
                                     console.log('-------- começo do chart.toggle  --------');
                                     console.log('formatoId: ' + formatoId);

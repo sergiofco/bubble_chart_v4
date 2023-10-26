@@ -368,8 +368,8 @@ a, h1, a:visited, a:active {
 
 .detalhe {
 	position: fixed;
-	top: 22%;
-	right: 11%;
+  top: 65%;
+	left: 25%;
   -moz-border-radius:5px;
 	border-radius: 5px;
   border: 5px solid;
@@ -377,9 +377,9 @@ a, h1, a:visited, a:active {
   background: #FFFFFF;
   color: black;
 	padding: 4px;
-	width: 230px;
+	width: 50%;
 	font-size: 14px;
-  z-index: -1;
+  z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
 }
 
 .detalhe .title {
@@ -387,7 +387,7 @@ a, h1, a:visited, a:active {
 }
 
 .lista {
-	position: fixed;
+	position: absolute;
   top: 65%;
 	left: 25%;
   -moz-border-radius:5px;
@@ -400,11 +400,11 @@ a, h1, a:visited, a:active {
 	padding-left: 12px;
 	padding-right: 12px;
 	width: 50%;
-	height: 200px;
+  max-height: 200px;
 	font-size: 14px;
   z-index: 9999;
-  overflow-y: scroll;
-  scroll-behavior: scroll;
+  overflow-y: auto;
+  scroll-behavior: auto;
 }
 
 .listinha {
@@ -416,10 +416,20 @@ a, h1, a:visited, a:active {
 }
 
 
+.iconesLista {
+  font-family: FontAwesome;
+  font-size: 12px;
+  padding: 5px;
+}
+
+
+
 .finds {
   background: #DE7802;
   position: flex;
   align-items: center;
+  text-align: center;
+  text-align: start;
   min-width: 40px;
   top: 0.4%;
   color: white;
@@ -431,14 +441,37 @@ a, h1, a:visited, a:active {
 
 .labuta {
   background: #0097ad;
+  align-items: center;
+  text-align: center;
   color: white;
   position: flex;
-  min-width: 70px;
+  min-width: 40px;
   top: 0.4%;
   padding: 5px 10px;
   font-size: clamp(0.5em, 1em + 1vw, 1em);
   border: 1px solid #f6f5f1;
   font-weight: bold;
+}
+.finds2 {
+  color: #DE7802;
+  font-family: Ubuntu;
+  font-weight: bold;
+  border-bottom: 1px solid #820000;
+  padding: 2px;
+  background: white;
+  padding: 5px 10px;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
+}
+
+.labuta2 {
+  color: #0097ad;
+  font-family: Ubuntu;
+  font-weight: bold;
+  border-bottom: 1px solid #820000;
+  padding: 2px;
+  background: white;
+  padding: 5px 10px;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
 }
 
 .detalhe .name {
