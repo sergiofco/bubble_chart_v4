@@ -1340,7 +1340,7 @@ if (atual != "regiao") {
     console.log('regiaoId no buscacubbles: ' + regiaoId)
 
     hideCardChama();
-    hideListaChama();
+    closeLista();
 
     document.getElementById("ingressos").style.display = "none";
     document.getElementById("temporal").style.display = "none";
@@ -1589,8 +1589,8 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+50; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].agora; })
-                 .on('click',showListaTabela);
+                 .text(function(d) { return DataDoDia[d].agora; });
+//                 .on('click',showListaTabela);
 
 
           semanas.enter().append('text')
@@ -1599,8 +1599,8 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+300; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].proxima; })
-                 .on('click',showListaTabela);
+                 .text(function(d) { return DataDoDia[d].proxima; });
+//                 .on('click',showListaTabela);
 
      }
 
@@ -1687,6 +1687,7 @@ if (atual != "regiao") {
  // ao clicar na bolha exibe o cartão
  function BubbleZoom(d) {
  
+          closeLista();
 //////////////////////  Busca Sinopse e foto
   var filters = {
      'id': d.id
@@ -1708,12 +1709,12 @@ dataSino = d3.csv("data/semdfe-1018-uau.csv", function(csv) {
       }, true);
   })
   console.log(window.csv.length, window.csv[0].sinopse);
+  window.sinopse = window.csv[0].sinopse;
 
-  
 })
 /////////////////////////////////////////////////////////////////////////////////
 
-var sinopse = window.csv[0].sinopse;
+// var sinopse = window.csv.sinopse;
 // var foto = window.csv[0].foto;
 
 // tratamento de variáveis para exibição
@@ -1756,20 +1757,21 @@ const formataData = d3.timeFormat("%d.%m.%Y");
    var gratis = 'grátis';
  } else {var gratis = ''}
  
-  var contentCard = '<table><tr><td align="right"><i class="fa fa-window-close"></i></td></tr></table>' +
-                    '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span> | ' + d.formato + '<br><br>' +
+  var contentCard = '<table width=100%><tr><td>' + 
+                    '<span class="'+ Corclass +'"><b>' + d.dia_da_semana + '</b></span> | ' + d.formato + ' | ' +
+                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b></td>' +
+                    '<td align="right"><a href="#" onclick="closeLista()" title="esconde o cartão"><i class="fa fa-window-close"></i></a></td></tr></table>' +
+                    '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-right:10px" align="right"><br></span>' +
                     '<span class="value"><b>' + exibedata + '</b></span><br><br>' +
                     '<span class="value"><b>' + d.categoria + '</b></span><br/>' +
                     '<span class="value">' + d.projeto + '</span><br/>' +
                     '<span class="name"><a href="#" onclick="' +linkSite(d) +'"><b>' + d.name + '</b></a><br></span>' +
-                    '<span class="name"><img src="img/' + d.destaque + '.png" width="200" style="margin-right:10px" align="center"><br></span>' +
                     '<span class="value">' + d.name2 + '</span><br/>' +
-                    '<span class="value">' + sinopse + '</span>' +
+                    '<span class="value">' + window.sinopse + '</span>' +
                     d.value + ' lugares/vagas</span>.' +
                     '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                     '<span class="value"><b>' + publico + '</b></span>  ' +
-                    '<span class="name"><b>' + tem_acessivel + '</b>  </span>' + '<span class="name"> | <b>' + online + '</b></span><br>' +
-                    '<span class="value">' + d.regiao + ' | <b>' + d.unidade + '</b><br>';
+                    '<span class="name"><b>' + tem_acessivel + '</b>  </span>' + '<span class="name"> | <b>' + online + '</b></span><br>';
 
       card.showCard(d,contentCard, d3.event);
 
@@ -1781,6 +1783,7 @@ const formataData = d3.timeFormat("%d.%m.%Y");
 
 function showListaTabela(d) {
 
+  hideCardChama();
   // d3.select(this)
   // .attr('stroke', 'gold')
   // .attr('stroke-width', 1)
@@ -1838,39 +1841,47 @@ function showListaTabela(d) {
       return (
         ldata = formataData(StrToData(value.data_sessao)),
         (value.dia_da_semana == "dom" || value.dia_da_semana == "sáb") ? corClass = "finds" : corClass = "labuta",
-        (value.gratis == 1) ? Egratis = "fa fa-star" : Egratis = "listinha",
+        (value.gratis == 1) ? Egratis = "fa fa-star" : Egratis = "",
         (value.online == 1) ? Eonline = "fa fa-desktop" : Eonline = "",
         (value.tem == 1) ? Eacess = "fa fa-universal-access" : Eacess = "",
         (value.ingresso == 0) ? Evenda = "fa fa-ticket" : Evenda = "",
       `<tr>
-           <td class="listinha" align="right">${value.unidade}</td>
            <td class="listinha"><i class="${Eacess}"></i></td>
            <td class="listinha"><i class="${Egratis}"></i></td>
            <td class="listinha"><i class="${Eonline}"></i></td>
            <td class="listinha"><i class="${Evenda}"></i></td>
+           <td class="listinha" align="right">${value.unidade}</td>
            <td class="${corClass}2">${ldata}</td>
            <td class="${corClass}">${value.dia_da_semana}</td>
            <td class="${corClass}2">${value.hora}</td>
            <td class="listinha">${value.nome}</td>
-           <td class="listinha">${value.ingressos} ${value.dispositivo}</td>
+           <td class="listinha">${value.dispositivo}</td>
         </tr>`
       );  
     }).join('');
+
+//      <a href="#" onmouseover="${showSinopse(value.id)}" onmouseout="${hideSinopse(value.id)}">ver sinopse</a>
+
 
 // Exibe a tabela    
    const tableBody = document.querySelector("#tableBody");
          tableBody.innerHTML = tableData;
   
+
+   var contentLista = '<table><tr><td align="right"><i class="fa fa-window-close"></i></td></tr></table>' +
+         '<span class="value">capital | <b>Nome da unidade</b><br><br>';
+
          listaFiltrada.showLista(tableBody, d3.event);
 
-  document.getElementById('#lista').addEventListener('click',hideListaChama);
+
+
+  document.getElementById('tableBody').addEventListener('click',hideListaChama);
     
   });
 
 
 
 }
-
 
 // Exibe o detalhamento com o MOuseOver
 function showDetail(d) {
@@ -1945,7 +1956,60 @@ function showDetail(d) {
                                    
 
      tooltip.showTooltip(content, d3.event);
-   }
+}
+
+function showSinopse(d) {
+    //////////////////////  Busca Sinopse e foto
+   var filters = {
+   'id': d.id
+   };
+   
+   dataSino = d3.csv("data/semdfe-1018-uau.csv", function(csv) {
+   window.csv = csv.filter(function(row) {
+   // run through all the filters, returning a boolean
+   return  ['id','nome','sinopse','ingresso','ingressos','cod_formato'].reduce(function(pass, column) {
+     return pass && (
+         // pass if no filter is set
+         !filters[column] ||
+             // pass if the row's value is equal to the filter
+             // (i.e. the filter is set to a string)
+             row[column] === filters[column] ||
+             // pass if the row's value is in an array of filter values
+             filters[column].indexOf(row[column]) >= 0
+         );
+   }, true);
+   })
+   console.log(window.csv.length, window.csv[0].sinopse);
+   window.sinopse = window.csv[0].sinopse;
+   window.ingressos = window.csv[0].ingressos;
+   window.ingresso = window.csv[0].ingresso;
+   window.formato = window.csv[0].cod_formato;
+   
+   })
+   /////////////////////////////////////////////////////////////////////////////////
+   
+   // tratamento de variáveis para exibição
+   if (window.ingresso == 1) {
+   var ingressoTxt = 'ingressos esgotados/inscrições encerradas';
+   } else if (window.formato == 1) { 
+   var ingressoTxt = window.ingresso;  
+   } else { var ingressoTxt = 'inscrições abertas' }
+   
+   var contentSino = '<span class="value">' + window.sinopse + '</span> ' +
+               ingressoTxt + '</span><br>' +
+               '<span class="value"><b> ' + window.ingressos + '<br>';
+   
+       tooltip.showTooltip(contentSino, d3.event);
+                  
+}
+ 
+
+// Oculta a sinopse
+function hideSinopse(d) {
+  // reset outline
+
+  tooltip.hideTooltip();
+}
 
 // Oculta o detalhamento
    function hideDetail(d) {
@@ -1964,12 +2028,12 @@ function showDetail(d) {
  
 // Oculta o Card
 function hideCardChama(d) {
-  card.hideCard(d);
+  card.hideCard();
 }
 
 // Oculta a lista
 function hideListaChama(d) {
-  listaFiltrada.hideLista(d);
+  listaFiltrada.hideLista();
 }
 
 
@@ -1986,7 +2050,7 @@ function hideListaChama(d) {
                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido) 
                                    {
          hideCardChama();
-         hideListaChama();
+         closeLista();
 
          // vai pra lista
         //  var contentLista = '<h1>exibe lista de ações filtradas</h1>';

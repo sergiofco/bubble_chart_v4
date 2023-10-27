@@ -7,12 +7,12 @@
 function floatingLista(listaId,width) {  
   // Local variable to hold tooltip div for
   // manipulation in other functions.
-  var lista = d3.select('body')
+  var lista = d3.select('tableLista')
                .append('div')
                .attr('class', 'lista')
-               .attr('id', "listaId")
+               .attr('id', 'tableBody')
+               .style('pointer-events', 'none')
                .on('click', hideLista);
-  //             .style('pointer-events', 'none');
 
 //  Set a width if it is provided.
   if (width) {
@@ -26,6 +26,8 @@ function floatingLista(listaId,width) {
 
   function showLista(contentLista, event) {
 
+openLista();
+    
   //   if (d.dia_da_semana == "sáb" || d.dia_da_semana == "dom" ) {
   //     var Cor = "#DE7802";
   //  } else if (d.dia_da_semana == "sempre") {
@@ -33,6 +35,9 @@ function floatingLista(listaId,width) {
   //  } else {
   //     var Cor = "#0097ad";
   //  }
+
+  console.log('passou em ShowLista.js')
+
 
     lista.style('opacity', 1)
         .style('z-index', 999)

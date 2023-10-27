@@ -91,7 +91,15 @@ function off() {
 }
 
 function closeLista() {
-  document.getElementById("lista").style.width = "0";
-  document.getElementById("lista").style.display = "none";
-  document.getElementById("lista").style.visibility = "hidden";
+  document.getElementById("tableLista").style.width = "0";
+  document.getElementById("tableLista").style.display = "none";
+  document.getElementById("tableLista").style.visibility = "hidden";
+}
+
+function openLista() {
+  document.getElementById("tableLista").style.width = "50%";
+  document.getElementById("tableLista").style.display = "flex";
+  document.getElementById("tableLista").style.visibility = "visible";
+  document.getElementById("tableLista").style.opacity = 0.9;
+
 }

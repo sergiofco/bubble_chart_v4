@@ -32,7 +32,7 @@ function floatingCard(cardId,width) {
       var Cor = "#0097ad";
    }
 
-    card.style('opacity', 1)
+    card.style('opacity', 0.9)
         .style('z-index', 999)
         .style('border-color', Cor)
         .html(contentCard);

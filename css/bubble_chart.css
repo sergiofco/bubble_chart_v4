@@ -344,7 +344,7 @@ a, h1, a:visited, a:active {
 	border-radius: 5px;
   border: 2px solid #000;
   background: #f6f5f1;
-	opacity: .8;
+	opacity: .9;
   color: black;
 	padding: 10px;
 	width: 360px;
@@ -377,9 +377,11 @@ a, h1, a:visited, a:active {
   background: #FFFFFF;
   color: black;
 	padding: 4px;
+  padding-top: 20px;
+  padding-left: 20px;
 	width: 50%;
 	font-size: 14px;
-  z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
+  z-index: 999;
 }
 
 .detalhe .title {
@@ -387,7 +389,7 @@ a, h1, a:visited, a:active {
 }
 
 .lista {
-	position: absolute;
+	position: fixed;
   top: 65%;
 	left: 25%;
   -moz-border-radius:5px;
@@ -402,9 +404,9 @@ a, h1, a:visited, a:active {
 	width: 50%;
   max-height: 200px;
 	font-size: 14px;
-  z-index: 9999;
   overflow-y: auto;
   scroll-behavior: auto;
+  opacity: 0.0;
 }
 
 .listinha {
@@ -1217,7 +1219,7 @@ border-radius:4px;
 
 .containerIngressos {
   position: fixed;
-  top: 55%;
+  top: 65%;
   left: 89.3%;
   bottom: 0;
   height: 150px;
