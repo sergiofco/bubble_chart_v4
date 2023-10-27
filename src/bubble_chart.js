@@ -1584,7 +1584,7 @@ if (atual != "regiao") {
       var semanas = svg.selectAll('.dia_da_semana')
                        .data(semanasData);
 
-          window.datavisMemLista = datavisMem;
+          window.datavisMemLista = "agendaBusca";
   
           semanas.enter().append('text')
                  .attr('class', 'dia_da_semana')
@@ -1592,8 +1592,8 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+50; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].agora; });
-//                 .on('click',showListaTabela);
+                 .text(function(d) { return DataDoDia[d].agora; })
+                 .on('click',showListaTabela);
 
 
           semanas.enter().append('text')
@@ -1602,8 +1602,8 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+300; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].proxima; });
-//                 .on('click',showListaTabela);
+                 .text(function(d) { return DataDoDia[d].proxima; })
+                 .on('click',showListaTabela);
 
      }
 
@@ -1814,21 +1814,33 @@ function showListaTabela(d) {
       filtrinho = 'cod_formato';
       filtro01 = 'cod_uo';
       filtraUm = uoMem;
+    }  else if (window.datavisMemLista == "agendaBusca") {
+      filtrinho = 'dia_da_semana';
+      filtraUm = window.buscaLista;
+
+ //     busca: d.nome +" - "+d.complemento +" - "+d.categoria+" - "+d.projeto+" - "+d.dispositivo,
+ //     d.busca.toLowerCase().includes(buscaMem))
+
     }
 
     console.log(filtrinho);
-  
+    console.log(filtraUm);
+
 
    d3.csv("data/semdfe-1018-uau.csv", function(csv) {
     csv = csv.filter(function(row) {
 
-        return row[filtrinho] == d &&
+      return (window.datavisMemLista == "agendaBusca") ?
+               row[filtrinho] == d &&
+               (row['nome'] + row['complemento'] + row['categoria'] + row['projeto'] + row['dispositivo']).toLowerCase().includes(filtraUm)
+               : 
+               row[filtrinho] == d &&
                row['tempoF'] == temporalMem &&
                row['regiao'] == regiaoMem &&
                row['publico'] != filtraPublico &&
               !(row['cod_categoria'] != categoriaMem && categoriaMem != "99") &&
                row[filtro01] == filtraUm;
-               
+
     })
 
   const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
@@ -2175,6 +2187,7 @@ function hideListaChama(d) {
      buscaId = this.value; 
 
      var buscaMem = this.value;
+     window.buscaLista = this.value;
 
      closeNavComoVer();
      openNavComoVerBusca();
@@ -2544,6 +2557,9 @@ var buscaId = '';
        // Get the id of the button
        var temporalId = temporal.attr('id');
        var escolhido = temporal.attr('value');
+
+       if (window.datavisMem == "geral") { var datavis = 'agenda';}
+
  
        var atual = "temporal";
      //  var datavis = "agenda";
