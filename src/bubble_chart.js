@@ -439,7 +439,7 @@ var semanaCenters = {
      // Tamanho dos pontos baseado na área.
      var radiusScale = d3.scalePow()
        .exponent(1)
-       .range([6,35])
+       .range([7,35])
        .domain([20, maxAmount]);
  
      // map() converte rawData em "node data".
@@ -481,8 +481,11 @@ var semanaCenters = {
 //         sinopse: d.sinopse,
 //         x: posCW, // Math.random() * 900,  // inicia centralizado
 //         y: posCH// Math.random() * 800 // para iniciar centralizado
-        x: posCW+Math.random()*10, 
-        y: posCH+Math.random()*10
+            x: posCW*Math.radius,
+            y: posCH*Math.radius
+//          x: 1+Math.random() * 900, 
+//          y: 1+Math.random() * 700
+
 
        };
      });
@@ -511,9 +514,9 @@ var semanaCenters = {
      svg = d3.select(selector)
              .append('svg')
              .attr('width', widthTotal)
-             .attr('height', heightTotal);
-  //           .append('g')
-  //           .attr("transform","translate(" + 0 + "," + 0 + ")");
+             .attr('height', heightTotal)
+             .append('g')
+             .attr("transform","translate(" + 0 + "," + 0 + ")");
  
      // associa os dados dos nós aos elementos DOM que os representará na visualização.
      bubbles = svg.selectAll('.bubble')
@@ -1604,11 +1607,8 @@ if (atual != "regiao") {
 
      }
 
- /*
- * Mostra cabeçalhos de formatos
- */
-   
-   function showformatoTitles() {
+ // Mostra cabeçalhos de formatos
+    function showformatoTitles() {
      var formatosData = d3.keys(formatosTitleX);
      var formatos = svg.selectAll('.dia_da_semana')
        .data(formatosData);
@@ -1622,12 +1622,9 @@ if (atual != "regiao") {
        .attr('text-anchor', 'middle')
        .text(function (d) { return fillformatos(d); })
        .on('click',showListaTabela);
-      }
+    }
  
- /*
- * Mostra cabeçalhos de unidades
- */
-   
+ // Mostra cabeçalhos de unidades
  function showunidadeTitles() {
  
   console.log('datavisMem ' + datavisMem);
@@ -1781,6 +1778,7 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                        
 }   
 
+// ao clicar nos títulos de seção, abre a lista
 function showListaTabela(d) {
 
   hideCardChama();
@@ -1840,21 +1838,26 @@ function showListaTabela(d) {
     const tableData = csv.map(value => {
       return (
         ldata = formataData(StrToData(value.data_sessao)),
+        lvenda = (value.ingresso == 1) ? 'esgotados / sem vagas' : value.ingressos,
+        ltexto = value.sinopse + ' | ' + lvenda,
         (value.dia_da_semana == "dom" || value.dia_da_semana == "sáb") ? corClass = "finds" : corClass = "labuta",
         (value.gratis == 1) ? Egratis = "fa fa-star" : Egratis = "",
         (value.online == 1) ? Eonline = "fa fa-desktop" : Eonline = "",
         (value.tem == 1) ? Eacess = "fa fa-universal-access" : Eacess = "",
         (value.ingresso == 0) ? Evenda = "fa fa-ticket" : Evenda = "",
       `<tr>
-           <td class="listinha"><i class="${Eacess}"></i></td>
-           <td class="listinha"><i class="${Egratis}"></i></td>
-           <td class="listinha"><i class="${Eonline}"></i></td>
-           <td class="listinha"><i class="${Evenda}"></i></td>
+           <td class="listinha"><i class="${Eacess}" title="sessão com acessibilidade"></i></td>
+           <td class="listinha"><i class="${Egratis}" title="sessão gratuita"></i></td>
+           <td class="listinha"><i class="${Eonline}" title="ação online"></i></td>
+           <td class="listinha"><i class="${Evenda}" title="ingressos à venda / vagas abertas"></i></td>
            <td class="listinha" align="right">${value.unidade}</td>
            <td class="${corClass}2">${ldata}</td>
            <td class="${corClass}">${value.dia_da_semana}</td>
            <td class="${corClass}2">${value.hora}</td>
-           <td class="listinha">${value.nome}</td>
+           <td class="listinha"><a href="#" title="${ltexto}">
+           <i class="fa fa-eye"></i></a> - 
+           ${value.nome}
+           </td>
            <td class="listinha">${value.dispositivo}</td>
         </tr>`
       );  
