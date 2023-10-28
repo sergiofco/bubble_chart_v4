@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+	// Set up svg.
+	var svg = d3.select("svg"),
+		g = svg.append("g"),
+		width = +svg.attr("width"),
+		height = +svg.attr("height"),
+		nx = 20,
+		gridSize = width/(2*(nx-1)), 
+		ny = Math.floor(height/gridSize) + 2;
+
+	// Scale to map range to multiples of pi.
+	var period = d3.scaleLinear()
+		.range([0, 2 * Math.PI])
+		.domain([0,width + height]);
+
+	// Scale to map sin to range of sizes.
+	var sinScale = d3.scaleLinear()
+		.range([-0.5,2.5])
+		.domain([-1,1]);
+
+	// Function for position of squares on setup.
+	function pos(d) {
+		var x = d[0] - 1;
+		var y = d[1] - 1;
+		//if row is odd, position = X *2, y * 2
+		//if row is even, position = x * 2 + 1, y * 2
+		if (d[1] % 2 == 0) {
+			return [2 * x * gridSize, y * gridSize];
+		} else {
+			return [(2 * x + 1) * gridSize, y * gridSize];
+		}
+		
+	}
+
+	// Function to change size of chart.
+	function newSize(d, offset) {
+		var x = pos(d)[0];
+		var y = pos(d)[1];
+		var output = Math.max(sinScale(Math.sin(period(x + y) + offset)),0);
+		return output * gridSize;
+	}
+
+		// First create an array of coordinate pairs.
+	var grid = [],
+		index=0;
+
+	for (var i = 1; i <= nx; i++) {
+		for (var j = 1; j <= ny; j++) {
+			//console.log(i,j);
+			grid[index] = [i,j];
+			index++;
+		}
+	};
+
+	// now use that data to create a grid of squares.
+	var rgrid = g.selectAll("rect")
+		.data(grid)
+		.enter()
+			.append("g")
+				.append("rect")
+				.attr("x",function(d) {return pos(d)[0];})
+				.attr("y",function(d) {return pos(d)[1];})
+				.attr("width",gridSize)
+				.attr("height",gridSize)
+				.attr("class","black")
+				.style("fill","black")
+				.attr("transform","translate("+(-gridSize/2)+","+(-gridSize/2)+")")
+	
+	// Now create a function to change their size.
+	
+	function animate(offset) {
+		// Resize the black squares to half thier size and the white to double. or vice versa.
+		d3.selectAll(".black")
+			.transition()
+			.duration(500)
+			.ease(d3.easeLinear)
+			.attr("width",function(d,i) {return newSize(d, offset);})
+			.attr("height",function(d,i) {return newSize(d, offset);})
+			.attr("transform",function(d,i) {
+				var newOffset = -newSize(d, offset) / 2; 
+				return "translate("+newOffset+","+newOffset+")";
+		});
+	};
+
+	var timer = d3.timer(function(elapsed) {animate(elapsed/1000);},500);	
+
+	// Toggle wireframe:
+	var toggleStyle = true;
+	svg.on("click", function() {
+		d3.selectAll(".black")
+			.style("stroke", (toggleStyle ? "red" : "none"));
+		toggleStyle = !toggleStyle;
+	})
+
+
+</script>

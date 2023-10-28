@@ -482,10 +482,10 @@ var semanaCenters = {
 //         sinopse: d.sinopse,
 //         x: posCW, // Math.random() * 900,  // inicia centralizado
 //         y: posCH// Math.random() * 800 // para iniciar centralizado
-            x: posCW*Math.radius,
-            y: posCH*Math.radius
-//          x: 1+Math.random() * 900, 
-//          y: 1+Math.random() * 700
+//            x: Math.radius,
+//            y: Math.radius,
+          x: Math.random() * width, 
+          y: Math.random() * height
 
 
        };
@@ -752,13 +752,14 @@ var semanaCenters = {
             }
 
 // Transições 
-          bubbles.transition().duration(4000);
-          bubbles.attr('r', function(d) { return (
-            !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
+//          bubbles.transition().duration(4000);
+          // bubbles.attr('r', function(d) { return (
+          //   !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
 
           bubblesDaSemana = bubbles.filter(function(d) { 
             return (d.filtra_dataF == temporalMem)
             });    
+            
             console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
 
  // Escolhe cor de acordo com o dia da semana e cinza se não filtrada
@@ -775,7 +776,8 @@ var semanaCenters = {
 //   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
     ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
  
-bubblesDaSemana.attr('r', function(d) { return (
+bubblesDaSemana.transition().duration(3000)
+               .attr('r', function(d) { return (
      (d.regiao != regiaoMem) || 
      (d.gratis != 1 && gratisMem == 1) || 
      (d.ingresso != 0 && vendaMem == 1) || 
