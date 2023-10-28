@@ -46,6 +46,7 @@ d3.csv('data/semdfe-1018-uau.csv', display);
    var datavis = "geral";
    window.datavisMem = "geral";
    window.lista = "";
+   window.buscaLista = '';
    
  // Variáveis de Filtro
    var buscaId = '';
@@ -700,7 +701,7 @@ var semanaCenters = {
                   op.classList.remove('active');
                   hidesemanaTitles();
                   hideunidadeTitles();
-                  showunidadeTitlesInt();
+                  showunidadeTitlesInt(datavisMem);
                   document.getElementById("capital").checked = false; 
                   document.getElementById("interior").checked = true; 
                   openNavInterior();
@@ -728,7 +729,7 @@ var semanaCenters = {
                   op.classList.remove('active');
               hidesemanaTitles();
               hideunidadeTitles();
-              showunidadeTitles();
+              showunidadeTitles(datavisMem);
               document.getElementById("interior").checked = false; 
               document.getElementById("capital").checked = true; 
               closeNavInterior();
@@ -871,7 +872,7 @@ if (datavisMem != "formatos") {
        } else if (atual == "unidade" || (datavisMem == "formatos" && atual != "regiao")) {
              // por Formatos
              hidesemanaTitles();
-             showformatoTitles();
+             showformatoTitles(datavisMem);
 
              if (datavisMem == "formatos" && atual != "regiao") {
 
@@ -899,7 +900,7 @@ if (datavisMem != "formatos") {
              } else if (datavisMem == "agenda" || datavisMem == "verAgenda" ) {
                 // por Agenda
                 hidesemanaTitles();
-                showsemanaTitles();
+                showsemanaTitles(datavisMem);
                 simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
                 simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPos));
  //               simulation.alpha(1).restart();
@@ -1415,17 +1416,7 @@ if (atual != "regiao") {
       bubbles.transition()
              .duration(1500);
 
-      // bubbles.attr('r', function(d) { return (
-      //         !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
-
-      // bubblesDaSemana = bubbles.filter(function(d) { 
-      //   return (d.filtra_dataF == temporalMem)
-      //   });    
-      //   console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
-
-
-
-        bubbles.attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (d.regiao == regiaoMem)) 
+      bubbles.attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (d.regiao == regiaoMem)) 
                                                       ? 3 : (d.destaque !== 'undefined') 
                                                       ? d.radius : !((d.busca.toLowerCase().includes(buscaId)) 
                                                       && (regiaoMem == d.regiao)) ? 3 : d.radius})
@@ -1500,8 +1491,6 @@ if (atual != "regiao") {
      simulation.force("r", isolate(radialForceBusca, function(d) { 
           return !(d.busca.toLowerCase().includes(buscaId)); 
           }));
-//          simulation.force('x', d3.forceX().strength(forceStrength).x(widthTotal/2));
-//          simulation.force('y', d3.forceY().strength(forceStrength).y(heightTotal/2));
             simulation.force('x', d3.forceX().strength(forceStrength).x(nodesemanaPos));
             simulation.force('y', d3.forceY().strength(forceStrength).y(nodeperiodoPosBusca));
 
@@ -1521,15 +1510,12 @@ if (atual != "regiao") {
       simulation.alpha(1).restart();
 
      if (datavisMem == "verUO-CB") {
-         showunidadeTitles();
+         showunidadeTitles(datavisMem);
         } else if (datavisMem == "verUO-IB") {
-         showunidadeTitlesInt();
+          showunidadeTitlesInt(datavisMem);
         } else if (datavisMem == "verAgendaB") {
           showsemanaTitlesBusca();
         }
-  
-//    openNavBuscaUO();
-//    document.getElementById("mySideNavBuscaUO").style.visibility = "visible";
 
 }
  
@@ -1552,7 +1538,7 @@ if (atual != "regiao") {
    /*
     * Mostra cabeçalhos semanais
     */
-   function showsemanaTitles() {
+   function showsemanaTitles(datavisMem) {
      var semanasData = d3.keys(semanasTitleX);
      var semanas = svg.selectAll('.dia_da_semana')
                       .data(semanasData);
@@ -1592,7 +1578,7 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+50; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].agora; })
+                 .text(function(d) { return (d) + " " + DataDoDia[d].agora; })
                  .on('click',showListaTabela);
 
 
@@ -1602,13 +1588,13 @@ if (atual != "regiao") {
                  .attr('y', function (d) { return semanasTitleY[d]+300; })
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
-                 .text(function(d) { return DataDoDia[d].proxima; })
+                 .text(function(d) { return (d) + " " + DataDoDia[d].proxima; })
                  .on('click',showListaTabela);
 
      }
 
  // Mostra cabeçalhos de formatos
-    function showformatoTitles() {
+    function showformatoTitles(datavisMem) {
      var formatosData = d3.keys(formatosTitleX);
      var formatos = svg.selectAll('.dia_da_semana')
        .data(formatosData);
@@ -1625,9 +1611,9 @@ if (atual != "regiao") {
     }
  
  // Mostra cabeçalhos de unidades
- function showunidadeTitles() {
+ function showunidadeTitles(datavisMem) {
  
-  console.log('datavisMem ' + datavisMem);
+  console.log('datavisMem em showUnidadeTitles ' + datavisMem);
 
   window.datavisMemLista = datavisMem;
 
@@ -1660,7 +1646,7 @@ if (atual != "regiao") {
  }
  
    
- function showunidadeTitlesInt() {
+ function showunidadeTitlesInt(datavisMem) {
 
   window.datavisMemLista = datavisMem;
 
@@ -1799,6 +1785,7 @@ function showListaTabela(d) {
       filtraCategoria = categoriaMem;
     }
 
+console.log('datavisMem no começo dos Ifs so showListaTabela:' + window.datavisMemLista )
 
   if (window.datavisMemLista == "agenda") {
       filtrinho = 'dia_da_semana';
@@ -1806,43 +1793,46 @@ function showListaTabela(d) {
       filtraUm = formatoMem;
 
     } else if (window.datavisMemLista == "unidades") {
+      window.datavisMemLista = "unidades";
       filtrinho = 'cod_uo';
       filtro01 = 'cod_formato';
-      filtraUm = formatoMem;
+      filtraUm = formatoMem; 
 
-    } else if (window.datavisMemLista == "formatos") {
+    } else if (window.datavisMemLista == "verUO-IB" || window.datavisMemLista == "verUO-CB") {
+      filtrinho = 'cod_uo';
+      filtraUm = window.buscaLista;
+
+    }  else if (window.datavisMemLista == "formatos") {
       filtrinho = 'cod_formato';
       filtro01 = 'cod_uo';
       filtraUm = uoMem;
+
     }  else if (window.datavisMemLista == "agendaBusca") {
       filtrinho = 'dia_da_semana';
       filtraUm = window.buscaLista;
-
- //     busca: d.nome +" - "+d.complemento +" - "+d.categoria+" - "+d.projeto+" - "+d.dispositivo,
- //     d.busca.toLowerCase().includes(buscaMem))
-
     }
 
     console.log(filtrinho);
     console.log(filtraUm);
+    console.log(window.datavisMemLista);
+    console.log(window.buscaLista);
 
 
    d3.csv("data/semdfe-1018-uau.csv", function(csv) {
     csv = csv.filter(function(row) {
 
-      return (window.datavisMemLista == "agendaBusca") ?
+      return (window.datavisMemLista == "agendaBusca" || window.datavisMemLista == "verUO-IB" || window.datavisMemLista == "verUO-CB") ?
                row[filtrinho] == d &&
                (row['nome'] + row['complemento'] + row['categoria'] + row['projeto'] + row['dispositivo']).toLowerCase().includes(filtraUm)
-               : 
-               row[filtrinho] == d &&
-               row['tempoF'] == temporalMem &&
-               row['regiao'] == regiaoMem &&
-               row['publico'] != filtraPublico &&
-              !(row['cod_categoria'] != categoriaMem && categoriaMem != "99") &&
-               row[filtro01] == filtraUm;
+               : row[filtrinho] == d &&
+                 row['tempoF'] == temporalMem &&
+                 row['regiao'] == regiaoMem &&
+                 row['publico'] != filtraPublico &&
+               !(row['cod_categoria'] != categoriaMem && categoriaMem != "99") &&
+                 row[filtro01] == filtraUm;
+     })
 
-    })
-
+  // window.buscaLista = '';
   const StrToData = d3.timeParse("%Y-%m-%d 00:00:00");
   const formataData = d3.timeFormat("%d.%m.%Y");
     
@@ -1904,7 +1894,7 @@ function showDetail(d) {
      d3.select(this)
        .transition()
        .duration(200)
-       .attr('stroke', 'black')
+//       .attr('stroke', 'black')
        .attr('stroke-width', 5)
        .attr('r', d.radius+5);
  
@@ -2033,9 +2023,9 @@ function hideSinopse(d) {
        .transition()
        .duration(200)
        .attr('stroke-width', '3')
-       .attr('stroke', function (d) { return (d.online == 1)
-        ? "gold" : (d.ingresso == 1) 
-        ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
+      //  .attr('stroke', function (d) { return (d.online == 1)
+      //   ? "gold" : (d.ingresso == 1) 
+      //   ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
        .attr('r', d.radius);
 
      tooltip.hideTooltip();
@@ -2151,8 +2141,8 @@ function hideListaChama(d) {
 
    if (formatoMem == 7) { 
        hidesemanaTitles(); 
-       datavisMem = "unidades"; 
-       if (regiaoMem == "interior") { showunidadeTitlesInt(); } else { showunidadeTitles();}
+       var datavisMem = "unidades"; 
+       if (regiaoMem == "interior") { showunidadeTitlesInt(datavisMem); } else { showunidadeTitles(datavisMem);}
     };
 
    console.log('-------- fim do chart.toggle  --------');
@@ -2302,7 +2292,6 @@ buscaBubbles(buscaId,datavisMem,regiaoMem,buscaMem);
 }
 
 setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId);
-
 buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
 
 };
@@ -2351,6 +2340,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
           var regiaoMem = "interior";
         }
         var atual = ComoVer;
+        window.buscaLista = '';
   
         foco();
         console.log('botões como ver ----------------------');
