@@ -102,9 +102,9 @@ d3.csv('data/semdfe-1018-uau.csv', display);
 
 
    var periodoDoDiaCenters = {
-    manhã: { y: -posH*0.75},
-    tarde: { y: -posH*0.3},
-    noite: { y: posH*0.75},
+    manhã: { y: posH*0.3},
+    tarde: { y: posH*1.1},
+    noite: { y: posH*2.1},
     consulte: { y: posH*0.3},
   };
   
@@ -121,14 +121,14 @@ d3.csv('data/semdfe-1018-uau.csv', display);
    };
  
    var semanasTitleY = {
-    seg: pos1H-posH, 
-    ter: pos1H-posH,
-    qua: pos1H-posH,
-    qui: pos1H-posH,
-    sex: pos1H-posH,
-    sáb: pos1H-posH,
-    dom: pos1H-posH,
-    sempre: pos3H+6*posH/2
+    seg: pos1H, 
+    ter: pos1H,
+    qua: pos1H,
+    qui: pos1H,
+    sex: pos1H,
+    sáb: pos1H,
+    dom: pos1H,
+    sempre: pos3H+5*posH/2
    };
 
 // Data do Dia   
@@ -145,13 +145,13 @@ var DataDoDia = {
 
  // Centro das posições da vista por semana ---------------------------------------------------------------------------
 var semanaCenters = {
-     seg: { x: posCW-6*posW, y: height / 2 },
-     ter: { x: posCW-4*posW, y: height / 2 },
-     qua: { x: posCW-2*posW, y: height / 2 },
-     qui: { x: posCW, y: height / 2 },
-     sex: { x: posCW+2*posW, y: height / 2 },
-     sáb: { x: posCW+4*posW, y: height / 2 },
-     dom: { x: posCW+6*posW, y: height / 2 },
+     seg: { x: posCW-6*posW, y: height / 2 + 3*posH },
+     ter: { x: posCW-4*posW, y: height / 2 + 3*posH },
+     qua: { x: posCW-2*posW, y: height / 2 + 4*posH },
+     qui: { x: posCW, y: height / 2+ 4*posH },
+     sex: { x: posCW+2*posW, y: height / 2+ 4*posH },
+     sáb: { x: posCW+4*posW, y: height / 2+ 4*posH },
+     dom: { x: posCW+6*posW, y: height / 2+ 4*posH },
      sempre: { x: posCW, y: pos3H+4*posH/2-corrigeH }
 };
  
@@ -181,7 +181,7 @@ var semanaCenters = {
  
  };
  
- // Centro das ações na isão FORMATOS (quando se clica em uma unidade)
+ // Centro das ações na visão FORMATOS (quando se clica em uma unidade)
    var formatoCenters = {
      1: { x: posCW-2*corrigeW, y: pos2H-3*posH }, // shows
      2: { x: posCW-4*posW-2*corrigeW, y: pos2H-posH/2 }, // cursos
@@ -263,59 +263,59 @@ var semanaCenters = {
  
    var unidadeCenters = {
    // capital
-   52: {x: posCW-6*posW-corrigeW, y:pos1H}, // 24 de Maio
-   65: {x: posCW-4*posW-corrigeW, y:pos1H}, // Av. Paulista
-   68: {x: posCW-2*posW-corrigeW, y:pos1H}, // Belenzinho
-   62: {x: posCW-corrigeW, y:pos1H}, // Consolação
-   58: {x: posCW+2*posW-corrigeW, y:pos1H}, // Pinheiros
-   63: {x: posCW+4*posW-corrigeW, y:pos1H}, // Pompeia
-   66: {x: posCW+6*posW-corrigeW, y:pos1H}, // Vila Mariana
+   52: {x: posCW-6*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // 24 de Maio
+   65: {x: posCW-4*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Av. Paulista
+   68: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Belenzinho
+   62: {x: posCW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Consolação
+   58: {x: posCW+2*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Pinheiros
+   63: {x: posCW+4*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Pompeia
+   66: {x: posCW+6*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Vila Mariana
    
-   91: {x: posCW-6*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Campo LImpo
-   57: {x: posCW-4*posW-posW/4-corrigeW, y:pos2H-posH/2}, // Ipiranga
-   70: {x: posCW-4*posW-posW/4-corrigeW, y:pos3H-posH}, // Santo Amaro
+   91: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Campo LImpo
+   57: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Ipiranga
+   70: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Santo Amaro
    
-   94: {x: posCW+2*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Bom Retiro
-   64: {x: posCW+4*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Carmo
-   53: {x: posCW+6*posW+posW/4-corrigeW, y:pos2H-posH/2}, // Santana
+   94: {x: posCW+2*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Bom Retiro
+   64: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Carmo
+   53: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Santana
    
-   59: {x: posCW-2*posW-corrigeW, y:pos2H+posH+posH/2}, // Cinesesc
-   89: {x: posCW-corrigeW, y:pos2H+posH+posH/2}, // CPF
-   61: {x: posCW+2*posW-corrigeW, y:pos2H+posH+posH/2}, // Florencio
+   59: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // Cinesesc
+   89: {x: posCW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // CPF
+   61: {x: posCW+2*posW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // Florencio
    
-   55: {x: posCW-6*posW-posW/4-corrigeW, y:pos3H-posH}, // Interlagos
-   73: {x: posCW-posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Guarulhos
-   72: {x: posCW-posCW/4-corrigeW, y:pos3H+posH-posH/4}, // Mogi das Cruzes
-   95: {x: posCW-corrigeW, y:pos3H+posH-posH/4}, // Osasco
-   67: {x: posCW+posCW/4-corrigeW, y:pos3H+posH-posH/4}, // São Caetano
-   88: {x: posCW+posCW/2-corrigeW, y:pos3H+posH-posH/4}, // Santo André
-   56: {x: posCW+6*posW+posW/4-corrigeW, y:pos3H-posH}, // Itaquera
+   55: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Interlagos
+   73: {x: posCW-posCW/2-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Guarulhos
+   72: {x: posCW-posCW/4-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Mogi das Cruzes
+   95: {x: posCW-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Osasco
+   67: {x: posCW+posCW/4-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // São Caetano
+   88: {x: posCW+posCW/2-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Santo André
+   56: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Itaquera
 // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
-   49: {x: posCW-2*posW-corrigeW, y:pos2H-posH/2}, // 14 Bis
-   60: {x: posCW+4*posW+posW/4-corrigeW, y:pos3H-posH}, // Casa Verde
+   49: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // 14 Bis
+   60: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Casa Verde
 
    
    // interior
-   85: {x: posCW-5*posW-corrigeW, y:pos1H}, // Birigui
-   84: {x: posCW-3*posW-corrigeW, y:pos1H}, // Rio Preto
-   79: {x: posCW-2*posW+posW/2-corrigeW, y:pos1H}, // Catanduva
-   76: {x: posCW+posW-corrigeW, y:pos1H}, // Ribeirão
-   86: {x: posCW+3*posW+posW/2-corrigeW, y:pos1H}, // Araraquara
-   82: {x: posCW+5*posW+posW/2-corrigeW, y:pos1H}, // São Carlos
+   85: {x: posCW-5*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH}, // Birigui
+   84: {x: posCW-3*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH}, // Rio Preto
+   79: {x: posCW-2*posW+posW/2-2*corrigeW+corrigeW/2, y:pos1H-corrigeH}, // Catanduva
+   76: {x: posCW+posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH}, // Ribeirão
+   86: {x: posCW+3*posW+posW/2-2*corrigeW+corrigeW/2, y:pos1H-corrigeH}, // Araraquara
+   82: {x: posCW+5*posW+posW/2-2*corrigeW+corrigeW/2, y:pos1H-corrigeH}, // São Carlos
  
-   87: {x: posCW-6*posW-corrigeW, y:pos2H}, // Prudente
-   80: {x: posCW-4*posW-corrigeW, y:pos2H}, // Bauru
-   83: {x: posCW-2*posW-corrigeW, y:pos2H}, // Piracicaba
-   96: {x: posCW-corrigeW, y:pos2H}, // Sorocaba
-   75: {x: posCW+2*posW-corrigeW, y:pos2H}, // Campinas
-   93: {x: posCW+4*posW-corrigeW, y:pos2H}, // Jundiaí
-   81: {x: posCW+6*posW-corrigeW, y:pos2H}, // Taubaté 
+   87: {x: posCW-6*posW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Prudente
+   80: {x: posCW-4*posW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Bauru
+   83: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Piracicaba
+   96: {x: posCW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Sorocaba
+   75: {x: posCW+2*posW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Campinas
+   93: {x: posCW+4*posW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Jundiaí
+   81: {x: posCW+6*posW-2*corrigeW+corrigeW/2, y:pos2H-corrigeH}, // Taubaté 
    
-   92: {x: posCW-3*posW-corrigeW, y:pos3H-posH}, // Registro
-   78: {x: posCW-corrigeW, y:pos3H+posH}, // Santos
-   71: {x: posCW+2*posW-corrigeW, y:pos3H+posH}, // Bertioga
+   92: {x: posCW-3*posW-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH}, // Registro
+   78: {x: posCW-2*corrigeW+corrigeW/2, y:pos3H+posH-corrigeH}, // Santos
+   71: {x: posCW+2*posW-2*corrigeW+corrigeW/2, y:pos3H+posH-corrigeH}, // Bertioga
  
-   77: {x: posCW+5*posW-corrigeW, y:pos3H-posH}, // São José
+   77: {x: posCW+5*posW-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH}, // São José
  };
  
  
@@ -405,6 +405,7 @@ var semanaCenters = {
  
    var simulation = d3.forceSimulation()
      .velocityDecay(0.3)
+//     .alphaDecay(0)
      .force('x', d3.forceX(posCW).strength(forceStrength).x(posCW))
      .force('y', d3.forceY(posCH).strength(forceStrength).y(posCH)) // (nodeperiodoPos))
      .force('charge', d3.forceManyBody().strength(charge))
@@ -480,10 +481,6 @@ var semanaCenters = {
          turno: d.turno,
          ingressos: d.ingressos,
 //         sinopse: d.sinopse,
-//         x: posCW, // Math.random() * 900,  // inicia centralizado
-//         y: posCH// Math.random() * 800 // para iniciar centralizado
-//            x: Math.radius,
-//            y: Math.radius,
           x: Math.random() * width, 
           y: Math.random() * height
 
@@ -693,6 +690,7 @@ var semanaCenters = {
                         console.log('uoMem: ' + uoMem);
                         console.log('uoId: ' + uoId);
                         console.log('regiaoMem: ' + regiaoMem);
+                        console.log('temporalMem: ' + temporalMem);
                         console.log('----------------fim---------------');
                    
           if (atual == "verUO-I" || atual == "interior") {
@@ -752,14 +750,15 @@ var semanaCenters = {
             }
 
 // Transições 
-//          bubbles.transition().duration(4000);
-          // bubbles.attr('r', function(d) { return (
-          //   !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
+
+// 
+          bubbles.transition().duration(2000);
+          bubbles.attr('r', function(d) { return (
+              !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
 
           bubblesDaSemana = bubbles.filter(function(d) { 
             return (d.filtra_dataF == temporalMem)
             });    
-            
             console.log(bubblesDaSemana.size() + " - " + bubblesDaSemana);
 
  // Escolhe cor de acordo com o dia da semana e cinza se não filtrada
@@ -773,7 +772,7 @@ var semanaCenters = {
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
-//   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
     ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
  
 bubblesDaSemana.transition().duration(3000)
@@ -787,7 +786,7 @@ bubblesDaSemana.transition().duration(3000)
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
-//    || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+    || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
      ) ? 3 : (d.destaque !== 'undefined') ? d.radius : d.radius
    });
  
@@ -802,7 +801,7 @@ bubblesDaSemana.transition().duration(3000)
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
-//    || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+    || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
    ) ? '#555555' : (d.online == 1)
    ? "gold" : (d.ingresso == 1) 
    ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()});
@@ -817,7 +816,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
      (d.cod_uo != uoMem && uoMem != '100') ||
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
-//   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
+   ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
    ) ? 1 : 3});
  
 /////////////////////////////////////////
@@ -910,6 +909,15 @@ if (datavisMem != "formatos") {
  
                 } else if (datavisMem == "geral") {
                   // @v4 Zera a força 'x' para levar tudo ao centro.
+ 
+                  document.getElementById("ingressos").style.display = "none";
+                  document.getElementById("temporal").style.display = "none";
+                  document.getElementById("publico").style.display = "none";
+                  document.getElementById("unidades").style.display = "none";
+                  document.getElementById(`regiao`).style.display = "none";
+                  document.getElementById(`ComoVer`).style.display = "none";
+                  document.getElementById(`ComoVerBusca`).style.display = "none";
+              
                  hidesemanaTitles();
                  simulation.force('x', d3.forceX().strength(forceStrength).x(posCW));
                  simulation.force('y', d3.forceY().strength(forceStrength).y(posCH));
@@ -919,7 +927,8 @@ if (datavisMem != "formatos") {
  
 // separar as bolhas
 // simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+0.5 }))
-simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
+simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }));
+// simulation.force('charge', d3.forceManyBody().strength(charge));
 simulation.alpha(0.6).restart();
  
  
@@ -2074,6 +2083,7 @@ function hideListaChama(d) {
                                     console.log('atual: ' + atual);
                                     console.log('datavis: ' + datavis);
                                     console.log('datavisMem: ' + datavisMem);
+                                    console.log('window.datavisMem: ' + window.datavisMem);
                                     console.log('escolhido: ' + escolhido);
                                     console.log('uoId: ' + uoId);
                                     console.log('regiaoId: ' + regiaoId);
@@ -2268,11 +2278,15 @@ function setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaI
       } else if (ComoVer == "verUO-CB") {
         var datavisMem = ComoVer; 
         var regiaoMem = "capital";
+        window.datavisMem = "unidades"
+
       } else if (ComoVer == "verLista") {
         window.alert('Lista!')
       } else {
         var datavisMem = ComoVer; 
         var regiaoMem = "interior";
+        window.datavisMem = "unidades"
+
       }
       var atual = ComoVer;
 
@@ -2334,12 +2348,22 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
           var regiaoMem = regiaoId;
         } else if (ComoVer == "verUO-C") {
           var datavis = "unidades"; 
+          window.datavisMem = "unidades"
+          document.getElementById("temporal").style.display = "flex";
+          document.getElementById(`unidades`).style.display = "flex";
+          document.getElementById("publico").style.display = "flex";
+          document.getElementById("ingressos").style.display = "flex";
           var regiaoMem = "capital";
         } else if (ComoVer == "verLista") {
           window.lista = "exibir";
         } else {
           var datavis = "unidades"; 
+          window.datavisMem = "unidades"
           var regiaoMem = "interior";
+          document.getElementById("temporal").style.display = "flex";
+          document.getElementById(`unidades`).style.display = "flex";
+          document.getElementById("publico").style.display = "flex";
+          document.getElementById("ingressos").style.display = "flex";
         }
         var atual = ComoVer;
         window.buscaLista = '';
@@ -2377,8 +2401,25 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
        var formatoId = button.attr('id').substring(2);
        var atual = "formato";
        var escolhido = button.attr('value');
- 
-       if (window.datavisMem == "geral") { var datavis = 'agenda';}
+
+//       document.getElementById("temporal").style.display = "flex";
+//       document.getElementById("publico").style.display = "flex";
+//       document.getElementById(`regiao`).style.display = "flex";
+//       document.getElementById("ingressos").style.display = "flex";
+       document.getElementById("ComoVer").style.display = "flex";
+
+//       var datavis = "unidades";
+
+       
+       if (window.datavisMem == "geral") {
+           var datavis = 'agenda';
+           window.datavisMem == "outro"
+           document.getElementById("ingressos").style.display = "none";
+           document.getElementById("temporal").style.display = "none";
+           document.getElementById("publico").style.display = "none";
+           document.getElementById("unidades").style.display = "none";
+           document.getElementById(`regiao`).style.display = "none";
+          }
 
        var LimpaBusca = document.querySelector("#busca");
            LimpaBusca.querySelector("form").reset();
@@ -2391,13 +2432,6 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
 
              categoriaMem = '99';
              categoriaId = '99';
-
-             document.getElementById("publico").style.display = "flex";
-             document.getElementById("ingressos").style.display = "flex";
-             document.getElementById("ComoVer").style.display = "flex";
-    
- 
-   //      var datavis = "unidades";
  
              arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '14','12','13','15','16','17','18'];
               for(var i=0; i < arr.length; i++) { 
@@ -2409,11 +2443,6 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
                  closeNavComoVerBusca();
                  openNavComoVer();
 
-                 document.getElementById("ingressos").style.display = "flex";
-                 document.getElementById("temporal").style.display = "flex";
-                 document.getElementById("publico").style.display = "flex";
-                 document.getElementById(`regiao`).style.display = "flex";
-                          
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
                                    acessivelId,onlineId,uoId,categoriaId,atual,datavis,buscaId,escolhido);
@@ -2459,13 +2488,6 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
         closeNavGdeSP();
         closeNavCapital();
         closeNavInterior();
-
-        document.getElementById("temporal").style.display = "flex";
-        document.getElementById(`regiao`).style.display = "flex";
-        document.getElementById("publico").style.display = "flex";
-        document.getElementById("ingressos").style.display = "flex";
-        document.getElementById("ComoVer").style.display = "flex";
-    
 
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,
@@ -2550,7 +2572,7 @@ var buscaId = '';
        var temporalId = temporal.attr('id');
        var escolhido = temporal.attr('value');
 
-       if (window.datavisMem == "geral") { var datavis = 'agenda';}
+    //   if (window.datavisMem == "geral") { var datavis = 'agenda';}
 
  
        var atual = "temporal";
