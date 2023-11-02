@@ -101,5 +101,36 @@ function openLista() {
   document.getElementById("tableLista").style.display = "flex";
   document.getElementById("tableLista").style.visibility = "visible";
   document.getElementById("tableLista").style.opacity = 0.9;
+}
 
+
+function openbuttonVerAgenda() {
+  document.getElementById("verAgenda2").display = "flex";
+  document.getElementById("verAgenda2").style.visibility = "visible";
+}
+
+function openbuttonVerUOC() {
+  document.getElementById("verUO-C2").display = "flex";
+  document.getElementById("verUO-C2").style.visibility = "visible";
+}
+
+function openbuttonVerUOI() {
+  document.getElementById("verUO-I2").display = "flex";
+  document.getElementById("verUO-I2").style.visibility = "visible";
+}
+
+function closebuttonVerAgenda() {
+  document.getElementById("verAgenda2").display = "none";
+  document.getElementById("verAgenda2").style.visibility = "hidden";
+  
+}
+
+function closebuttonVerUOC() {
+  document.getElementById("verUO-C2").display = "none";
+  document.getElementById("verUO-C2").style.visibility = "hidden";
+}
+
+function closebuttonVerUOI() {
+  document.getElementById("verUO-I2").display = "none";
+  document.getElementById("verUO-I2").style.visibility = "hidden";
 }

@@ -23,7 +23,7 @@
  <script src="src/overlay.js"></script>
 </head>
 
-<body>
+<body onload="closebuttonVerAgenda()">
 <div class="container">
 <!-- Espaço da visualização de dados-->
   <nav class="topo">
@@ -92,19 +92,24 @@
     </form>
     </div>
   
-    <div class="contador" id="contador"></div>
+    <div class="contador" id="contador"></div><div class="total" id="total"></div>
     <div class="EmExibicao" id="EmExibicao"></div>
   </div>
 
 <!-- Altera formato de exibição -->
 <div id="ComoVer" class="botoesComoVer">
-  <form>
+  <!-- <form>
     <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button>
     <button title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgenda" class="buttonVer"><i class="fa fa-calendar"></i>&nbsp;&nbsp;ver nos dias da semana&nbsp;&nbsp;</button>
-    <!-- <button title="Exibe lista com as ações filtradas" type="button" id="verLista" class="buttonVer"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button> -->
     <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
-    </form>
-  </div>
+  </form> -->
+
+  <form>
+    <span id="verUO-C2"><button onclick="closebuttonVerUOC(),openbuttonVerAgenda(),openbuttonVerUOI()" title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button></span>
+    <span id="verAgenda2"><button onclick="openbuttonVerUOC(),closebuttonVerAgenda(),openbuttonVerUOI()" title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgenda" class="buttonVer"><i class="fa fa-calendar"></i>&nbsp;&nbsp;ver nos dias da semana&nbsp;&nbsp;</button></span>
+    <span id="verUO-I2"><button onclick="openbuttonVerUOC(),openbuttonVerAgenda(),closebuttonVerUOI()" title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button></span>
+  </form>
+ </div>
 
 <!-- Altera formato de exibição do resultado de busca-->
   <div id="ComoVerBusca" class="botoesComoVer">
@@ -356,10 +361,10 @@
           <input type="radio" id="jovens" class="publico" name="radio"/>
           <span>jovens</span>
         </label> -->
-        <!-- <label>
+        <label>
           <input type="radio" id="idosos" class="publico" name="radio"/>
           <span>idosos</span>
-        </label> -->
+        </label>
         <label>
           <input type="radio" id="todos" class="publico active" name="radio" checked/>
           <span>todos os públicos</span>

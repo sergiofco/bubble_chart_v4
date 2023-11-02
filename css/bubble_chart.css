@@ -1382,9 +1382,9 @@ text-decoration: underline overline;
   position: flex;
   vertical-align: center;
   padding: 5px;
-  color: #444444;
+  color: #666666;
   font-weight: bold;
-  font-size: clamp(0.75em, 0.85em + 0.85vw, 1em);
+  font-size: clamp(0.5em, 0.6em + 0.6vw, 0.6em);
   font-family: Montserrat;
 }
 
@@ -1539,7 +1539,21 @@ label span:before {
   font-weight: bold;
 }
 
-.buttonVerB, .buttonVer {
+.botoesComoVer {
+  display: none;
+  position: flex;
+  min-width: 70px;
+  color: #000000;
+  top: 0%;
+  padding: 8px 20px;
+  cursor: pointer;
+  vertical-align: top;
+  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  font-weight: bold;
+  justify-content: center;
+  }
+
+.buttonVer, .buttonVerB {
   position: flex;
   background: #454545;
   min-width: 100px;
@@ -1557,30 +1571,19 @@ label span:before {
   z-index: 999;
 }
 
-.botoesComoVer {
-  display: none;
-  position: flex;
-  min-width: 70px;
-  color: #000000;
-  top: 0%;
-  padding: 8px 20px;
-  cursor: pointer;
-  vertical-align: top;
-  font-size: clamp(0.5em, 1em + 1vw, 1em);
-  font-weight: bold;
-  justify-content: center;
-  }
-
-.buttonVer:active, .buttonVerB:active {
-  background: black;
-  color: #FFFFFF;
-  font-weight: bold;
-}
-
 .buttonVer:hover, .buttonVerB:hover {
   background: goldenrod;
   color: #000000;
-  font-weight: bold;
+}
+
+.buttonVer:active, .buttonVerB:active {
+  background: #820000;
+  color: #FFFFFF;
+}
+
+.buttonVer:checked, .buttonVerB:checked {
+  background: #820000;
+  color: #FFFFFF;
 }
 
 

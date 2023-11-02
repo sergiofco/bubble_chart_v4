@@ -80,6 +80,7 @@ d3.csv('data/semdfe-1018-uau.csv', display);
    var display_div = document.getElementById("contador");
    var display_filtro = document.getElementById("EmExibicao");
    var new_span = document.createElement('span');
+   var total_span = document.createElement('span');
    var novo_span = document.createElement('span');
    var escolhido = "ações na capital e grande são paulo nesta semana e na próxima";
    var atual = "geral";
@@ -587,8 +588,8 @@ var semanaCenters = {
      simulation.nodes(nodes);
  
  // exibe o total de atividades
-    // var display_tot = document.getElementById("total");
-    // const total = bubbles.size();
+     var display_tot = document.getElementById("total");
+     window.total = bubbles.size();
      
  // Set initial layout to single group.
     //  var datavisMem = "agenda";
@@ -608,18 +609,18 @@ var semanaCenters = {
     * These x and y values are modified by the force simulation.
     */
 
-   function updateChart() {
+  //  function updateChart() {
 
-    // Get the selection coordinate
-    extent = d3.event.selection   // looks like [ [12,11], [132,178]]
+  //   // Get the selection coordinate
+  //   extent = d3.event.selection   // looks like [ [12,11], [132,178]]
   
-    // Is the circle in the selection?
-    isBrushed = extent[0][0] <= bubbles.attr("cx") && extent[1][0] >= bubbles.attr("cx") && // Check X coordinate
-                extent[0][1] <= bubbles.attr("cy") && extent[1][1] >= bubbles.attr("cy")  // And Y coordinate
+  //   // Is the circle in the selection?
+  //   isBrushed = extent[0][0] <= bubbles.attr("cx") && extent[1][0] >= bubbles.attr("cx") && // Check X coordinate
+  //               extent[0][1] <= bubbles.attr("cy") && extent[1][1] >= bubbles.attr("cy")  // And Y coordinate
   
-    // Circle is green if in the selection, pink otherwise
-    bubbles.classed("buttonVer", isBrushed)
-  }
+  //   // Circle is green if in the selection, pink otherwise
+  //   bubbles.classed("buttonVer", isBrushed)
+  // }
   
 
 
@@ -669,13 +670,19 @@ var semanaCenters = {
  }
  
  // função que faz as contagens e exibe o número de atividades filtradas
- function contador(current_count){
+ function contador(current_count,atual){
    while (display_div.hasChildNodes()) {
           display_div.removeChild(display_div.lastChild);
          }
      new_span.className = 'contador';
-     new_span.innerText = filtrado + "" ;
-     display_div.appendChild(new_span);
+     new_span.innerText = filtrado;
+     total_span.className = 'contador';
+     total_span.innerText = window.total;
+    if (atual == "geral" || atual == "limpar") {
+      display_div.appendChild(total_span);
+    } else {
+      display_div.appendChild(new_span);
+    }
  };
  
  
@@ -746,7 +753,6 @@ var semanaCenters = {
                  for(var i=0; i < arr_uos.length; i++) { 
                      document.getElementById("uo"+arr_uos[i]).checked = false; 
                   }
-       
             }
 
 // Transições 
@@ -879,11 +885,15 @@ if (datavisMem != "formatos") {
 
               bubblesDaSemana.transition()
                              .duration(1000)
+                            //  .attr('r', function(d) { 
+                            //   return ((d.cod_formato == formatoMem || d.cod_categoria == categoriaMem) && d.cod_uo == uoMem ) 
+                            //   || (uoMem == d.cod_uo) 
+                            //   ? (d.cod_formato == formatoMem || d.cod_categoria == categoriaMem)
+                            //   ? d.radius : 5 : 3});             
                              .attr('r', function(d) { 
-                                    return ((d.cod_formato == formatoMem || d.cod_categoria == categoriaMem) && d.cod_uo == uoMem ) 
-                                    || (uoMem == d.cod_uo) 
-                                    
-                                    ? d.radius : 3});             
+                                    return (d.cod_uo == uoMem )
+                                    ? (d.cod_formato == formatoMem || d.cod_categoria == categoriaMem)
+                                    ? d.radius : 5 : 3});             
               }
               simulation.force("r", isolate(radialForce, function(d) { return (
                 (d.gratis != 1 && gratisMem == 1) || 
@@ -996,7 +1006,8 @@ simulation.alpha(0.6).restart();
 
  filtrado = filtroAplicado.size();
  window.filtroParaLista = filtroAplicado;
- contador(filtrado);
+ contador(filtrado,atual);
+ 
  
  // texto amigável do que está sendo filtrado no momento
  window.temporaLista = temporalMem;
@@ -1053,8 +1064,11 @@ simulation.alpha(0.6).restart();
      novo_span.innerText = fe + fo + fg + fc + fonde + fq + fp + fa + fi;
 
     if (filtrado == 0) {
-      novo_span.innerText = "Ôpa! Nada por esse caminho. Que tal começar de novo com a opção 'limpar filtros'?"
-        } 
+        novo_span.innerText = "Ôpa! Nada por esse caminho. Que tal começar de novo com a opção 'limpar filtros'?"
+        } else if (atual == "geral" || atual == "limpar") {
+        novo_span.innerText = "atividades em todo o estado de São Paulo"
+        }
+
      display_filtro.appendChild(novo_span);
  };
  
@@ -1419,7 +1433,7 @@ if (atual != "regiao") {
   collisionForce = d3.forceCollide().radius(function(d) { return d.radius+15 }); 
   
  // contador da busca textual
- // tot = bubbles.size();
+  tot = bubbles.size();
  
   if (datavisMem == 'verUO-CB' || datavisMem == 'verUO-IB') {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
@@ -1515,7 +1529,7 @@ if (atual != "regiao") {
           showsemanaTitlesBusca();
   }
 
-  contador(filtrado);
+  contador(filtrado,atual);
 
  // inseri por minha conta para reiniciar
       simulation.alpha(1).restart();
@@ -1557,7 +1571,6 @@ if (atual != "regiao") {
      window.datavisMemLista = datavisMem;
 
      semanas.enter()
-                 .append('g')
                  .append('text')
                   .attr('class', 'dia_da_semana')
                   .attr('x', function (d) { return semanasTitleX[d]; })
@@ -1574,7 +1587,21 @@ if (atual != "regiao") {
                         } 
                         })
                    .on('click',showListaTabela);
+    
+      // semanas.enter()
+      //             .append('text')
+      //               .attr('x', function (d) { return semanasTitleX[d]+50; })
+      //               .attr('y', function (d) { return semanasTitleY[d]; })
+      //               .attr('fill', function(d) { return fillColor(d); })
+      //               .attr('text-anchor', 'middle')
+      //               .text('')
+      //               .on('click',showListaTabela)
+      //               .append('i')
+      //               .attr('class', 'fa fa-star');
+                    
     }
+
+
 
     function showsemanaTitlesBusca() {
       var semanasData = d3.keys(semanasTitleX);
@@ -1600,7 +1627,8 @@ if (atual != "regiao") {
                  .attr('fill', function(d) { return fillColor(d); })
                  .attr('text-anchor', 'middle')
                  .text(function(d) { return (d) + " " + DataDoDia[d].proxima; })
-                 .on('click',showListaTabela);
+                 .on('click',showListaTabela)
+                 .on('mouseover','Exibe tabela com a lista de ações filtradas');
 
      }
 
@@ -1868,9 +1896,7 @@ console.log('datavisMem no começo dos Ifs so showListaTabela:' + window.datavis
            <td class="${corClass}">${value.dia_da_semana}</td>
            <td class="${corClass}2">${value.hora}</td>
            <td class="listinha"><a href="#" title="${ltexto}">
-           <i class="fa fa-eye"></i></a> - 
-           ${value.nome}
-           </td>
+           <i class="fa fa-eye"></i> - ${value.nome} </a></td>
            <td class="listinha">${value.dispositivo}</td>
         </tr>`
       );  
@@ -1890,8 +1916,7 @@ console.log('datavisMem no começo dos Ifs so showListaTabela:' + window.datavis
          listaFiltrada.showLista(tableBody, d3.event);
 
 
-
-  document.getElementById('tableBody').addEventListener('click',hideListaChama);
+  document.getElementById('tableLista').addEventListener('click',closeLista);
     
   });
 
@@ -2055,8 +2080,8 @@ function hideListaChama(d) {
 
  // link para a busca do site do Sesc
  function linkSite(d) {
-    //  var win = window.open('https://www.bing.com/search?q=site%3Asescsp.org.br+'+d.name, 'portal');
-    //  win.focus();
+//      var win = window.open('https://www.bing.com/search?q=site%3Asescsp.org.br+'+d.name, 'portal');
+//      win.focus();
  }
  
    /*
@@ -2265,13 +2290,13 @@ function setupButtonsComoVerBusca(formatoId,regiaoId,temporalId,publicoId,vendaI
       // Remove active class from all buttons
       d3.selectAll('.buttonVerB').classed('active', false);
       // Find the button just clicked
-      var buttonVer= d3.select(this);
+      var buttonVerB= d3.select(this);
 
       // Set it as the active button
-      buttonVer.classed('active', true);
+      buttonVerB.classed('active', true);
 
 // Get the id of the button
-      var ComoVer = buttonVer.attr('id');
+      var ComoVer = buttonVerB.attr('id');
 
     if (ComoVer == "verAgendaB") {
         var datavisMem = "verAgendaB"; 
@@ -2335,7 +2360,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
         // Remove active class from all buttons
         d3.selectAll('.buttonVer').classed('active', false);
         // Find the button just clicked
-        var buttonVer= d3.select(this);
+        var buttonVer = d3.select(this);
   
         // Set it as the active button
         buttonVer.classed('active', true);
@@ -2365,9 +2390,31 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
           document.getElementById("publico").style.display = "flex";
           document.getElementById("ingressos").style.display = "flex";
         }
-        var atual = ComoVer;
-        window.buscaLista = '';
-  
+
+if (ComoVer != "verAgenda") {
+
+// Zera as unidades    //////////////////////////////////////////
+var uoId = 100;
+var tiraUO = document.querySelector("#unidades");
+    tiraUO.querySelector("form").reset();
+
+    arr_uos = [52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 64, 
+               65, 66, 67, 68, 70, 71, 72, 73, 75, 76, 77, 
+               78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 
+               89, 91, 92, 93, 94, 95, 96, 49, 60];
+
+   for(var i=0; i < arr_uos.length; i++) { 
+       document.getElementById("uo"+arr_uos[i]).checked = false; 
+    }
+
+var LimpaBusca = document.querySelector("#busca");
+     LimpaBusca.querySelector("form").reset();
+//////////////////////////////////////////////////////////////////
+}
+
+var atual = ComoVer;
+window.buscaLista = '';
+
         foco();
         console.log('botões como ver ----------------------');
         console.log('atual: ' + atual);
@@ -2756,6 +2803,10 @@ function setupButtonsFiltroUnidades(formatoId,regiaoId,temporalId,publicoId,vend
 
        document.getElementById('capital').checked = false; 
        document.getElementById('interior').checked = false; 
+
+       openbuttonVerUOI()
+       openbuttonVerUOC()
+       openbuttonVerAgenda()
  
       //  var tiraCat = document.querySelector("#mySideNavCategoria");
       //  tiraCat.querySelector("form").reset();
