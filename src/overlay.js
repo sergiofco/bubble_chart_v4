@@ -41,12 +41,6 @@ function openNavComoVerBusca() {
   document.getElementById("ComoVerBusca").style.display = "flex";
 }
 
-function on() {
-  document.getElementById("overlay").style.width = "100%";
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("overlay").style.visibility = "visible";
-}
-
 /* Set the width of the side navigation to 0 */
 function closeNavCapital() {
   document.getElementById("mySideNavCapital").style.width = "0";
@@ -84,10 +78,19 @@ function closeNavComoVerBusca() {
   document.getElementById("ComoVerBusca").style.display = "none";
 }
 
+function on() {
+  // document.getElementById("overlay").style.width = "100%";
+  // document.getElementById("overlay").style.display = "flex";
+  // document.getElementById("overlay").style.visibility = "visible";
+  document.getElementById("legenda").style.display = "flex";
+}
+
 function off() {
-  document.getElementById("overlay").style.width = "0";
-  document.getElementById("overlay").style.display = "none";
-  document.getElementById("overlay").style.visibility = "hidden";
+  // document.getElementById("overlay").style.width = "0";
+  // document.getElementById("overlay").style.display = "none";
+  // document.getElementById("overlay").style.visibility = "hidden";
+  document.getElementById("legenda").style.display = "none";
+
 }
 
 function closeLista() {

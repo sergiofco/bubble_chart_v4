@@ -8,7 +8,7 @@
  */
 
 // Load the data.
-d3.csv('data/semdfe-1018-uau.csv', display);
+d3.csv('data/semdfe-1018-uauEdit.csv', display);
 
  function bubbleChart() {
  
@@ -232,13 +232,13 @@ var semanaCenters = {
  
  var unidadesTitleYCap = {
  //  74: pos1H+posH, // Dom Pedro
-   52: pos1H+posH, // 24 de Maio
-   65: pos1H+posH, // Av. Paulista
-   68: pos1H+posH, // Belenzinho
-   62: pos1H+posH, // Consolação
-   58: pos1H+posH, // Pinheiros
-   63: pos1H+posH, // Pompeia
-   66: pos1H+posH, // Vila Mariana
+   52: pos1H+posH+15, // 24 de Maio
+   65: pos1H+posH+15, // Av. Paulista
+   68: pos1H+posH+15, // Belenzinho
+   62: pos1H+posH+15, // Consolação
+   58: pos1H+posH+15, // Pinheiros
+   63: pos1H+posH+15, // Pompeia
+   66: pos1H+posH+15, // Vila Mariana
  
    91: pos2H+posH/2, // Campo LImpo
    49: pos2H+posH/2, // 14 Bis
@@ -274,11 +274,11 @@ var semanaCenters = {
    
    91: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Campo LImpo
    57: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Ipiranga
-   70: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Santo Amaro
+   70: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH}, // Santo Amaro
    
-   94: {x: posCW+2*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Bom Retiro
+   94: {x: posCW+2*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH}, // Bom Retiro
    64: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Carmo
-   53: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Santana
+   53: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH}, // Santana
    
    59: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // Cinesesc
    89: {x: posCW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // CPF
@@ -292,7 +292,7 @@ var semanaCenters = {
    88: {x: posCW+posCW/2-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Santo André
    56: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Itaquera
 // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
-   49: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // 14 Bis
+   49: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH}, // 14 Bis
    60: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Casa Verde
 
    
@@ -388,6 +388,7 @@ var semanaCenters = {
  
    // @v4 strength to apply to the position forces
    var forceStrength = 0.03;
+   var forceStrengthXY = 0.03;
    
    // These will be set in create_nodes and create_vis
    var svg = null;
@@ -405,10 +406,10 @@ var semanaCenters = {
    // @v4 We create a force simulation now and add forces to it.
  
    var simulation = d3.forceSimulation()
-     .velocityDecay(0.3)
+     .velocityDecay(0.33)
 //     .alphaDecay(0)
-     .force('x', d3.forceX(posCW).strength(forceStrength).x(posCW))
-     .force('y', d3.forceY(posCH).strength(forceStrength).y(posCH)) // (nodeperiodoPos))
+     .force('x', d3.forceX(posCW).strength(forceStrengthXY).x(posCW))
+     .force('y', d3.forceY(posCH).strength(forceStrengthXY).y(posCH)) // (nodeperiodoPos))
      .force('charge', d3.forceManyBody().strength(charge))
  //    .force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }))
      .on('tick', ticked);
@@ -442,7 +443,7 @@ var semanaCenters = {
      // Tamanho dos pontos baseado na área.
      var radiusScale = d3.scalePow()
        .exponent(1)
-       .range([7,35])
+       .range([6,25])
        .domain([20, maxAmount]);
  
      // map() converte rawData em "node data".
@@ -450,7 +451,7 @@ var semanaCenters = {
        
        return {
          id: d.id,
-         radius: ((d.destaque !== 'undefined' && d.cod_formato !== 4) ? radiusScale(+d.lugares+2000) : radiusScale(+d.lugares)),
+         radius: ((d.destaque !== 'undefined' && d.cod_formato !== 4) ? radiusScale(+d.lugares+3000) : radiusScale(+d.lugares)),
          value: +d.lugares,
          name: d.nome,
          name2: d.complemento,
@@ -670,15 +671,15 @@ var semanaCenters = {
  }
  
  // função que faz as contagens e exibe o número de atividades filtradas
- function contador(current_count,atual){
+ function contador(filtrado,atual){
    while (display_div.hasChildNodes()) {
           display_div.removeChild(display_div.lastChild);
          }
      new_span.className = 'contador';
      new_span.innerText = filtrado;
-     total_span.className = 'contador';
+     total_span.className = 'total';
      total_span.innerText = window.total;
-    if (atual == "geral" || atual == "limpar") {
+    if ((atual == "geral" || atual == "limpar") && atual != "busca") {
       display_div.appendChild(total_span);
     } else {
       display_div.appendChild(new_span);
@@ -823,7 +824,7 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
    ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-   ) ? 1 : 3});
+   ) ? 1 : 1});
  
 /////////////////////////////////////////
 //
@@ -917,17 +918,21 @@ if (datavisMem != "formatos") {
  //               simulation.alpha(1).restart();
                 var datavis = "agenda";
  
-                } else if (datavisMem == "geral") {
-                  // @v4 Zera a força 'x' para levar tudo ao centro.
- 
+                } else if (datavisMem == "geral" || atual == "limpar") {
                   document.getElementById("ingressos").style.display = "none";
                   document.getElementById("temporal").style.display = "none";
                   document.getElementById("publico").style.display = "none";
                   document.getElementById("unidades").style.display = "none";
-                  document.getElementById(`regiao`).style.display = "none";
-                  document.getElementById(`ComoVer`).style.display = "none";
-                  document.getElementById(`ComoVerBusca`).style.display = "none";
-              
+                  document.getElementById("regiao").style.display = "none";
+                  document.getElementById("ComoVer").style.display = "none";
+                  document.getElementById("ComoVerBusca").style.display = "none";
+
+                  // bubblesDaSemana.transition()
+                  //               .duration(500)
+                  // .attr('r', function(d) { 
+                  //        return (d.destaque != 'undefined' || d.cod_formato < 4 )
+                  //        ? d.radius : 0});             
+
                  hidesemanaTitles();
                  simulation.force('x', d3.forceX().strength(forceStrength).x(posCW));
                  simulation.force('y', d3.forceY().strength(forceStrength).y(posCH));
@@ -1433,7 +1438,7 @@ if (atual != "regiao") {
   collisionForce = d3.forceCollide().radius(function(d) { return d.radius+15 }); 
   
  // contador da busca textual
-  tot = bubbles.size();
+  // tot = bubbles.size();
  
   if (datavisMem == 'verUO-CB' || datavisMem == 'verUO-IB') {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
@@ -1508,7 +1513,7 @@ if (atual != "regiao") {
                 ? '#555555' : (d.online == 1)
                 ? "gold" : (d.ingresso == 1) 
                 ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()})
-              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 3})
+              .attr('stroke-width', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 1 : 1})
               .attr('fill', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? '#cccccc' : (d.destaque !== 'undefined')
                 ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
 
@@ -1528,7 +1533,7 @@ if (atual != "regiao") {
 
           showsemanaTitlesBusca();
   }
-
+  var atual = "busca";
   contador(filtrado,atual);
 
  // inseri por minha conta para reiniciar
@@ -1541,6 +1546,8 @@ if (atual != "regiao") {
         } else if (datavisMem == "verAgendaB") {
           showsemanaTitlesBusca();
         }
+
+        document.getElementById("zera").style.display = "flex";
 
 }
  
@@ -1793,7 +1800,7 @@ const formataData = d3.timeFormat("%d.%m.%Y");
                     d.value + ' lugares/vagas</span>.' +
                     '<span class="value"><b> ' + gratis + '<br>' + ingresso + '</b><br>' +
                     '<span class="value"><b>' + publico + '</b></span>  ' +
-                    '<span class="name"><b>' + tem_acessivel + '</b>  </span>' + '<span class="name"> | <b>' + online + '</b></span><br>';
+                    '<span class="name"><b>' + tem_acessivel + '</b>  </span>' + '<span class="name">  <b>' + online + '</b></span><br>';
 
       card.showCard(d,contentCard, d3.event);
 
@@ -2058,7 +2065,7 @@ function hideSinopse(d) {
      d3.select(this)
        .transition()
        .duration(200)
-       .attr('stroke-width', '3')
+       .attr('stroke-width', '1')
       //  .attr('stroke', function (d) { return (d.online == 1)
       //   ? "gold" : (d.ingresso == 1) 
       //   ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker();})
@@ -2364,7 +2371,7 @@ buscaBubbles(buscaId,datavisMem,regiaoId,buscaMem);
   
         // Set it as the active button
         buttonVer.classed('active', true);
-  
+        
   // Get the id of the button
         var ComoVer = buttonVer.attr('id');
   
@@ -2412,6 +2419,7 @@ var LimpaBusca = document.querySelector("#busca");
 //////////////////////////////////////////////////////////////////
 }
 
+
 var atual = ComoVer;
 window.buscaLista = '';
 
@@ -2454,41 +2462,47 @@ window.buscaLista = '';
 //       document.getElementById(`regiao`).style.display = "flex";
 //       document.getElementById("ingressos").style.display = "flex";
        document.getElementById("ComoVer").style.display = "flex";
-
+       document.getElementById("zera").style.display = "flex";
 //       var datavis = "unidades";
 
        
-       if (window.datavisMem == "geral") {
+       if (window.datavisMem == "geral" || atual == "limpar") {
            var datavis = 'agenda';
            window.datavisMem == "outro"
            document.getElementById("ingressos").style.display = "none";
            document.getElementById("temporal").style.display = "none";
            document.getElementById("publico").style.display = "none";
            document.getElementById("unidades").style.display = "none";
-           document.getElementById(`regiao`).style.display = "none";
+           document.getElementById("regiao").style.display = "none";
           }
 
        var LimpaBusca = document.querySelector("#busca");
            LimpaBusca.querySelector("form").reset();
 
-       var tiraCat = document.querySelector("#mySideNavCategoria");
-           tiraCat.querySelector("form").reset();
- 
-       var tiraSer = document.querySelector("#mySideNavServicos");
-           tiraSer.querySelector("form").reset();
-
-             categoriaMem = '99';
-             categoriaId = '99';
- 
-             arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '14','12','13','15','16','17','18'];
-              for(var i=0; i < arr.length; i++) { 
-                  var op = document.getElementById('ca'+arr[i]);
-                      op.classList.remove('active');
-             } 
-             document.getElementById('buscatextual').value='';
+            document.getElementById('buscatextual').value='';
              var buscaId = '';
                  closeNavComoVerBusca();
                  openNavComoVer();
+
+///////////////////////////////////////////////////////////// exibe lista de categorias
+var tiraCat = document.querySelector("#mySideNavCategoria");
+tiraCat.querySelector("form").reset();
+
+var tiraSer = document.querySelector("#mySideNavServicos");
+tiraSer.querySelector("form").reset();
+
+  categoriaMem = '99';
+  categoriaId = '99';
+
+  arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '14','12','13','15','16','17','18'];
+   for(var i=0; i < arr.length; i++) { 
+       var op = document.getElementById('ca'+arr[i]);
+           op.classList.remove('active');
+  } 
+////////////////////////////////////////////////////////
+
+
+
 
        foco();
        myBubbleChart.toggleDisplay(formatoId,regiaoId,temporalId,publicoId,vendaId,gratisId,

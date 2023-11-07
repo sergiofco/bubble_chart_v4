@@ -103,12 +103,29 @@ a, h1, a:visited, a:active {
   text-shadow: 0.5px 0.5px 1px black;
   font-weight: bold;
   font-size: 45px;
+  text-align: right;
+  align-content: baseline;
+  justify-content: flex-end;
+  line-height: 20px;
+  padding: 12px;
+  margin: 1.5px;
+  font-family: Montserrat;
+}
+
+
+.total {
+  position: flex;
+  color:rgb(164, 44, 44);
+  text-shadow: 0.5px 0.5px 1px black;
+  font-weight: bold;
+  font-size: 45px;
   text-align: center;
   line-height: 20px;
   padding: 12px;
   margin: 1.5px;
   font-family: Montserrat;
 }
+
 
 .uos {
   position: flex;
@@ -293,17 +310,19 @@ a, h1, a:visited, a:active {
 
 .buttonSer {
   min-width: 70px;
-  background: #cccccc;
+  background: #bcbcbc;
   color: #000000;
-  padding: 5px 12px;
   cursor: pointer;
   text-align: center;
-  font-size: 11px;
-  border: 2px solid #aaaaaa;
+  font-size: clamp(0.55em, 0.8em + 0.8vw, 1em);
+  border: 2px solid #222222;
   text-decoration: none;
-  border-radius: 5%;
+  padding: 7px 12px;
+  border-radius: 99em;
+  transition: 0.25s ease;
   font-weight: bold;
-
+  margin-top: 0.1vh;
+  margin-bottom: 0.1vh;
 }
 
 
@@ -820,16 +839,16 @@ border: 0;
   opacity: 0;
 }
 50% {
-  opacity: 1;
+  opacity: .25;
   visibility: visible;
 }
 75% {
-  opacity: 1;
+  opacity: .50;
   visibility: visible;
 }
 100% {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
 }
 }
 
@@ -854,6 +873,16 @@ border: 0;
   animation: fadeOutHelp ease-in-out 6s;
   animation-delay: 6s;
 }
+
+.legenda {
+  position: fixed;
+  top:18%;
+  right: 7.5%;
+  visibility: visible;
+  animation: fadeOutHelp ease-in 8s;
+  z-index: 99999;
+}
+
 
 .help-quando {
   position: fixed;
@@ -1193,7 +1222,7 @@ border:1px solid #111;
 .containerTempo {
   position: fixed;
   top: 25%;
-  left: 90%;
+  left: 89%;
   bottom: 0;
   height: 115px;
   width: 160px;
@@ -1208,7 +1237,7 @@ border:1px solid #111;
 .containerPublico {
   position: fixed;
   top: 40%;
-  left: 90%;
+  left: 89%;
   bottom: 0;
   height: 150px;
   width: 160px;
@@ -1224,7 +1253,7 @@ border:1px solid #111;
 .containerIngressos {
   position: fixed;
   top: 65%;
-  left: 89.3%;
+  left: 88%;
   bottom: 0;
   height: 150px;
   width: 160px;
@@ -1256,7 +1285,7 @@ border:1px solid #111;
   color: f6f5f1;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Show by default */
-  top: 55%;
+  top: 65%;
   left: 6%;
   height: height;
   width: 150px;
@@ -1272,7 +1301,7 @@ border:1px solid #111;
   color: f6f5f1;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Show by default */
-  top: 12%;
+  top: 25%;
   left: -15px;
   height: height;
   width: 150px;
@@ -1287,7 +1316,7 @@ border:1px solid #111;
   color: f6f5f1;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 0.9em);
   display: none; /* Hidden by default */
-  top: 12%;
+  top: 25%;
   left: -15px;
   height: height;
   width: 150px;
@@ -1378,27 +1407,18 @@ text-decoration: underline overline;
 }
 
 
-.total {
-  position: flex;
-  vertical-align: center;
-  padding: 5px;
-  color: #666666;
-  font-weight: bold;
-  font-size: clamp(0.5em, 0.6em + 0.6vw, 0.6em);
-  font-family: Montserrat;
-}
-
 
 .EmExibicao {
   position: flex;
-  font-family: MontSerrat;
+  font-family: Ubuntu;
   font-size: 15px;
   text-shadow: 0.5px 0.5px 1px darkgray;
   font-weight: bold;
   padding: 5px 5px;
   margin: auto;
-  text-align: center;
-  align-items: center;
+  text-align: left;
+  align-items: left;
+  align-content: first baseline;
   color: black;
   opacity: 1;
  }
@@ -1413,7 +1433,7 @@ text-decoration: underline overline;
 
 label {
   display: flex;
-  font-size: clamp(0.5em, 1em + 1vw, 1em);
+  font-size: clamp(0.5em, 0.8em + 0.8vw, 0.9em);
   cursor: pointer;
   font-weight: 720;
   position: relative;
@@ -1495,11 +1515,11 @@ label span:before {
 
 
 .zera {
-  position: flex;
+  display: none;
   color:#FFFFFF;
-  top: 1.5%;
-  padding: 6px;
-  margin: 1.5px;
+  top: 0.4%;
+  padding: 0px;
+  margin: 0.5px;
   font-family: Montserrat;
   vertical-align: center;
   -moz-box-align: end;
@@ -1536,6 +1556,40 @@ label span:before {
 .buttonTudo:hover {
   background: goldenrod;
   color: #000000;
+  font-weight: bold;
+}
+
+
+.ajuda {
+  position: flex;
+  min-width: 100px;
+  max-width: 150px;
+  height: 32px;
+  background: gold;
+  color: #000000;
+  top: 0.4%;
+  padding: 5px 15px;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: center;
+  font-size: clamp(0.5em, 1em + 1vw, 1.1em);
+  border: 2px solid gold;
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 99em;
+  transition: 0.25s ease;
+  font-weight: bold;
+}
+
+.ajuda:active {
+  background: black;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.ajuda:hover {
+  background: goldenrod;
+  color: #FFFFFF;
   font-weight: bold;
 }
 
@@ -1584,40 +1638,6 @@ label span:before {
 .buttonVer:checked, .buttonVerB:checked {
   background: #820000;
   color: #FFFFFF;
-}
-
-
-.ajuda {
-  position: flex;
-  min-width: 100px;
-  max-width: 150px;
-  height: 32px;
-  background: gold;
-  color: #000000;
-  top: 0.4%;
-  padding: 5px 15px;
-  cursor: pointer;
-  text-align: center;
-  vertical-align: center;
-  font-size: clamp(0.5em, 1em + 1vw, 1.2em);
-  border: 2px solid gold;
-  text-decoration: none;
-  padding: 7px 12px;
-  border-radius: 99em;
-  transition: 0.25s ease;
-  font-weight: bold;
-}
-
-.ajuda:active {
-  background: black;
-  color: #FFFFFF;
-  font-weight: bold;
-}
-
-.ajuda:hover {
-  background: goldenrod;
-  color: #FFFFFF;
-  font-weight: bold;
 }
 
 
