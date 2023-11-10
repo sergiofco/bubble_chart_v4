@@ -79,6 +79,7 @@ body {
   justify-content: top;
   align-items: top;
   vertical-align: top;
+  width: 60%;
 }
 
 .esquerda {
@@ -105,12 +106,12 @@ body {
   height: 100%;
 }
 
-
 .estado {
   display:flex;
   flex-direction: row;
   align-content: baseline;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: baseline;
-  margin: 15px;
+  margin: 0px;
+  width: 100%;
 }

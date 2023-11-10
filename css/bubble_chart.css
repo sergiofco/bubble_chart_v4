@@ -105,10 +105,10 @@ a, h1, a:visited, a:active {
   font-size: 45px;
   text-align: right;
   align-content: baseline;
-  justify-content: flex-end;
   line-height: 20px;
-  padding: 12px;
-  margin: 1.5px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  margin: 1px;
   font-family: Montserrat;
 }
 
@@ -121,8 +121,9 @@ a, h1, a:visited, a:active {
   font-size: 45px;
   text-align: center;
   line-height: 20px;
-  padding: 12px;
-  margin: 1.5px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  margin: 1px;
   font-family: Montserrat;
 }
 
@@ -234,7 +235,7 @@ a, h1, a:visited, a:active {
 
 .button {
   min-width: 65px;
-  background: #454545;
+  background: #000000;
   padding: 8px 11px;
   font-size: clamp(0.45em, 0.7em + 0.7vw, 1em);
   cursor: pointer;
@@ -279,8 +280,8 @@ a, h1, a:visited, a:active {
 
 .buttonCat {
   min-width: 70px;
-  background: #bcbcbc;
-  color: #000000;
+  background: #6A6A6A;
+  color: #eeeeee;
   cursor: pointer;
   text-align: center;
   font-size: clamp(0.55em, 0.8em + 0.8vw, 1em);
@@ -877,12 +878,13 @@ border: 0;
 .legenda {
   position: fixed;
   top:18%;
-  right: 7.5%;
+  right: 1%;
   visibility: visible;
-  animation: fadeOutHelp ease-in 8s;
+  animation: fadeOutHelp ease-in 1s;
   z-index: 99999;
+  border-radius: 99em;
+  filter: drop-shadow(1px 1px 1px #cccccc);
 }
-
 
 .help-quando {
   position: fixed;
@@ -1406,16 +1408,12 @@ text-decoration: underline overline;
   z-index: -9999;
 }
 
-
-
 .EmExibicao {
   position: flex;
   font-family: Ubuntu;
   font-size: 15px;
   text-shadow: 0.5px 0.5px 1px darkgray;
   font-weight: bold;
-  padding: 5px 5px;
-  margin: auto;
   text-align: left;
   align-items: left;
   align-content: first baseline;
@@ -1489,8 +1487,8 @@ label span {
   padding: 0.315em 0.8em 0.315em 0.315em;
   border-radius: 99em;
   transition: 0.25s ease;
-  background-color: #bcbcbc;
-  color: #000000;
+  background-color: #666666;
+  color: #eeeeee;
   font-weight: bold;
   border: 1px solid #000;
 
@@ -1609,7 +1607,7 @@ label span:before {
 
 .buttonVer, .buttonVerB {
   position: flex;
-  background: #454545;
+  background: #000000;
   min-width: 100px;
   color: #FFFFFF;
   top: 0.4%;

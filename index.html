@@ -30,7 +30,7 @@
   <div><img alt="sesc" src='img/logo-sesc.png' height="42px"></div>
   <topo class="adireita">
     <div id="zera" class="zera">
-      <button type="button" onclick="closeNavCategorias(),on()" id="fo99" class="buttonTudo"><i class="fa fa-undo"></i>&nbsp;&nbsp;limpar filtros</button>
+      <button type="button" onclick="closeNavCategorias()" id="fo99" class="buttonTudo"><i class="fa fa-undo"></i>&nbsp;&nbsp;limpar filtros</button>
     </div>		
 
     <div id="busca" class="g-search">
@@ -92,7 +92,10 @@
     </form>
     </div>
   <div class="estado">
-    <div class="total" id="total"></div><div class="contador" id="contador"></div><div class="EmExibicao" id="EmExibicao"></div>
+   <table width="100%"><tr>
+    <td align="right" width="15%"><div class="total" id="total"></div><div class="contador" id="contador"></div></td>
+    <td align="left" width="85%"><div class="EmExibicao" id="EmExibicao"></div></td>
+  </tr></table>
   </div>
   </div>
 

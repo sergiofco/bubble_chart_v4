@@ -33,8 +33,10 @@ d3.csv('data/semdfe-1018-uauEdit.csv', display);
    const laranjado = 'hue-rotate(25deg)';
  
 // Grid de 21 pontos em tela
+   const corrigeWUO = 40;
    const corrigeW = width/20;
    const corrigeH = height/20;
+   const corrigeHUO = 30;
    const posW = width/20;
    const posCW = corrigeW + width/2;
    const posH = height/14;
@@ -197,35 +199,35 @@ var semanaCenters = {
  
  // Cabeçalhos da visão por unidades da capital.
  var unidadesTitleXCap = {
-   52: posCW-6*posW, // 24 de Maio
-   65: posCW-4*posW, // Av. Paulista
-   68: posCW-2*posW, // Belenzinho
-   62: posCW, // Consolação
-   58: posCW+2*posW, // Pinheiros
-   63: posCW+4*posW, // Pompeia
-   66: posCW+6*posW, // Vila Mariana
+   52: posCW-6*posW+corrigeWUO, // 24 de Maio
+   65: posCW-4*posW+corrigeWUO, // Av. Paulista
+   68: posCW-2*posW+corrigeWUO, // Belenzinho
+   62: posCW+corrigeWUO, // Consolação
+   58: posCW+2*posW+corrigeWUO, // Pinheiros
+   63: posCW+4*posW+corrigeWUO, // Pompeia
+   66: posCW+6*posW+corrigeWUO, // Vila Mariana
  
-   91: posCW-6*posW-posW/4, // Campo LImpo
-   57: posCW-4*posW-posW/4, // Ipiranga
-   49: posCW-2*posW, // 14 Bis
-   70: posCW-4*posW-posW/4, // Santo Amaro
+   91: posCW-6*posW-posW/4+corrigeWUO, // Campo LImpo
+   57: posCW-4*posW-posW/4+corrigeWUO, // Ipiranga
+   49: posCW-2*posW+corrigeWUO, // 14 Bis
+   70: posCW-4*posW-posW/4+corrigeWUO, // Santo Amaro
  
-   94: posCW+2*posW+posW/4, // Bom Retiro
-   64: posCW+4*posW+posW/4, // Carmo
-   53: posCW+6*posW+posW/4, // Santana
-   60: posCW+4*posW+posW/4, // Casa Verde
+   94: posCW+2*posW+posW/4+corrigeWUO, // Bom Retiro
+   64: posCW+4*posW+posW/4+corrigeWUO, // Carmo
+   53: posCW+6*posW+posW/4+corrigeWUO, // Santana
+   60: posCW+4*posW+posW/4+corrigeWUO, // Casa Verde
    
-   59: posCW-2*posW, // Cinesesc
-   89: posCW, // CPF
-   61: posCW+2*posW, // Florencio
+   59: posCW-2*posW+corrigeWUO, // Cinesesc
+   89: posCW+corrigeWUO, // CPF
+   61: posCW+2*posW+corrigeWUO, // Florencio
    
-  55: posCW-6*posW-posW/4, // Interlagos
-   73: posCW-posCW/2, // Guarulhos
-   72: posCW-posCW/4, // Mogi das Cruzes
-   95: posCW, // Osasco
-   67: posCW+posCW/4, // São Caetano
-   88: posCW+posCW/2, // Santo André
-  56: posCW+6*posW+posW/4, // Itaquera
+  55: posCW-6*posW-posW/4+corrigeWUO, // Interlagos
+   73: posCW-posCW/2+corrigeWUO, // Guarulhos
+   72: posCW-posCW/4+corrigeWUO, // Mogi das Cruzes
+   95: posCW+corrigeWUO, // Osasco
+   67: posCW+posCW/4+corrigeWUO, // São Caetano
+   88: posCW+posCW/2+corrigeWUO, // Santo André
+  56: posCW+6*posW+posW/4+corrigeWUO, // Itaquera
    // 74: pos6W, // Dom Pedro
      
  };
@@ -264,36 +266,36 @@ var semanaCenters = {
  
    var unidadeCenters = {
    // capital
-   52: {x: posCW-6*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // 24 de Maio
-   65: {x: posCW-4*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Av. Paulista
-   68: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Belenzinho
-   62: {x: posCW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Consolação
-   58: {x: posCW+2*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Pinheiros
-   63: {x: posCW+4*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Pompeia
-   66: {x: posCW+6*posW-2*corrigeW+corrigeW/2, y:pos1H-corrigeH/3}, // Vila Mariana
+   52: {x: posCW-6*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // 24 de Maio
+   65: {x: posCW-4*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // Av. Paulista
+   68: {x: posCW-2*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // Belenzinho
+   62: {x: posCW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // Consolação
+   58: {x: posCW+2*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // Pinheiros
+   63: {x: posCW+4*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // Pompeia
+   66: {x: posCW+6*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos1H-corrigeH/3-corrigeHUO}, // Vila Mariana
    
-   91: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Campo LImpo
-   57: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Ipiranga
-   70: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH}, // Santo Amaro
+   91: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H-posH/2-corrigeH/3}, // Campo LImpo
+   57: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H-posH/2-corrigeH/3-corrigeHUO}, // Ipiranga
+   70: {x: posCW-4*posW-posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H-posH-corrigeH}, // Santo Amaro
    
-   94: {x: posCW+2*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH}, // Bom Retiro
-   64: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH/3}, // Carmo
-   53: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH}, // Santana
+   94: {x: posCW+2*posW+posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H-posH/2-corrigeH}, // Bom Retiro
+   64: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H-posH/2-corrigeH/3}, // Carmo
+   53: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H-posH/2-corrigeH}, // Santana
    
-   59: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // Cinesesc
-   89: {x: posCW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // CPF
-   61: {x: posCW+2*posW-2*corrigeW+corrigeW/2, y:pos2H+posH+posH/2-corrigeH/3}, // Florencio
+   59: {x: posCW-2*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H+posH+posH/2-corrigeH/3}, // Cinesesc
+   89: {x: posCW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H+posH/2-corrigeH/3}, // CPF
+   61: {x: posCW+2*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H+posH+posH/2-corrigeH/3}, // Florencio
    
-   55: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Interlagos
-   73: {x: posCW-posCW/2-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Guarulhos
-   72: {x: posCW-posCW/4-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Mogi das Cruzes
-   95: {x: posCW-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Osasco
-   67: {x: posCW+posCW/4-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // São Caetano
-   88: {x: posCW+posCW/2-2*corrigeW+corrigeW/2, y:pos3H+posH-posH/4-corrigeH/3}, // Santo André
-   56: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Itaquera
+   55: {x: posCW-6*posW-posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H-posH-corrigeH/3-corrigeHUO}, // Interlagos
+   73: {x: posCW-posCW/2-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H+posH-posH/4-corrigeH/3-corrigeHUO/2}, // Guarulhos
+   72: {x: posCW-posCW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H+posH-posH/4-corrigeH/3}, // Mogi das Cruzes
+   95: {x: posCW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H+posH-posH/4-corrigeH/3}, // Osasco
+   67: {x: posCW+posCW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H+posH-posH/4-corrigeH/3}, // São Caetano
+   88: {x: posCW+posCW/2-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H+posH-posH/4-corrigeH/3-corrigeHUO/2}, // Santo André
+   56: {x: posCW+6*posW+posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H-posH-corrigeH/3-corrigeHUO}, // Itaquera
 // 74: {x: pos6W, y:pos1H+posH/2}, // Dom Pedro
-   49: {x: posCW-2*posW-2*corrigeW+corrigeW/2, y:pos2H-posH/2-corrigeH}, // 14 Bis
-   60: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2, y:pos3H-posH-corrigeH/3}, // Casa Verde
+   49: {x: posCW-2*posW-2*corrigeW+corrigeW/2+corrigeWUO, y:pos2H-posH/2-corrigeH}, // 14 Bis
+   60: {x: posCW+4*posW+posW/4-2*corrigeW+corrigeW/2+corrigeWUO, y:pos3H-posH-corrigeH/3-corrigeHUO}, // Casa Verde
 
    
    // interior
@@ -407,7 +409,7 @@ var semanaCenters = {
  
    var simulation = d3.forceSimulation()
      .velocityDecay(0.33)
-//     .alphaDecay(0)
+     .alphaDecay(0.001)
      .force('x', d3.forceX(posCW).strength(forceStrengthXY).x(posCW))
      .force('y', d3.forceY(posCH).strength(forceStrengthXY).y(posCH)) // (nodeperiodoPos))
      .force('charge', d3.forceManyBody().strength(charge))
@@ -759,7 +761,7 @@ var semanaCenters = {
 // Transições 
 
 // 
-          bubbles.transition().duration(2000);
+          bubbles.transition().duration(1000);
           bubbles.attr('r', function(d) { return (
               !(d.filtra_dataF == temporalMem) ) ? 0 : d.radius });
 
@@ -782,7 +784,7 @@ var semanaCenters = {
    ||  (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
     ) ? '#cccccc' : (d.destaque !== 'undefined') ? "url(#" + d.destaque + ")" : fillColor(d.dia_da_semana)});
  
-bubblesDaSemana.transition().duration(3000)
+bubblesDaSemana.transition().duration(1000)
                .attr('r', function(d) { return (
      (d.regiao != regiaoMem) || 
      (d.gratis != 1 && gratisMem == 1) || 
@@ -809,7 +811,7 @@ bubblesDaSemana.transition().duration(3000)
      (d.publico != publicoMem && publicoMem != 'todos') ||
      (d.tem != 1 && acessivelMem == 1)
     || (d.filtra_dataF != temporalMem && temporalMem != 'todos') 
-   ) ? '#555555' : (d.online == 1)
+   ) ? '#222222' : (d.online == 1)
    ? "gold" : (d.ingresso == 1) 
    ? "darkred" : d3.rgb(fillColor(d.dia_da_semana)).darker()});
  
@@ -832,13 +834,13 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
 //
 //////////////////////////////////////////
   if (datavisMem == "unidades" || atual == "regiao" || datavisMem == "formatos" || datavisMem == "agenda"  ) {
-       var circulo = heightTotal+heightTotal*0.20; 
-       var forceStrength = 0.12;
-       var forceStrengthRadial = 0.36; 
+       var circulo = heightTotal+heightTotal*0.2; 
+       var forceStrength = 0.20;
+       var forceStrengthRadial = 0.4; 
      } else {
-       var circulo = heightTotal+heightTotal*0.20;
-       var forceStrength = 0.12;
-       var forceStrengthRadial = 0.36; 
+       var circulo = heightTotal+heightTotal*0.2;
+       var forceStrength = 0.20;
+       var forceStrengthRadial = 0.4; 
      }
 
 // Força radial para afastar as ações não filtradas
@@ -847,8 +849,12 @@ bubblesDaSemana.attr('stroke-width', function(d) { return (
                         .x(widthTotal/2)
                         .y(heightTotal/2)
                         .strength(forceStrengthRadial);
-                        
-                        
+
+//  Tentativa de condensar as não filtradas aqui                        
+              //  simulation
+              //  .force('x', d3.forceX().strength(forceStrength).x(posCW)) // nodeSemanalPosX
+              //  .force('y', d3.forceY().strength(forceStrength).y(posCH));
+
 if (datavisMem != "formatos") {
  // 	envia para as bordas as ações que não estão filtradas
  simulation.force("r", isolate(radialForce, function(d) { return (
@@ -863,10 +869,12 @@ if (datavisMem != "formatos") {
    (d.tem != 1 && acessivelMem == 1) ||
    (d.publico != publicoMem && publicoMem != 'todos')
  );}))
- .force('collision',d3.forceCollide().radius(function(d) { return d.radius }));
- // .alpha(1).restart();
+ // .force('collision',d3.forceCollide().radius())
+//   .alpha(1).restart();
 };
- 
+
+
+
 
      // Define formato da visualização    
    if (datavisMem == "unidades" || atual == "regiao" || atual == "verUO-C" || atual == "verUO-I") {
@@ -905,8 +913,8 @@ if (datavisMem != "formatos") {
                 (d.tem != 1 && acessivelMem == 1) ||
                 (d.publico != publicoMem && publicoMem != 'todos')
               );}))
-             simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
-             simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
+              simulation.force('x', d3.forceX().strength(forceStrength).x(nodeformatoXPos));
+              simulation.force('y', d3.forceY().strength(forceStrength).y(nodeformatoYPos));
    //          simulation.alpha(1).restart();
  
              } else if (datavisMem == "agenda" || datavisMem == "verAgenda" ) {
@@ -942,9 +950,24 @@ if (datavisMem != "formatos") {
  
 // separar as bolhas
 // simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+0.5 }))
-simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }));
+simulation.force('collision', d3.forceCollide().radius(function(d) { return (
+  (d.regiao != regiaoMem) || 
+  (d.gratis != 1 && gratisMem == 1) || 
+  (d.ingresso != 0 && vendaMem == 1) || 
+  (d.cod_formato != formatoMem && formatoMem != '100') || 
+  (d.cod_categoria != categoriaMem && categoriaMem != '99') || 
+  (d.filtra_dataF != temporalMem && temporalMem != 'todos') ||
+  (d.online != 1 && onlineMem == 1) ||
+  (d.cod_uo != uoMem && uoMem != '100') ||
+  (d.tem != 1 && acessivelMem == 1) ||
+  (d.publico != publicoMem && publicoMem != 'todos')
+  ) ? 0 : d.radius+1.5 }));
+
+// simulation.force('collision',d3.forceCollide().radius(function(d) { return d.radius+1.5 }));
+
+
 // simulation.force('charge', d3.forceManyBody().strength(charge));
-simulation.alpha(0.6).restart();
+simulation.alpha(0.45).restart();
  
  
  // começa a contagem do filtro e a preparação para a retirada das opções com valores zerados
@@ -1362,7 +1385,19 @@ if (atual != "regiao") {
            AcessivelMem = null;
          } 
    }
+
    
+   console.log('-------- FIM do groupb --------');
+   console.log('formatoMem: ' + formatoMem);
+   console.log('atual: ' + atual);
+   console.log('datavisMem: ' + datavisMem);
+   console.log('uoMem: ' + uoMem);
+   console.log('uoId: ' + uoId);
+   console.log('regiaoMem: ' + regiaoMem);
+   console.log('temporalMem: ' + temporalMem);
+   console.log('window.datavisMem: ' + window.datavisMem);
+   console.log('----------------fim---------------');
+
  }
  
  // Visualização de Busca --------------------------------------------------------------------------------
@@ -1444,7 +1479,7 @@ if (atual != "regiao") {
       Filtrados = function(d) { return ((d.busca.toLowerCase().includes(buscaId)) && (regiaoMem == d.regiao)) };
 
       bubbles.transition()
-             .duration(1500);
+             .duration(1000);
 
       bubbles.attr('r', function(d) { return !((d.busca.toLowerCase().includes(buscaId)) && (d.regiao == regiaoMem)) 
                                                       ? 3 : (d.destaque !== 'undefined') 
@@ -1471,7 +1506,7 @@ if (atual != "regiao") {
       filtrado = bubbles.filter(Filtrados).size();
 
       bubbles.transition()
-             .duration(1500)
+             .duration(1000)
              .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
                ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (filtrado < 20) ? d.radius+10 :  d.radius})
 
@@ -1505,7 +1540,7 @@ if (atual != "regiao") {
       filtrado = bubbles.filter(Filtrados).size();
 
       bubbles.transition()
-             .duration(1500)
+             .duration(1000)
              .attr('r', function(d) { return !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (d.destaque !== 'undefined') 
                ? d.radius : !(d.busca.toLowerCase().includes(buscaId)) ? 3 : (filtrado < 20) ? d.radius+10 :  d.radius})
 
@@ -2454,7 +2489,6 @@ window.buscaLista = '';
  
        // Get the id of the button
        var formatoId = button.attr('id').substring(2);
-       var atual = "formato";
        var escolhido = button.attr('value');
 
 //       document.getElementById("temporal").style.display = "flex";
@@ -2476,7 +2510,9 @@ window.buscaLista = '';
            document.getElementById("regiao").style.display = "none";
           }
 
-       var LimpaBusca = document.querySelector("#busca");
+          var atual = "formato";
+
+          var LimpaBusca = document.querySelector("#busca");
            LimpaBusca.querySelector("form").reset();
 
             document.getElementById('buscatextual').value='';
@@ -2541,6 +2577,7 @@ tiraSer.querySelector("form").reset();
        var buscaId = '';
        var atual = "limpar";
        var datavis = "geral";
+       window.datavisMem = "geral";
 
     //   var win = window.open('vazio.html', 'portal');
 
