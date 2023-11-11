@@ -108,19 +108,19 @@
   </form> -->
 
   <form>
-    <span id="verUO-C2"><button onclick="closebuttonVerUOC(),openbuttonVerAgenda(),openbuttonVerUOI()" title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button></span>
+    <span id="verUO-C2"><button onclick="closebuttonVerUOC(),openbuttonVerAgenda(),openbuttonVerUOI()" title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-C" class="buttonVer" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Capital e Grande São Paulo</button></span>
     <span id="verAgenda2"><button onclick="openbuttonVerUOC(),closebuttonVerAgenda(),openbuttonVerUOI()" title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgenda" class="buttonVer"><i class="fa fa-calendar"></i>&nbsp;&nbsp;ver nos dias da semana&nbsp;&nbsp;</button></span>
-    <span id="verUO-I2"><button onclick="openbuttonVerUOC(),openbuttonVerAgenda(),closebuttonVerUOI()" title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button></span>
+    <span id="verUO-I2"><button onclick="openbuttonVerUOC(),openbuttonVerAgenda(),closebuttonVerUOI()" title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-I" class="buttonVer" value="unidades do interior/litoral">Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button></span>
   </form>
  </div>
 
 <!-- Altera formato de exibição do resultado de busca-->
   <div id="ComoVerBusca" class="botoesComoVer">
     <form>
-      <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;ver nas unidades da Grande São Paulo</button>
+      <button title="Exibe ações filtradas da Capital e Grande São Paulo" type="button" id="verUO-CB" class="buttonVerB" value="unidades da Grande São Paulo"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Capital e Grande São Paulo</button>
       <button title="Exibe ações filtradas nos dias da semana escolhida" type="button" id="verAgendaB" class="buttonVerB"><i class="fa fa-calendar"></i>&nbsp;&nbsp;ver nos dias da semana</button>
       <!-- <button title="Exibe lista com as ações filtradas" type="button" id="verListaB" class="buttonVerB"><i class="fa fa-list"></i>&nbsp;&nbsp;ver lista filtrada&nbsp;&nbsp;</button> -->
-      <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="unidades do interior/litoral">ver nas unidades do Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
+      <button title="Exibe ações filtradas do Interior e Litoral" type="button" id="verUO-IB" class="buttonVerB" value="unidades do interior/litoral">Interior e Litoral&nbsp;&nbsp;<i class="fa fa-map-marker"></i></button>
     </form>
   </div>
   
@@ -450,8 +450,13 @@
 </div>
 <leg id="legenda" class="legenda">
   <a href="#" onclick="off()" title="volta">
-    <img alt="legenda explicativa" src='img/legenda_home.png' width="333" width="650">
-  </a>  
+    <img alt="legenda explicativa" src='img/legenda_home.png' width="333" width="650"><br>
+  </a><div class="creditos">
+   Many thanks to<br>
+   <a href='https://bost.ocks.org/mike/' target='_blank'>Mike Bostok</a><br>
+   <a href='https://vallandingham.me/bubble_charts_with_d3v4.html' target='_blank'>Jim Vallandingham</a><br>
+   and <a href='https://www.youtube.com/@currankelleher/featured' target='_blank'>Curran Kelleher</a><br>[Sérgio Seabra, 2023]
+  </div>
 </leg>
 
 <nav id="overlay" class="overlay">

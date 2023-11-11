@@ -371,7 +371,7 @@ a, h1, a:visited, a:active {
 	opacity: .9;
   color: black;
 	padding: 10px;
-	width: 360px;
+	width: 300px;
 	font-size: 14px;
 	z-index: 9999;
 }
@@ -877,13 +877,16 @@ border: 0;
 
 .legenda {
   position: fixed;
-  top:18%;
+  top:15%;
   right: 1%;
   visibility: visible;
   animation: fadeOutHelp ease-in 1s;
   z-index: 99999;
   border-radius: 99em;
   filter: drop-shadow(1px 1px 1px #cccccc);
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 .help-quando {
@@ -1731,6 +1734,14 @@ label span:before {
   background-color: darkred;
 }
 
+.creditos {
+  text-align: right;
+  font-size: 10px;
+  font-family: ubuntu;
+  font-weight:lighter;
+  align-items: right;
+  margin-right: 20px;
+}
 
 
 
